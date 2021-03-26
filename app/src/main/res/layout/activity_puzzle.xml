@@ -1,11 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
+<LinearLayout
+    android:orientation="horizontal"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/background">
+    android:background="@drawable/background"
+    android:baselineAligned="false">
+
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:gravity="center"
+        android:background="@drawable/menu_background"
+        android:layout_weight="1"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+        <ImageView
+            android:id="@+id/iv_preview"
+            android:padding="4dp"
+            android:background="@drawable/circle_border_layout"
+            android:layout_margin="8dp"
+            android:src="@drawable/ic_baseline_visibility_off_24"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            tools:ignore="ContentDescription" />
+
+
+        <ImageView
+            android:id="@+id/iv_shuffle"
+            android:padding="4dp"
+            android:background="@drawable/circle_border_layout"
+            android:layout_margin="8dp"
+            android:src="@drawable/ic_baseline_shutter_speed_24"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            tools:ignore="ContentDescription" />
+
+
+    </LinearLayout>
+
+
+    <FrameLayout
+        android:layout_weight="0.1"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
 
 
 
@@ -29,7 +72,8 @@
                 android:layout_margin="8dp"
                 android:alpha="1.0"
                 app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/frame" />
+                app:srcCompat="@drawable/frame"
+                tools:ignore="ContentDescription" />
 
             <ImageView
                 android:id="@+id/imageView"
@@ -37,7 +81,6 @@
                 android:layout_height="match_parent"
                 android:layout_margin="10dp"
                 android:scaleType="centerCrop"
-                android:alpha="0.5"
                 tools:ignore="ContentDescription" />
 
 
@@ -64,4 +107,8 @@
         app:layout_constraintTop_toTopOf="parent">
     </RelativeLayout>
 
-</FrameLayout>
+    </FrameLayout>
+
+</LinearLayout>
+
+

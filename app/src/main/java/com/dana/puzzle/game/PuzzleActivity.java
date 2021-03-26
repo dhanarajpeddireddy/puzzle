@@ -3,12 +3,14 @@ package com.dana.puzzle.game;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
+import android.view.View;
+import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -21,6 +23,7 @@ import com.bumptech.glide.load.DataSource;
 import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
+import com.dana.puzzle.GameCompletedActivity;
 import com.dana.puzzle.R;
 import com.dana.puzzle.Utility;
 
@@ -28,17 +31,16 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Random;
 
-import static java.lang.Math.abs;
-
-public class PuzzleActivity extends AppCompatActivity implements TouchListener.IlistnerBack, RequestListener<Drawable> {
+public class PuzzleActivity extends AppCompatActivity implements TouchListener.IlistnerBack, RequestListener<Drawable>, View.OnClickListener {
     ArrayList<PuzzlePiece> pieces;
 
     String mCurrentPhotoUri;
     String assetName;
+    int peiceSize;
 
     Bitmap scaledBitmap;
 
-    ImageView imageView;
+    ImageView imageView,iv_shuffle,iv_preview;
 
     RelativeLayout layout;
 
@@ -47,6 +49,7 @@ public class PuzzleActivity extends AppCompatActivity implements TouchListener.I
     int widthFinal, heightFinal;
 
     TouchListener touchListener;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -96,6 +99,7 @@ public class PuzzleActivity extends AppCompatActivity implements TouchListener.I
                     Log.e("setImage","in : "+path);
                     Glide.with(this)
                             .load(Uri.parse(path))
+                            .placeholder(R.drawable.spalsh2)
                             .listener(this)
                             .into(imageView);
                 }
@@ -105,13 +109,18 @@ public class PuzzleActivity extends AppCompatActivity implements TouchListener.I
     private void init() {
         layout = findViewById(R.id.layout);
         imageView = findViewById(R.id.imageView);
-        touchListener = new TouchListener(this,this);
+        iv_shuffle = findViewById(R.id.iv_shuffle);
+        iv_shuffle.setOnClickListener(this);
+        iv_preview = findViewById(R.id.iv_preview);
+        iv_preview.setOnClickListener(this);
+        touchListener = new TouchListener(this);
     }
 
     private void getIntentData() {
         Intent intent = getIntent();
         assetName = intent.getStringExtra(Constants.ASSET_NAME);
         mCurrentPhotoUri = intent.getStringExtra(Constants.PHOTO_URI);
+        peiceSize = intent.getIntExtra(Constants.PUZZLE_PEICE_SIZE,Constants.DEFAULT_PEICENUMBER);
     }
 
 
@@ -134,10 +143,35 @@ public class PuzzleActivity extends AppCompatActivity implements TouchListener.I
     }
 
     @Override
-    public void pieceMatched() {
+    public void pieceMatched(PuzzlePiece puzzlePiece) {
+        Utility.vibrate(100);
+        Utility.bounce(puzzlePiece);
         if (isGameOver()) {
-           // finish();
+
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    startActivity(new Intent(PuzzleActivity.this, GameCompletedActivity.class)
+                            .putExtra(Constants.ASSET_NAME,assetName)
+                            .putExtra(Constants.PHOTO_URI,mCurrentPhotoUri));
+
+                    finish();
+                }
+            },2000);
+
         }
+    }
+
+    @SuppressLint("UseCompatLoadingForDrawables")
+    @Override
+    public void pieceTouched() {
+
+        if (imageView.getVisibility()==View.VISIBLE)
+        {
+            iv_preview.setImageDrawable(getResources().getDrawable(R.drawable.ic_baseline_visibility_24));
+            imageView.setVisibility(View.INVISIBLE);
+        }
+
     }
 
     @Override
@@ -162,15 +196,31 @@ public class PuzzleActivity extends AppCompatActivity implements TouchListener.I
 
             scaledBitmap = Bitmap.createScaledBitmap(re, widthFinal, heightFinal, true);
 
-            pieces = Utility.splitImage(PuzzleActivity.this,imageView,scaledBitmap);
+            pieces = Utility.splitImage(PuzzleActivity.this,imageView,scaledBitmap,peiceSize);
 
             widthCheck = false;
 
-            Collections.shuffle(pieces);
+            shuffle();
+        }else
+        {
+            Log.e("getPuzzles","null");
+        }
+    }
 
-            for (PuzzlePiece piece : pieces) {
+    @SuppressLint("ClickableViewAccessibility")
+    private void shuffle() {
 
-                piece.setOnTouchListener(touchListener);
+        Collections.shuffle(pieces);
+
+        for (PuzzlePiece piece : pieces) {
+
+            piece.setOnTouchListener(touchListener);
+
+            if (piece.canMove)
+            {
+                if(piece.getParent() != null) {
+                    ((ViewGroup)piece.getParent()).removeView(piece);
+                }
 
                 Log.e("peicex : ", piece.pieceHeight + " : " + piece.pieceWidth
                         + " : " + piece.xCoord + " : " + piece.yCoord);
@@ -180,9 +230,34 @@ public class PuzzleActivity extends AppCompatActivity implements TouchListener.I
                 lParams.topMargin =new Random().nextInt( layout.getHeight() - piece.pieceHeight);
                 piece.setLayoutParams(lParams);
             }
-        }else
+        }
+
+
+    }
+
+    @SuppressLint("UseCompatLoadingForDrawables")
+    @Override
+    public void onClick(View view) {
+        if (view.getId()==R.id.iv_preview)
         {
-            Log.e("getPuzzles","null");
+            Utility.bounce(view);
+            if (imageView.getVisibility()==View.INVISIBLE)
+            {
+                iv_preview.setImageDrawable(getResources().getDrawable(R.drawable.ic_baseline_visibility_off_24));
+                imageView.setVisibility(View.VISIBLE);
+            }
+            else
+            {
+                iv_preview.setImageDrawable(getResources().getDrawable(R.drawable.ic_baseline_visibility_24));
+                imageView.setVisibility(View.INVISIBLE);
+            }
+
+        }
+
+        if (view.getId()==R.id.iv_shuffle)
+        {
+            Utility.bounce(view);
+            shuffle();
         }
     }
 }

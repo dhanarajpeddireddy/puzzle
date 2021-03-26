@@ -1,3 +1,13 @@
 <resources>
     <string name="app_name">puzzle</string>
+    <string name="select_peices">Number Of Peices</string>
+    <string name="play">Play</string>
+    <string name="share">Share</string>
+    <string name="puzzleDone">PUZZLE DONE !</string>
+    <string name="congrats">Congrats</string>
+    <string name="close">Close</string>
+    <string name="share_head_info">Enjoy Puzzle Game , Create Your Own Puzzles And Solve</string>
+    <string name="share_head">Download This App For Free.\n    https://play.google.com/store/apps/details?id=</string>
+    <string name="email">gamespuzzlegame@gmail.com</string>
+    <string name="mailSub">FeedBack From User</string>
 </resources>

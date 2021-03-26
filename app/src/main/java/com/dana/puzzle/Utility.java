@@ -1,13 +1,26 @@
 package com.dana.puzzle;
 
 import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
+import android.content.pm.ActivityInfo;
+import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
+import android.os.Build;
+import android.os.VibrationEffect;
+import android.os.Vibrator;
+import android.util.Log;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 
 import com.dana.puzzle.game.PuzzlePiece;
 
@@ -16,10 +29,11 @@ import java.util.ArrayList;
 public class Utility {
 
 
-    public static ArrayList<PuzzlePiece> splitImage(Activity activity,View imageView, Bitmap scaledBitmap) {
+    public static ArrayList<PuzzlePiece> splitImage(Activity activity,View imageView, Bitmap scaledBitmap,int piecesNumber) {
 
-        int rows=2;int cols=2;
-        int piecesNumber = rows * cols;
+        int rows= (int) Math.sqrt(piecesNumber);
+        int cols=(int) Math.sqrt(piecesNumber);
+
 
 
         ArrayList<PuzzlePiece> pieces = new ArrayList<>(piecesNumber);
@@ -144,6 +158,97 @@ public class Utility {
         }
 
         return pieces;
+    }
+
+
+    public static void bounce(View view) {
+
+     /*   Animation anim = new AlphaAnimation(0.0f, 1.0f);
+        anim.setDuration(duration);
+        anim.setStartOffset(offset);
+        anim.setRepeatMode(Animation.REVERSE);
+        anim.setRepeatCount(2);
+        view.startAnimation(anim);*/
+
+
+        final Animation myAnim = AnimationUtils.loadAnimation(PuzzleApplication.getContext(), R.anim.bounce);
+        MyBounceInterpolater interpolator = new MyBounceInterpolater(0.1, 20);
+        myAnim.setInterpolator(interpolator);
+        view.startAnimation(myAnim);
+
+        Log.e("bounce","in");
+
+    }
+
+
+    public static void vibrate(int seconds)
+    {
+        Vibrator v = (Vibrator) PuzzleApplication.getContext().getSystemService(Context.VIBRATOR_SERVICE);
+// Vibrate for 500 milliseconds
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            v.vibrate(VibrationEffect.createOneShot(seconds, VibrationEffect.DEFAULT_AMPLITUDE));
+        } else {
+            //deprecated in API 26
+            v.vibrate(seconds);
+        }
+    }
+
+
+    public static void hideSystemUi(Activity activity) {
+
+        Window window=activity.getWindow();
+
+       activity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+        if (Build.VERSION.SDK_INT > 16) {
+
+            View decorView = activity.getWindow().getDecorView();
+            decorView.setSystemUiVisibility(
+                    View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                            | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                            // hide nav bar
+                            | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                            // hide status bar
+                            | View.SYSTEM_UI_FLAG_FULLSCREEN
+            );
+
+        } else {
+
+            window.requestFeature(Window.FEATURE_NO_TITLE);
+            window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                    WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
+        }
+
+
+
+    }
+
+
+    public static void shareApp(Context context) {
+        try {
+            Intent i = new Intent(Intent.ACTION_SEND);
+            i.setType("text/plain");
+            i.putExtra(Intent.EXTRA_SUBJECT, context.getResources().getString(R.string.app_name));
+            String sAux = context.getString(R.string.share_head_info) + context.getString(R.string.share_head) + context.getPackageName();
+            i.putExtra(Intent.EXTRA_TEXT, sAux);
+            context.startActivity(Intent.createChooser(i, "choose one"));
+        } catch (Exception e) {
+            //e.toString();
+        }
+    }
+
+
+
+    public static void ContactsUs(Activity activity) {
+        Intent intent = new Intent(Intent.ACTION_SEND);
+        String[] recipients = {activity.getString(R.string.email)};
+        intent.putExtra(Intent.EXTRA_EMAIL, recipients);
+        intent.putExtra(Intent.EXTRA_SUBJECT, activity.getString(R.string.mailSub));
+        intent.putExtra(Intent.EXTRA_TEXT, "");
+        intent.putExtra(Intent.EXTRA_CC, "mailcc@gmail.com");
+        intent.setType("text/html");
+        intent.setPackage("com.google.android.gm");
+        activity.startActivity(Intent.createChooser(intent, "Send mail"));
     }
 
 }

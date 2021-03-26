@@ -60,12 +60,14 @@ public class ImageAdapter extends BaseAdapter {
         final ImageView imageView = convertView.findViewById(R.id.gridImageview);
         Glide.with(mContext)
                 .load(Uri.parse("file:///android_asset/"+Constants.ASSET_FOLDER_NAME+"/"+files[position]))
+                .placeholder(R.drawable.spalsh2)
                 .into(imageView);
 
 
        imageView.setOnClickListener(new View.OnClickListener() {
            @Override
            public void onClick(View view) {
+               Utility.bounce(view);
                callBack.onClickImageAdapterItem(files[position]);
            }
        });

@@ -6,6 +6,8 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.RelativeLayout;
 
+import com.dana.puzzle.Utility;
+
 import static java.lang.Math.pow;
 import static java.lang.Math.sqrt;
 import static java.lang.StrictMath.abs;
@@ -14,30 +16,28 @@ public class TouchListener implements View.OnTouchListener {
 
     interface  IlistnerBack
     {
-        void pieceMatched();
+        void pieceMatched(PuzzlePiece puzzlePiece);
+        void pieceTouched();
     }
 
-    private final int  screenWidth;
-    private final int screenHeight;
     private float lastX = 0;
     private float lastY = 0;
 
 
     IlistnerBack ilistnerBack;
 
-    public TouchListener(PuzzleActivity activity,IlistnerBack ilistnerBack)
+    public TouchListener(IlistnerBack ilistnerBack)
     {
          this.ilistnerBack=ilistnerBack;
-         DisplayMetrics displayMetrics = new DisplayMetrics();
-         activity.getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
-         screenHeight = displayMetrics.heightPixels;
-         screenWidth = displayMetrics.widthPixels;
     }
 
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
     public boolean onTouch(View view, MotionEvent event) {
+
+        if (ilistnerBack!=null)
+            ilistnerBack.pieceTouched();
 
         float x = event.getRawX();
         float y = event.getRawY();
@@ -81,7 +81,8 @@ public class TouchListener implements View.OnTouchListener {
                     piece.canMove = false;
 
                     if (ilistnerBack!=null)
-                        ilistnerBack.pieceMatched();
+                        ilistnerBack.pieceMatched(piece);
+                    
                 }
                 break;
         }
