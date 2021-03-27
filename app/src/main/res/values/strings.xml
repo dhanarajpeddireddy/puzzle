@@ -24,4 +24,5 @@
     <string name="preview_ready">"Hey, Now you are ready to preiview of puzzle "</string>
     <string name="puzzle_preview">Puzzle Preview</string>
     <string name="preview_message">For Preview of puzzles , you need to watch reward video once in a day</string>
+    <string name="google_reward_ad_id">ca-app-pub-3940256099942544/5224354917</string>
 </resources>
