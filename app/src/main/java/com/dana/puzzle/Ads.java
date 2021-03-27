@@ -3,7 +3,6 @@ package com.dana.puzzle;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.util.Log;
-import android.view.View;
 
 import androidx.annotation.NonNull;
 
@@ -59,7 +58,7 @@ public class Ads {
 
         AdRequest adRequest = new AdRequest.Builder().build();
 
-        RewardedAd.load(PuzzleApplication.getContext(), "ca-app-pub-3940256099942544/5224354917",
+        RewardedAd.load(PuzzleApplication.getContext(), activity.getString(R.string.google_reward_ad_id),
                 adRequest, new RewardedAdLoadCallback(){
                     @Override
                     public void onAdFailedToLoad(@NonNull LoadAdError loadAdError) {
