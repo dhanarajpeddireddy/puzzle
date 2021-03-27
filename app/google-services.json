@@ -33,6 +33,35 @@
           ]
         }
       }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:622505933427:android:04c5b41cb07b0cdf360806",
+        "android_client_info": {
+          "package_name": "com.jigsaw.puzzle"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "622505933427-9858s6714k70acd8s0tgf4nlb4mukkf5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDuVDLLR9hjrszDrnVWBJAvf-1KjXnrQ4s"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "622505933427-9858s6714k70acd8s0tgf4nlb4mukkf5.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
     }
   ],
   "configuration_version": "1"
