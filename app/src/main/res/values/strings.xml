@@ -10,4 +10,18 @@
     <string name="share_head">Download This App For Free.\n    https://play.google.com/store/apps/details?id=</string>
     <string name="email">gamespuzzlegame@gmail.com</string>
     <string name="mailSub">FeedBack From User</string>
+    <string name="clickAgainBack">Please click BACK again to exit</string>
+    <string name="google_app_ad_id">ca-app-pub-7322297871933535~3182096685</string>
+    <string name="google_benner_id">ca-app-pub-3940256099942544/6300978111</string>
+    <string name="local_puzzle">Local Puzzle</string>
+    <string name="yes">yes</string>
+    <string name="no">no</string>
+    <string name="rewardMessage" >For playing  with your  puzzles , you need to watch reward video once in a day</string>
+    <string name="somethingWrong">Something Wrong</string>
+    <string name="local_puzzle_ready">Hey , Now You Are Ready For Play Local Puzzle. Enjoy The Game!</string>
+    <string name="no_net">Need Internet Connection For This Action</string>
+    <string name="ad_loading">Please Wait Video Loading</string>
+    <string name="preview_ready">"Hey, Now you are ready to preiview of puzzle "</string>
+    <string name="puzzle_preview">Puzzle Preview</string>
+    <string name="preview_message">For Preview of puzzles , you need to watch reward video once in a day</string>
 </resources>

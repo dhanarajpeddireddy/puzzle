@@ -1,29 +1,39 @@
 package com.dana.puzzle;
 
 import android.Manifest;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.AssetManager;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import com.dana.puzzle.game.Constants;
+import com.google.android.gms.ads.AdView;
 
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Collections;
 
-public class MainActivity extends AppCompatActivity implements ImageAdapter.IcallBack, View.OnClickListener {
+public class MainActivity extends AppCompatActivity implements ImageAdapter.IcallBack, View.OnClickListener, Ads.IRewardAdListner {
     static final int REQUEST_PERMISSION_READ_EXTERNAL_STORAGE = 3;
     static final int REQUEST_IMAGE_GALLERY = 4;
+
+    Ads inappAds;
 
     String[] files;
 
@@ -40,7 +50,6 @@ public class MainActivity extends AppCompatActivity implements ImageAdapter.Ical
         setContentView(R.layout.activity_main);
 
         init();
-
         AssetManager am = getAssets();
         try {
             files  = am.list(Constants.ASSET_FOLDER_NAME);
@@ -60,6 +69,8 @@ public class MainActivity extends AppCompatActivity implements ImageAdapter.Ical
         iv_feedback=findViewById(R.id.iv_feedback);
         iv_share.setOnClickListener(this);
         iv_feedback.setOnClickListener(this);
+
+        inappAds=new Ads();
     }
 
 
@@ -76,13 +87,65 @@ public class MainActivity extends AppCompatActivity implements ImageAdapter.Ical
     }
 
     public void onImageFromGalleryClick(View view) {
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, new String[] {Manifest.permission.READ_EXTERNAL_STORAGE}, REQUEST_PERMISSION_READ_EXTERNAL_STORAGE);
-        } else {
-            Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-            intent.setType("image/*");
-            startActivityForResult(intent, REQUEST_IMAGE_GALLERY);
+
+        if (PreferenceUtills.getInstance(this).IsValidDateByKey(Constants.LOCAL_PUZZLE_REWARD_WATCHED_DATE))
+        {
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(this, new String[] {Manifest.permission.READ_EXTERNAL_STORAGE}, REQUEST_PERMISSION_READ_EXTERNAL_STORAGE);
+            } else {
+                Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+                intent.setType("image/*");
+                startActivityForResult(intent, REQUEST_IMAGE_GALLERY);
+            }
+        }else
+        {
+            popupForReward();
         }
+
+
+
+    }
+
+    private void popupForReward() {
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(getResources().getString(R.string.local_puzzle));
+        builder.setMessage(getResources().getString(R.string.rewardMessage));
+        builder.setPositiveButton(getResources().getString(R.string.yes), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss();
+                loadRewardVideo();
+            }
+        });
+
+        builder.setNegativeButton(getResources().getString(R.string.no), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss();
+            }
+        });
+
+
+        AlertDialog alertDialog = builder.create();
+        if (!this.isFinishing())
+            alertDialog.show();
+
+        Button nbutton = alertDialog.getButton(DialogInterface.BUTTON_NEGATIVE);
+        nbutton.setTextColor(Color.BLACK);
+
+        Button pbutton = alertDialog.getButton(DialogInterface.BUTTON_POSITIVE);
+        pbutton.setTextColor(Color.BLACK);
+
+
+
+    }
+
+    private void loadRewardVideo() {
+        if (Utility.isOnline())
+        inappAds.loadrewardAd(this,this);
+        else
+            Toast.makeText(getApplicationContext(),getString(R.string.no_net),Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -107,5 +170,56 @@ public class MainActivity extends AppCompatActivity implements ImageAdapter.Ical
             Utility.bounce(view);
             Utility.ContactsUs(this);
         }
+    }
+
+
+
+
+    boolean doubleBackToExitPressedOnce = false;
+
+    @Override
+    public void onBackPressed() {
+        if (doubleBackToExitPressedOnce) {
+            super.onBackPressed();
+            return;
+        }
+
+        this.doubleBackToExitPressedOnce = true;
+        Toast.makeText(this, getString(R.string.clickAgainBack), Toast.LENGTH_SHORT).show();
+
+        new Handler().postDelayed(new Runnable() {
+
+            @Override
+            public void run() {
+                doubleBackToExitPressedOnce=false;
+            }
+        }, 2000);
+    }
+
+
+    @Override
+    protected void onResume() {
+        AdView adView=findViewById(R.id.adView_banner);
+       inappAds.googleBannerAd(adView);
+        super.onResume();
+    }
+
+    @Override
+    public void onRewardLoaded() {
+        inappAds.showRewardAd(this);
+    }
+
+    @Override
+    public void onRewardailed() {
+
+        Toast.makeText(getApplicationContext(),getString(R.string.somethingWrong),Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onRewardEan() {
+        PreferenceUtills.getInstance(this)
+                .setValidDateInPreference(Constants.LOCAL_PUZZLE_REWARD_WATCHED_DATE,Utility.getDate(Calendar.getInstance(),Constants.DATE_FORMAT_PREFERENCE));
+        Toast.makeText(getApplicationContext(),getString(R.string.local_puzzle_ready),Toast.LENGTH_SHORT).show();
+
     }
 }

@@ -44,16 +44,33 @@
         </LinearLayout>
 
 
-        <GridView
+        <LinearLayout
+            android:orientation="vertical"
             android:layout_weight="1"
-            android:id="@+id/grid"
             android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_margin="8dp"
-            android:horizontalSpacing="8dp"
-            android:numColumns="3"
-            android:verticalSpacing="8dp"
-           />
+            android:layout_height="match_parent">
+
+
+            <GridView
+                android:layout_weight="1"
+                android:id="@+id/grid"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_margin="8dp"
+                android:horizontalSpacing="8dp"
+                android:numColumns="3"
+                android:verticalSpacing="8dp"
+                tools:ignore="NestedWeights" />
+
+
+            <include
+                layout="@layout/banne_ad_layout"/>
+
+
+        </LinearLayout>
+
+
+
 
 
     </LinearLayout>

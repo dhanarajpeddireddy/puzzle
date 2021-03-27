@@ -18,6 +18,7 @@ import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
 import com.dana.puzzle.databinding.ActivityGameCompletedBinding;
 import com.dana.puzzle.game.Constants;
+import com.google.android.gms.ads.AdView;
 
 public class GameCompletedActivity extends AppCompatActivity implements OnClickListner, RequestListener<Drawable> {
 
@@ -25,6 +26,8 @@ ActivityGameCompletedBinding binding;
 
     String mCurrentPhotoUri;
     String assetName;
+
+    Ads inappAds;
 
 
 
@@ -34,8 +37,13 @@ ActivityGameCompletedBinding binding;
         super.onCreate(savedInstanceState);
         binding= DataBindingUtil.setContentView(this,R.layout.activity_game_completed);
         binding.setOnclick(this);
+        init();
         getIntentData();
         setImage();
+    }
+
+    private void init() {
+        inappAds=new Ads();
     }
 
 
@@ -87,5 +95,12 @@ ActivityGameCompletedBinding binding;
     @Override
     public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
         return false;
+    }
+
+    @Override
+    protected void onResume() {
+        AdView adView=findViewById(R.id.adView_banner);
+        inappAds.googleBannerAd(adView);
+        super.onResume();
     }
 }

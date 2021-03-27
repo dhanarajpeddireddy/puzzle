@@ -19,12 +19,15 @@ import com.bumptech.glide.request.target.Target;
 import com.dana.puzzle.databinding.ActivitySelectionBinding;
 import com.dana.puzzle.game.Constants;
 import com.dana.puzzle.game.PuzzleActivity;
+import com.google.android.gms.ads.AdView;
 
 public class SelectionActivity extends AppCompatActivity implements RequestListener<Drawable>, OnClickListner {
     String mCurrentPhotoUri;
     String assetName;
 
     ActivitySelectionBinding binding;
+
+    Ads inappAds;
 
     int puzlePeiceNumber=3;
 
@@ -33,11 +36,17 @@ public class SelectionActivity extends AppCompatActivity implements RequestListe
         super.onCreate(savedInstanceState);
        binding= DataBindingUtil.setContentView(this,R.layout.activity_selection);
        binding.setOnclick(this);
+       init();
        getIntentData();
        setImage();
 
         binding.tvPeiceSize.setText(String.valueOf(Constants.PUZLE_PEICES[puzlePeiceNumber]));
 
+    }
+
+    private void init() {
+
+        inappAds=new Ads();
     }
 
 
@@ -104,5 +113,14 @@ public class SelectionActivity extends AppCompatActivity implements RequestListe
                 binding.tvPeiceSize.setText(String.valueOf(Constants.PUZLE_PEICES[puzlePeiceNumber]));
             }
         }
+    }
+
+
+
+    @Override
+    protected void onResume() {
+        AdView adView=findViewById(R.id.adView_banner);
+        inappAds.googleBannerAd(adView);
+        super.onResume();
     }
 }

@@ -11,6 +11,8 @@ import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Build;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
@@ -24,7 +26,11 @@ import android.view.animation.AnimationUtils;
 
 import com.dana.puzzle.game.PuzzlePiece;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
 
 public class Utility {
 
@@ -251,4 +257,24 @@ public class Utility {
         activity.startActivity(Intent.createChooser(intent, "Send mail"));
     }
 
+    public static boolean isOnline() {
+        ConnectivityManager cm = (ConnectivityManager) PuzzleApplication.getContext()
+                .getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo netInfo = null;
+        if (cm != null) {
+            netInfo = cm.getActiveNetworkInfo();
+        }
+        return netInfo != null && netInfo.isConnectedOrConnecting();
+    }
+
+
+    public static String getDate(Calendar date, String pattern) {
+        if (date!=null)
+        {
+            Date date5 = date.getTime();
+            SimpleDateFormat sdf = new SimpleDateFormat(pattern, new Locale("en", "In"));
+            return sdf.format(date5);
+        }
+        return null ;
+    }
 }
