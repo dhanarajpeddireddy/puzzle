@@ -7,9 +7,9 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:622505933427:android:8465867b91d86493360806",
+        "mobilesdk_app_id": "1:622505933427:android:640de34cd20f405d360806",
         "android_client_info": {
-          "package_name": "com.dana.puzzle"
+          "package_name": "com.dana.jigsaw.puzzle"
         }
       },
       "oauth_client": [
@@ -36,9 +36,9 @@
     },
     {
       "client_info": {
-        "mobilesdk_app_id": "1:622505933427:android:04c5b41cb07b0cdf360806",
+        "mobilesdk_app_id": "1:622505933427:android:8465867b91d86493360806",
         "android_client_info": {
-          "package_name": "com.jigsaw.puzzle"
+          "package_name": "com.dana.puzzle"
         }
       },
       "oauth_client": [
