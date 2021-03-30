@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.dana.puzzle">
 
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission
         android:name="android.permission.WRITE_EXTERNAL_STORAGE"
@@ -19,7 +20,11 @@
         android:theme="@style/AppTheme"
         tools:ignore="AllowBackup"
         tools:targetApi="lollipop">
-        <activity android:name=".GameCompletedActivity"
+        <activity android:name=".history.HistoryActivity"
+            android:configChanges="orientation|screenSize|screenLayout|keyboardHidden"
+            android:screenOrientation="sensorLandscape" />
+        <activity
+            android:name=".GameCompletedActivity"
             android:configChanges="orientation|screenSize|screenLayout|keyboardHidden"
             android:screenOrientation="sensorLandscape" />
         <activity
@@ -36,13 +41,19 @@
             </intent-filter>
         </activity>
         <activity
-            android:configChanges="orientation|screenSize|screenLayout|keyboardHidden"
             android:name=".MainActivity"
+            android:configChanges="orientation|screenSize|screenLayout|keyboardHidden"
             android:screenOrientation="sensorLandscape" />
         <activity
             android:name=".game.PuzzleActivity"
             android:configChanges="orientation|screenSize|screenLayout|keyboardHidden"
             android:screenOrientation="sensorLandscape" />
+
+
+        <service android:name=".MediaPlayerService"
+            android:enabled="true"
+            android:exported="false"
+            android:permission="true" />
 
         <provider
             android:name="androidx.core.content.FileProvider"
@@ -57,10 +68,9 @@
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
-
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
-            android:value="@string/google_app_ad_id"/>
+            android:value="@string/google_app_ad_id" />
     </application>
 
 </manifest>

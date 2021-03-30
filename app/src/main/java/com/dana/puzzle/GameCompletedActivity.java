@@ -1,9 +1,11 @@
 package com.dana.puzzle;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 
@@ -16,18 +18,23 @@ import com.bumptech.glide.load.DataSource;
 import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
+import com.dana.puzzle.database.GameBeen;
+import com.dana.puzzle.database.InsertGameBeenAsync;
 import com.dana.puzzle.databinding.ActivityGameCompletedBinding;
 import com.dana.puzzle.game.Constants;
 import com.google.android.gms.ads.AdView;
 
-public class GameCompletedActivity extends AppCompatActivity implements OnClickListner, RequestListener<Drawable> {
+public class GameCompletedActivity extends AppCompatActivity implements OnClickListner, RequestListener<Drawable>
+, InsertGameBeenAsync.IInsertAcheivement{
 
 ActivityGameCompletedBinding binding;
 
-    String mCurrentPhotoUri;
-    String assetName;
+
+
 
     Ads inappAds;
+
+    GameBeen gameBeen;
 
 
 
@@ -39,7 +46,34 @@ ActivityGameCompletedBinding binding;
         binding.setOnclick(this);
         init();
         getIntentData();
+        saveAcheivement();
         setImage();
+        setMessage();
+
+    }
+
+    @SuppressLint("SetTextI18n")
+    private void setMessage() {
+        if (gameBeen !=null)
+        {
+            binding.tvNumOfPieces.setText(gameBeen.numberOfPieces +" "+getString(R.string.peices));
+            if (gameBeen.getHours()!=0)
+                binding.tvTime.append(gameBeen.getHours()+" Hours ");
+
+            if (gameBeen.getMinutes()!=0)
+                binding.tvTime.append(gameBeen.getMinutes()+" Minutes ");
+
+            if (gameBeen.getSeconds()!=0)
+                binding.tvTime.append(gameBeen.getSeconds()+" Seconds ");
+        }
+    }
+
+    private void saveAcheivement() {
+        if (gameBeen !=null)
+        {
+            new InsertGameBeenAsync(gameBeen
+                    , this, this).execute();
+        }
     }
 
     private void init() {
@@ -48,31 +82,32 @@ ActivityGameCompletedBinding binding;
 
 
     private void setImage() {
-        String path = null;
-        if (assetName != null) {
-            path="file:///android_asset/"+Constants.ASSET_FOLDER_NAME+"/"+assetName;
-
-        }  else if (mCurrentPhotoUri != null) {
-            path=mCurrentPhotoUri;
-        }
-        if (path!=null)
+        if (gameBeen !=null)
         {
+            String path = null;
+            if (gameBeen.getAssetName() != null) {
+                path="file:///android_asset/"+Constants.ASSET_FOLDER_NAME+"/"+ gameBeen.getAssetName();
 
-            Log.e("setImage","in : "+path);
-            Glide.with(this)
-                    .load(Uri.parse(path))
-                    .placeholder(R.drawable.spalsh2)
-                    .listener(this)
-                    .into(binding.imageView);
+            }  else if (gameBeen.getPhotoUri() != null) {
+                path= gameBeen.getPhotoUri();
+            }
+            if (path!=null)
+            {
+
+                Log.e("setImage","in : "+path);
+                Glide.with(this)
+                        .load(Uri.parse(path))
+                        .placeholder(R.drawable.spalsh2)
+                        .listener(this)
+                        .into(binding.imageView);
+            }
         }
-
     }
 
 
     private void getIntentData() {
-        Intent intent = getIntent();
-        assetName = intent.getStringExtra(Constants.ASSET_NAME);
-        mCurrentPhotoUri = intent.getStringExtra(Constants.PHOTO_URI);
+        gameBeen = (GameBeen) getIntent().getSerializableExtra(Constants.acheive);
+
     }
 
 
@@ -103,4 +138,54 @@ ActivityGameCompletedBinding binding;
         inappAds.googleBannerAd(adView);
         super.onResume();
     }
+
+    @Override
+    public void success(GameBeen gameBeen) {
+
+    }
+
+    @Override
+    public void fail(GameBeen gameBeen) {
+
+    }
+
+
+
+
+
+    @Override
+    protected void onDestroy() {
+        stopService();
+        super.onDestroy();
+    }
+
+    @Override
+    protected void onStart() {
+        startService();
+        super.onStart();
+    }
+
+    @Override
+    protected void onPause() {
+        stopService();
+        super.onPause();
+    }
+
+
+    public void startService() {
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if (PreferenceUtills.getInstance(getApplicationContext()).getBoolean(Constants.music))
+                    startService(new Intent(getBaseContext(), MediaPlayerService.class));
+            }
+        },1000);
+
+    }
+
+
+    public void stopService() {
+        stopService(new Intent(getBaseContext(), MediaPlayerService.class));
+    }
+
 }

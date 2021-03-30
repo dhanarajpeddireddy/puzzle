@@ -1,11 +1,15 @@
 <shape xmlns:android="http://schemas.android.com/apk/res/android"
     android:shape="rectangle">
     <corners
-        android:radius="0dp"
-        android:topRightRadius="0dp"
-        android:bottomRightRadius="0dp"
-        android:bottomLeftRadius="0dp" />
+        android:radius="2dp" />
     <stroke
         android:width="3dp"
         android:color="@android:color/white" />
 </shape>
+
+
+
+ <!--   Warm Memories - Emotional Inspiring Piano by Keys of Moon | https://soundcloud.com/keysofmoon
+    Attribution 4.0 International (CC BY 4.0)
+    https://creativecommons.org/licenses/by/4.0/
+    Music promoted by https://www.chosic.com/-->

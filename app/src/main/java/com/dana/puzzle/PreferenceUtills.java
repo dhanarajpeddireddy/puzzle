@@ -48,14 +48,14 @@ public class PreferenceUtills {
 
 
 
-    public void setStringPreference(String key,String value)
+    public void setboolean(String key,boolean value)
     {
-        mSharedPref.edit().putString(key,value ).apply();
+        mSharedPref.edit().putBoolean(key,value ).apply();
     }
 
-    public String getStringPreference(String key)
+    public boolean getBoolean(String key)
     {
-        return mSharedPref.getString(key,null);
+        return mSharedPref.getBoolean(key,true);
 
     }
 

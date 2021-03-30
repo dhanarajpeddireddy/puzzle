@@ -20,13 +20,13 @@ public class Ads {
     private IRewardAdListner iRewardAdListner;
    public  interface IRewardAdListner
     {
-        void onRewardLoaded();
+        void onRewardLoaded(String id);
         void onRewardailed();
-        void onRewardEan();
+        void onRewardEan(String id);
     }
 
 
-    void googleBannerAd(AdView adView) {
+    public void googleBannerAd(AdView adView) {
         Log.e("Ads", "banner ad");
 
 
@@ -44,7 +44,7 @@ public class Ads {
     }
 
 
-    public void loadrewardAd(Activity activity, IRewardAdListner rewardAdListner)
+    public void loadrewardAd(Activity activity, IRewardAdListner rewardAdListner, final String id)
     {
         if (activity.isFinishing())
             return;
@@ -76,7 +76,7 @@ public class Ads {
                     public void onAdLoaded(@NonNull RewardedAd rewardedAd) {
                         mRewardedAd = rewardedAd;
                         if (iRewardAdListner!=null)
-                            iRewardAdListner.onRewardLoaded();
+                            iRewardAdListner.onRewardLoaded(id);
 
                         if (dailog.isShowing())
                             dailog.dismiss();
@@ -87,7 +87,7 @@ public class Ads {
     }
 
 
-   public void showRewardAd(Activity activity)
+   public void showRewardAd(Activity activity, final String id)
     {
         if (mRewardedAd != null) {
 
@@ -95,7 +95,7 @@ public class Ads {
                 @Override
                 public void onUserEarnedReward(@NonNull RewardItem rewardItem) {
                     if (iRewardAdListner!=null)
-                        iRewardAdListner.onRewardEan();
+                        iRewardAdListner.onRewardEan(id);
                 }
             });
         } else {

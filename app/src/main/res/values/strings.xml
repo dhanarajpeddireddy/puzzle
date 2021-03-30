@@ -16,7 +16,7 @@
     <string name="local_puzzle">Local Puzzle</string>
     <string name="yes">yes</string>
     <string name="no">no</string>
-    <string name="rewardMessage" >For playing  with your  puzzles , you need to watch reward video once in a day</string>
+    <string name="rewardMessage">For playing  with your  puzzles , you need to watch reward video once in a day</string>
     <string name="somethingWrong">Something Wrong</string>
     <string name="local_puzzle_ready">Hey , Now You Are Ready For Play Local Puzzle. Enjoy The Game!</string>
     <string name="no_net">Need Internet Connection For This Action</string>
@@ -25,4 +25,9 @@
     <string name="puzzle_preview">Puzzle Preview</string>
     <string name="preview_message">For Preview of puzzles , you need to watch reward video once in a day</string>
     <string name="google_reward_ad_id">ca-app-pub-7322297871933535/2414798164</string>
+    <string name="qlue">Qlue</string>
+    <string name="qlue_desc">For Qlue , you need to watch reward video</string>
+    <string name="qlue_ready">"Hey, Now you are ready to Qlue of puzzle "</string>
+    <string name="peices">Peices</string>
+    <string name="no_history_msg">"Hey , Complete Game AND COME BACK FOR HISTORY ! "</string>
 </resources>

@@ -11,4 +11,7 @@ public class Constants {
     public static final int  DEFAULT_PEICENUMBER=16;
     public static final String LOCAL_PUZZLE_REWARD_WATCHED_DATE="LocalPuzzleRewardWatchDate";
     public static final String PUZZLE_PREVIEW_REWARD_WATCHED_DATE="PuzzlePrecieweRewardWatchDate";
+    public static final String QLUE_REWARD_WATCHED_DATE="QlueRewardWatchDate";
+    public static String acheive="acheiveBeen";
+    public static String music="musicstatus";
 }

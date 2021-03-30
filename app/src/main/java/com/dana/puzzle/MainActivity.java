@@ -1,6 +1,7 @@
 package com.dana.puzzle;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -22,6 +23,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import com.dana.puzzle.game.Constants;
+import com.dana.puzzle.history.HistoryActivity;
 import com.google.android.gms.ads.AdView;
 
 import java.io.IOException;
@@ -41,14 +43,13 @@ public class MainActivity extends AppCompatActivity implements ImageAdapter.Ical
 
     ImageAdapter imageAdapter;
 
-    ImageView iv_share,iv_feedback;
+    ImageView iv_share,iv_feedback,iv_music,iv_history;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         init();
         AssetManager am = getAssets();
         try {
@@ -60,6 +61,8 @@ public class MainActivity extends AppCompatActivity implements ImageAdapter.Ical
         }
     }
 
+
+    @SuppressLint("UseCompatLoadingForDrawables")
     private void init() {
         grid = findViewById(R.id.grid);
         imageAdapter=new ImageAdapter(null,this,this);
@@ -69,8 +72,23 @@ public class MainActivity extends AppCompatActivity implements ImageAdapter.Ical
         iv_feedback=findViewById(R.id.iv_feedback);
         iv_share.setOnClickListener(this);
         iv_feedback.setOnClickListener(this);
+        iv_music=findViewById(R.id.iv_music);
+        iv_music.setOnClickListener(this);
+        iv_history=findViewById(R.id.iv_history);
+        iv_history.setOnClickListener(this);
 
         inappAds=new Ads();
+    }
+
+    @SuppressLint("UseCompatLoadingForDrawables")
+    private void setMusicIcon() {
+        if (PreferenceUtills.getInstance(this).getBoolean(Constants.music))
+        {
+            iv_music.setImageDrawable(getResources().getDrawable(R.drawable.ic_volume_on));
+        }else
+        {
+            iv_music.setImageDrawable(getResources().getDrawable(R.drawable.ic_volume_off));
+        }
     }
 
 
@@ -143,7 +161,7 @@ public class MainActivity extends AppCompatActivity implements ImageAdapter.Ical
 
     private void loadRewardVideo() {
         if (Utility.isOnline())
-        inappAds.loadrewardAd(this,this);
+        inappAds.loadrewardAd(this,this, Constants.LOCAL_PUZZLE_REWARD_WATCHED_DATE);
         else
             Toast.makeText(getApplicationContext(),getString(R.string.no_net),Toast.LENGTH_SHORT).show();
     }
@@ -164,11 +182,34 @@ public class MainActivity extends AppCompatActivity implements ImageAdapter.Ical
             Utility.bounce(view);
             Utility.shareApp(this);
         }
+        else  if (view.getId()==R.id.iv_history)
+        {
+            Utility.bounce(view);
+            startActivity(new Intent(this, HistoryActivity.class));
+        }
 
-        if (view.getId()==R.id.iv_feedback)
+      else  if (view.getId()==R.id.iv_feedback)
         {
             Utility.bounce(view);
             Utility.ContactsUs(this);
+        } else if (view.getId()==R.id.iv_music)
+        {
+            Utility.bounce(view);
+            if (PreferenceUtills.getInstance(this).getBoolean(Constants.music))
+            {
+                PreferenceUtills.getInstance(this).setboolean(Constants.music,false);
+                stopService();
+                setMusicIcon();
+
+            }else
+            {
+                PreferenceUtills.getInstance(this).setboolean(Constants.music,true);
+                startService();
+                setMusicIcon();
+
+            }
+
+
         }
     }
 
@@ -199,14 +240,15 @@ public class MainActivity extends AppCompatActivity implements ImageAdapter.Ical
 
     @Override
     protected void onResume() {
+        setMusicIcon();
         AdView adView=findViewById(R.id.adView_banner);
        inappAds.googleBannerAd(adView);
         super.onResume();
     }
 
     @Override
-    public void onRewardLoaded() {
-        inappAds.showRewardAd(this);
+    public void onRewardLoaded(String id) {
+        inappAds.showRewardAd(this, id);
     }
 
     @Override
@@ -216,10 +258,47 @@ public class MainActivity extends AppCompatActivity implements ImageAdapter.Ical
     }
 
     @Override
-    public void onRewardEan() {
+    public void onRewardEan(String id) {
         PreferenceUtills.getInstance(this)
                 .setValidDateInPreference(Constants.LOCAL_PUZZLE_REWARD_WATCHED_DATE,Utility.getDate(Calendar.getInstance(),Constants.DATE_FORMAT_PREFERENCE));
         Toast.makeText(getApplicationContext(),getString(R.string.local_puzzle_ready),Toast.LENGTH_SHORT).show();
 
     }
+
+
+    @Override
+    protected void onDestroy() {
+        stopService();
+        super.onDestroy();
+    }
+
+    @Override
+    protected void onStart() {
+        startService();
+        super.onStart();
+    }
+
+    @Override
+    protected void onPause() {
+        stopService();
+        super.onPause();
+    }
+
+
+    public void startService() {
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if (PreferenceUtills.getInstance(getApplicationContext()).getBoolean(Constants.music))
+                  startService(new Intent(getBaseContext(), MediaPlayerService.class));
+            }
+        },1000);
+
+    }
+
+
+    public void stopService() {
+        stopService(new Intent(getBaseContext(), MediaPlayerService.class));
+    }
+
 }
