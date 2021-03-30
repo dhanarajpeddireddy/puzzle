@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 
@@ -122,5 +123,42 @@ public class SelectionActivity extends AppCompatActivity implements RequestListe
         AdView adView=findViewById(R.id.adView_banner);
         inappAds.googleBannerAd(adView);
         super.onResume();
+    }
+
+
+
+
+    @Override
+    protected void onDestroy() {
+        stopService();
+        super.onDestroy();
+    }
+
+    @Override
+    protected void onStart() {
+        startService();
+        super.onStart();
+    }
+
+    @Override
+    protected void onPause() {
+        stopService();
+        super.onPause();
+    }
+
+
+    public void startService() {
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if (PreferenceUtills.getInstance(getApplicationContext()).getBoolean(Constants.music))
+                    startService(new Intent(getBaseContext(), MediaPlayerService.class));
+            }
+        },1000);
+
+    }
+
+    public void stopService() {
+        stopService(new Intent(getBaseContext(), MediaPlayerService.class));
     }
 }

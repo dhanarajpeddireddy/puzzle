@@ -18,6 +18,7 @@ import android.view.ViewTreeObserver;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -30,13 +31,16 @@ import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
 import com.dana.puzzle.Ads;
 import com.dana.puzzle.GameCompletedActivity;
+import com.dana.puzzle.MediaPlayerService;
 import com.dana.puzzle.PreferenceUtills;
 import com.dana.puzzle.R;
 import com.dana.puzzle.Utility;
+import com.dana.puzzle.database.GameBeen;
 
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
+import java.util.Date;
 import java.util.Random;
 
 public class PuzzleActivity extends AppCompatActivity implements TouchListener.IlistnerBack, RequestListener<Drawable>, View.OnClickListener, Ads.IRewardAdListner {
@@ -48,14 +52,31 @@ public class PuzzleActivity extends AppCompatActivity implements TouchListener.I
 
     Bitmap scaledBitmap;
 
-    ImageView imageView, iv_shuffle, iv_preview;
+    ImageView imageView, iv_shuffle, iv_preview,iv_qlue,iv_music;
+
+    TextView tv_timer;
 
     RelativeLayout layout;
 
     Ads inappAds;
 
+    long startTime;
 
-    boolean widthCheck = true;
+    Handler timer=new Handler();
+
+    Runnable timeCaluculter=new Runnable() {
+        @Override
+        public void run()
+        {
+            showTime();
+
+            timer.postDelayed(timeCaluculter,500);
+
+        }
+    };
+
+
+    boolean widthCheck = true,qlueStatus=false;
     int widthFinal, heightFinal;
 
     TouchListener touchListener;
@@ -90,6 +111,40 @@ public class PuzzleActivity extends AppCompatActivity implements TouchListener.I
 
 
     }
+    long elapsedSeconds=0;
+    long elapsedMinutes=0;
+    long elapsedHours=0;
+    @SuppressLint({"SetTextI18n", "DefaultLocale"})
+    private void showTime() {
+
+                long curenttime=new Date().getTime();
+
+                long different = curenttime-startTime;
+
+                System.out.println("different : " + different);
+
+                long secondsInMilli = 1000;
+                long minutesInMilli = secondsInMilli * 60;
+                long hoursInMilli = minutesInMilli * 60;
+                // long daysInMilli = hoursInMilli * 24; if you want caluculate days
+
+                 elapsedHours = different / hoursInMilli;
+                different = different % hoursInMilli;
+
+                 elapsedMinutes = different / minutesInMilli;
+                different = different % minutesInMilli;
+
+                 elapsedSeconds = different / secondsInMilli;
+
+                System.out.printf(
+                        "%d hours, %d minutes, %d seconds%n",
+                         elapsedHours, elapsedMinutes, elapsedSeconds);
+
+               tv_timer.setText(String.format("%02d", elapsedHours)+" : "
+                       +String.format("%02d", elapsedMinutes)+" : "
+                       +String.format("%02d", elapsedSeconds));
+
+    }
 
     private void setImage() {
         String path = null;
@@ -112,15 +167,36 @@ public class PuzzleActivity extends AppCompatActivity implements TouchListener.I
     }
 
     private void init() {
+        startTime=new Date().getTime();
         layout = findViewById(R.id.layout);
+        tv_timer=findViewById(R.id.tv_timer);
         imageView = findViewById(R.id.imageView);
         iv_shuffle = findViewById(R.id.iv_shuffle);
         iv_shuffle.setOnClickListener(this);
         iv_preview = findViewById(R.id.iv_preview);
         iv_preview.setOnClickListener(this);
+        iv_qlue = findViewById(R.id.iv_qlue);
+        iv_qlue.setOnClickListener(this);
+        iv_music=findViewById(R.id.iv_music);
+        iv_music.setOnClickListener(this);
         touchListener = new TouchListener(this);
         inappAds=new Ads();
+        timer.postDelayed(timeCaluculter,0);
+
     }
+
+
+    @SuppressLint("UseCompatLoadingForDrawables")
+    private void setMusicIcon() {
+        if (PreferenceUtills.getInstance(this).getBoolean(Constants.music))
+        {
+            iv_music.setImageDrawable(getResources().getDrawable(R.drawable.ic_volume_on));
+        }else
+        {
+            iv_music.setImageDrawable(getResources().getDrawable(R.drawable.ic_volume_off));
+        }
+    }
+
 
     private void getIntentData() {
         Intent intent = getIntent();
@@ -142,22 +218,44 @@ public class PuzzleActivity extends AppCompatActivity implements TouchListener.I
 
     @Override
     public void pieceMatched(PuzzlePiece puzzlePiece) {
+        setPeiceStatusToBack(puzzlePiece);
         Utility.vibrate(100);
         Utility.bounce(puzzlePiece);
+
         if (isGameOver()) {
 
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
+                    stopTimer();
+
+                    GameBeen gameBeen =new GameBeen();
+
+                    gameBeen.setNumberOfPieces(peiceSize);
+                    gameBeen.setHours(elapsedHours);
+                    gameBeen.setMinutes(elapsedMinutes);
+                    gameBeen.setSeconds(elapsedSeconds);
+                    gameBeen.setDate(Utility.getDate(Calendar.getInstance(),"dd MMMM yyyy"));
+                    gameBeen.setPhotoUri(mCurrentPhotoUri);
+                    gameBeen.setAssetName(assetName);
+
                     startActivity(new Intent(PuzzleActivity.this, GameCompletedActivity.class)
-                            .putExtra(Constants.ASSET_NAME, assetName)
-                            .putExtra(Constants.PHOTO_URI, mCurrentPhotoUri));
+                           .putExtra(Constants.acheive, gameBeen));
 
                     finish();
                 }
-            }, 2000);
+            }, 1000);
 
         }
+    }
+
+    private void setPeiceStatusToBack(PuzzlePiece puzzlePiece) {
+        RelativeLayout.LayoutParams lParams = (RelativeLayout.LayoutParams) puzzlePiece.getLayoutParams();
+        lParams.leftMargin = puzzlePiece.xCoord;
+        lParams.topMargin = puzzlePiece.yCoord;
+        puzzlePiece.setLayoutParams(lParams);
+        puzzlePiece.canMove = false;
+        pieces.remove(puzzlePiece);
     }
 
     @SuppressLint("UseCompatLoadingForDrawables")
@@ -234,24 +332,66 @@ public class PuzzleActivity extends AppCompatActivity implements TouchListener.I
     public void onClick(View view) {
         if (view.getId() == R.id.iv_preview) {
             Utility.bounce(view);
-            if (PreferenceUtills.getInstance(this).IsValidDateByKey(Constants.PUZZLE_PREVIEW_REWARD_WATCHED_DATE))
-            {
-                if (imageView.getVisibility() == View.INVISIBLE) {
-                    iv_preview.setImageDrawable(getResources().getDrawable(R.drawable.ic_baseline_visibility_off_24));
-                    imageView.setVisibility(View.VISIBLE);
-                } else {
+
+            if (imageView.getVisibility() == View.VISIBLE) {
+                iv_preview.setImageDrawable(getResources().getDrawable(R.drawable.ic_baseline_visibility_24));
+                imageView.setVisibility(View.INVISIBLE);
+            }
+
+            else if (PreferenceUtills.getInstance(this).IsValidDateByKey(Constants.PUZZLE_PREVIEW_REWARD_WATCHED_DATE)) {
                     iv_preview.setImageDrawable(getResources().getDrawable(R.drawable.ic_baseline_visibility_24));
                     imageView.setVisibility(View.INVISIBLE);
-                }
-            }else popupForReward();
+            }
+            else popupForReward(getString(R.string.puzzle_preview),getString(R.string.preview_message),Constants.PUZZLE_PREVIEW_REWARD_WATCHED_DATE);
 
 
         }
 
-        if (view.getId() == R.id.iv_shuffle) {
+       else if (view.getId() == R.id.iv_shuffle) {
             Utility.bounce(view);
             shuffle();
+        } else if (view.getId() == R.id.iv_qlue) {
+            Utility.bounce(view);
+
+         /*   if (PreferenceUtills.getInstance(this).IsValidDateByKey(Constants.QLUE_REWARD_WATCHED_DATE))
+            {
+                giveQlue();
+                }
+            else */popupForReward(getString(R.string.qlue),getString(R.string.qlue_desc),Constants.QLUE_REWARD_WATCHED_DATE);
+
+
         }
+
+        else if (view.getId()==R.id.iv_music)
+        {
+            Utility.bounce(view);
+            if (PreferenceUtills.getInstance(this).getBoolean(Constants.music))
+            {
+                PreferenceUtills.getInstance(this).setboolean(Constants.music,false);
+                stopService();
+                setMusicIcon();
+
+            }else
+            {
+                PreferenceUtills.getInstance(this).setboolean(Constants.music,true);
+                startService();
+                setMusicIcon();
+
+            }
+
+
+        }
+    }
+
+    @SuppressLint("UseCompatLoadingForDrawables")
+    private void giveQlue() {
+        if (imageView.getVisibility() == View.VISIBLE) {
+            iv_preview.setImageDrawable(getResources().getDrawable(R.drawable.ic_baseline_visibility_24));
+            imageView.setVisibility(View.INVISIBLE);
+        }
+
+        if (pieces!=null && pieces.size()>0&& pieces.get(0).canMove)
+           pieceMatched(pieces.get(0));
     }
 
 
@@ -280,15 +420,15 @@ public class PuzzleActivity extends AppCompatActivity implements TouchListener.I
 
 
 
-    private void popupForReward() {
+    private void popupForReward(String title, String message, final String id) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle(getResources().getString(R.string.puzzle_preview));
-        builder.setMessage(getResources().getString(R.string.preview_message));
+        builder.setTitle(title);
+        builder.setMessage(message);
         builder.setPositiveButton(getResources().getString(R.string.yes), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 dialogInterface.dismiss();
-                loadRewardVideo();
+                loadRewardVideo(id);
             }
         });
 
@@ -314,17 +454,17 @@ public class PuzzleActivity extends AppCompatActivity implements TouchListener.I
 
     }
 
-    private void loadRewardVideo() {
+    private void loadRewardVideo(String id) {
         if (Utility.isOnline())
-            inappAds.loadrewardAd(this,this);
+            inappAds.loadrewardAd(this,this,id);
         else
             Toast.makeText(getApplicationContext(),getString(R.string.no_net),Toast.LENGTH_SHORT).show();
     }
 
 
     @Override
-    public void onRewardLoaded() {
-        inappAds.showRewardAd(this);
+    public void onRewardLoaded(String id) {
+        inappAds.showRewardAd(this,id);
     }
 
     @Override
@@ -334,13 +474,90 @@ public class PuzzleActivity extends AppCompatActivity implements TouchListener.I
     }
 
     @Override
-    public void onRewardEan() {
-        PreferenceUtills.getInstance(this)
-                .setValidDateInPreference(Constants.PUZZLE_PREVIEW_REWARD_WATCHED_DATE,Utility.getDate(Calendar.getInstance(),Constants.DATE_FORMAT_PREFERENCE));
-        Toast.makeText(getApplicationContext(),getString(R.string.preview_ready),Toast.LENGTH_SHORT).show();
+    protected void onDestroy() {
+       stopTimer();
+        stopService();
+        super.onDestroy();
+    }
+
+    @Override
+    protected void onStart() {
+        startService();
+        super.onStart();
+    }
+
+    @Override
+    protected void onPause() {
+        stopService();
+        super.onPause();
+    }
+
+
+    public void startService() {
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if (PreferenceUtills.getInstance(getApplicationContext()).getBoolean(Constants.music))
+                    startService(new Intent(getBaseContext(), MediaPlayerService.class));
+            }
+        },1000);
+
+    }
+
+    public void stopService() {
+        stopService(new Intent(getBaseContext(), MediaPlayerService.class));
+    }
+
+
+    private void stopTimer() {
+        if (timer!=null)
+        {
+            timer.removeCallbacks(timeCaluculter);
+            timeCaluculter=null;
+            timer=null;
+        }
+
+    }
+
+    @Override
+    protected void onResume() {
+        setMusicIcon();
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if (qlueStatus)
+                {
+                    giveQlue();
+                    qlueStatus=false;
+                }
+            }
+        },1000);
+
+        super.onResume();
+    }
+
+    @Override
+    public void onRewardEan(String id) {
+        if (id.equalsIgnoreCase(Constants.PUZZLE_PREVIEW_REWARD_WATCHED_DATE))
+        {
+            PreferenceUtills.getInstance(this)
+                    .setValidDateInPreference(Constants.PUZZLE_PREVIEW_REWARD_WATCHED_DATE,Utility.getDate(Calendar.getInstance(),Constants.DATE_FORMAT_PREFERENCE));
+            Toast.makeText(getApplicationContext(),getString(R.string.preview_ready),Toast.LENGTH_SHORT).show();
+
+        }
+       else if (id.equalsIgnoreCase(Constants.QLUE_REWARD_WATCHED_DATE))
+        {
+            qlueStatus=true;
+/*            PreferenceUtills.getInstance(this)
+                    .setValidDateInPreference(Constants.QLUE_REWARD_WATCHED_DATE,Utility.getDate(Calendar.getInstance(),Constants.DATE_FORMAT_PREFERENCE));*/
+            Toast.makeText(getApplicationContext(),getString(R.string.qlue_ready),Toast.LENGTH_SHORT).show();
+
+        }
 
     }
 }
+
+
 
 
 

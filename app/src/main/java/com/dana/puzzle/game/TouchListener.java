@@ -75,10 +75,6 @@ public class TouchListener implements View.OnTouchListener {
                 int xDiff = abs(piece.xCoord - view.getLeft());
                 int yDiff = abs(piece.yCoord - view.getTop());
                 if (xDiff <= illuseSize && yDiff <= illuseSize) {
-                    lParams.leftMargin = piece.xCoord;
-                    lParams.topMargin = piece.yCoord;
-                    piece.setLayoutParams(lParams);
-                    piece.canMove = false;
 
                     if (ilistnerBack!=null)
                         ilistnerBack.pieceMatched(piece);
