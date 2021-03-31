@@ -12,6 +12,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.GridView;
@@ -54,7 +55,9 @@ public class MainActivity extends AppCompatActivity implements ImageAdapter.Ical
         AssetManager am = getAssets();
         try {
             files  = am.list(Constants.ASSET_FOLDER_NAME);
-            Collections.shuffle(Arrays.asList(files));
+            if (files != null) {
+                Collections.shuffle(Arrays.asList(files));
+            }
             imageAdapter.updatelist(files);
         } catch (IOException e) {
             e.printStackTrace();
@@ -76,7 +79,6 @@ public class MainActivity extends AppCompatActivity implements ImageAdapter.Ical
         iv_music.setOnClickListener(this);
         iv_history=findViewById(R.id.iv_history);
         iv_history.setOnClickListener(this);
-
         inappAds=new Ads();
     }
 
@@ -99,8 +101,11 @@ public class MainActivity extends AppCompatActivity implements ImageAdapter.Ical
         if (requestCode == REQUEST_IMAGE_GALLERY && resultCode == RESULT_OK) {
             Uri uri = data.getData();
             Intent intent = new Intent(this, SelectionActivity.class);
-            intent.putExtra("mCurrentPhotoUri", uri.toString());
-            startActivity(intent);
+            if (uri != null) {
+                intent.putExtra("mCurrentPhotoUri", uri.toString());
+                startActivity(intent);
+            }
+
         }
     }
 
@@ -180,7 +185,7 @@ public class MainActivity extends AppCompatActivity implements ImageAdapter.Ical
         if (view.getId()==R.id.iv_share)
         {
             Utility.bounce(view);
-            Utility.shareApp(this);
+            Utility.shareApp(this,"");
         }
         else  if (view.getId()==R.id.iv_history)
         {
@@ -199,15 +204,14 @@ public class MainActivity extends AppCompatActivity implements ImageAdapter.Ical
             {
                 PreferenceUtills.getInstance(this).setboolean(Constants.music,false);
                 stopService();
-                setMusicIcon();
 
             }else
             {
                 PreferenceUtills.getInstance(this).setboolean(Constants.music,true);
                 startService();
-                setMusicIcon();
 
             }
+            setMusicIcon();
 
 
         }

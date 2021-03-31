@@ -7,7 +7,7 @@
     <string name="congrats">Congrats</string>
     <string name="close">Close</string>
     <string name="share_head_info">Enjoy Puzzle Game , Create Your Own Puzzles And Solve</string>
-    <string name="share_head">Download This App For Free.\n    https://play.google.com/store/apps/details?id=</string>
+    <string name="share_head">\n Download This App For Free.\n    https://play.google.com/store/apps/details?id=</string>
     <string name="email">gamespuzzlegame@gmail.com</string>
     <string name="mailSub">FeedBack From User</string>
     <string name="clickAgainBack">Please click BACK again to exit</string>
@@ -25,9 +25,10 @@
     <string name="puzzle_preview">Puzzle Preview</string>
     <string name="preview_message">For Preview of puzzles , you need to watch reward video once in a day</string>
     <string name="google_reward_ad_id">ca-app-pub-3940256099942544/5224354917</string>
-    <string name="qlue">Qlue</string>
-    <string name="qlue_desc">For Qlue , you need to watch reward video</string>
+    <string name="qlue">Help</string>
+    <string name="qlue_desc">For Placing One Tile In Correct Place , you need to watch reward video</string>
     <string name="qlue_ready">"Hey, Now you are ready to Qlue of puzzle "</string>
     <string name="peices">Peices</string>
     <string name="no_history_msg">"Hey , Complete Game AND COME BACK FOR HISTORY ! "</string>
+    <string name="back">Back</string>
 </resources>

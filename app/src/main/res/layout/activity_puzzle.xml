@@ -8,78 +8,102 @@
     android:background="@drawable/background"
     android:baselineAligned="false">
 
-    <TextView
-        android:background="@drawable/box_border"
-        android:id="@+id/tv_timer"
-        android:padding="4dp"
-        android:layout_gravity="end"
-        android:gravity="end"
-        android:textSize="18sp"
-        android:textColor="@color/gnt_white"
-        android:text="00:00:00"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+
 
 
     <LinearLayout
-        android:orientation="horizontal"
+        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:baselineAligned="false">
 
-    <LinearLayout
-        android:orientation="vertical"
-        android:gravity="center"
-        android:background="@drawable/menu_background"
-        android:layout_weight="1"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        <RelativeLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
 
-        <ImageView
+        <include
+            layout="@layout/banne_ad_layout"/>
+
+
+        <LinearLayout
+            android:background="@drawable/only_border"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+
+            <TextView
+                android:background="@drawable/box_border"
+                android:id="@+id/tv_timer"
+                android:padding="4dp"
+                android:layout_gravity="center"
+                android:textSize="18sp"
+                android:textColor="@color/gnt_white"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+
+
+            <include layout="@layout/vertical_menu_divier"/>
+
+
+
+            <ImageView
             android:id="@+id/iv_music"
-            android:layout_margin="8dp"
             android:src="@drawable/ic_volume_on"
             android:layout_width="40dp"
             android:layout_height="40dp"
             tools:ignore="ContentDescription" />
 
+            <include layout="@layout/vertical_menu_divier"/>
 
-        <ImageView
+
+
+            <ImageView
             android:id="@+id/iv_preview"
             android:padding="4dp"
-            android:layout_margin="8dp"
             android:src="@drawable/ic_baseline_visibility_off_24"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             tools:ignore="ContentDescription" />
 
 
-        <ImageView
+            <include layout="@layout/vertical_menu_divier"/>
+
+
+
+            <ImageView
             android:id="@+id/iv_shuffle"
             android:padding="4dp"
-            android:layout_margin="8dp"
-            android:src="@drawable/ic_baseline_shutter_speed_24"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:src="@drawable/ic_undo"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             tools:ignore="ContentDescription" />
 
+            <include layout="@layout/vertical_menu_divier"/>
 
-        <ImageView
+
+            <ImageView
             android:id="@+id/iv_qlue"
             android:padding="4dp"
-            android:layout_margin="8dp"
             android:src="@drawable/ic_qlue"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             tools:ignore="ContentDescription" />
 
+        </LinearLayout>
+        </RelativeLayout>
 
-    </LinearLayout>
+
+
+
+
 
 
     <FrameLayout
-        android:layout_weight="0.1"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -87,33 +111,39 @@
 
 
 
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
 
 
 
         <FrameLayout
-            android:layout_weight="0.5"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            >
 
 
             <ImageView
+                android:layout_marginLeft="171dp"
+                android:layout_marginRight="171dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                android:layout_marginEnd="170dp"
+                android:layout_marginStart="170dp"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_margin="8dp"
                 android:alpha="1.0"
                 app:layout_constraintTop_toTopOf="parent"
                 app:srcCompat="@drawable/frame"
                 tools:ignore="ContentDescription" />
 
             <ImageView
+                android:layout_marginLeft="171dp"
+                android:layout_marginRight="171dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:layout_marginEnd="171dp"
+                android:layout_marginStart="171dp"
                 android:id="@+id/imageView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_margin="10dp"
                 android:scaleType="centerCrop"
                 tools:ignore="ContentDescription" />
 
@@ -121,13 +151,8 @@
         </FrameLayout>
 
 
-        <View
-            android:layout_weight="1"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
 
 
-    </LinearLayout>
 
 
 

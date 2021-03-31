@@ -230,12 +230,13 @@ public class Utility {
     }
 
 
-    public static void shareApp(Context context) {
+    public static void shareApp(Context context,String prefix) {
         try {
             Intent i = new Intent(Intent.ACTION_SEND);
             i.setType("text/plain");
             i.putExtra(Intent.EXTRA_SUBJECT, context.getResources().getString(R.string.app_name));
-            String sAux = context.getString(R.string.share_head_info) + context.getString(R.string.share_head) + context.getPackageName();
+
+            String sAux =prefix+ context.getString(R.string.share_head_info) + context.getString(R.string.share_head) + context.getPackageName();
             i.putExtra(Intent.EXTRA_TEXT, sAux);
             context.startActivity(Intent.createChooser(i, "choose one"));
         } catch (Exception e) {
