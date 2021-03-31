@@ -21,19 +21,27 @@
         tools:ignore="AllowBackup"
         tools:targetApi="lollipop">
         <activity android:name=".history.HistoryActivity"
+            android:resizeableActivity="false"
             android:configChanges="orientation|screenSize|screenLayout|keyboardHidden"
-            android:screenOrientation="sensorLandscape" />
+            android:screenOrientation="sensorLandscape"
+            tools:targetApi="n" />
         <activity
+            android:resizeableActivity="false"
             android:name=".GameCompletedActivity"
             android:configChanges="orientation|screenSize|screenLayout|keyboardHidden"
-            android:screenOrientation="sensorLandscape" />
+            android:screenOrientation="sensorLandscape"
+            tools:targetApi="n" />
         <activity
+            android:resizeableActivity="false"
             android:name=".SelectionActivity"
             android:configChanges="orientation|screenSize|screenLayout|keyboardHidden"
-            android:screenOrientation="sensorLandscape" />
+            android:screenOrientation="sensorLandscape"
+            tools:targetApi="n" />
         <activity
+            android:resizeableActivity="false"
             android:name=".LauncherActivity"
-            android:screenOrientation="sensorLandscape">
+            android:screenOrientation="sensorLandscape"
+            tools:targetApi="n">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -41,13 +49,17 @@
             </intent-filter>
         </activity>
         <activity
+            android:resizeableActivity="false"
             android:name=".MainActivity"
             android:configChanges="orientation|screenSize|screenLayout|keyboardHidden"
-            android:screenOrientation="sensorLandscape" />
+            android:screenOrientation="sensorLandscape"
+            tools:targetApi="n" />
         <activity
+            android:resizeableActivity="false"
             android:name=".game.PuzzleActivity"
             android:configChanges="orientation|screenSize|screenLayout|keyboardHidden"
-            android:screenOrientation="sensorLandscape" />
+            android:screenOrientation="sensorLandscape"
+            tools:targetApi="n" />
 
 
         <service android:name=".MediaPlayerService"

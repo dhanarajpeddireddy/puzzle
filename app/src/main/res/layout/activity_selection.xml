@@ -12,21 +12,48 @@
             type="com.dana.puzzle.OnClickListner" />
 
     </data>
+
+
+    <LinearLayout
+        android:padding="16dp"
+        android:orientation="vertical"
+        android:background="@drawable/background"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+<LinearLayout
+    android:layout_marginStart="20dp"
+    android:layout_width="match_parent"
+    android:layout_height="70dp"
+    android:layout_marginLeft="20dp">
+    <include
+        layout="@layout/banne_ad_layout"/>
+
+</LinearLayout>
+
+
+
+
+
+
     <LinearLayout
         android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/background"
-        android:baselineAligned="false">
+        android:orientation="horizontal">
 
 
         <LinearLayout
+            android:layout_marginEnd="20dp"
+            android:layout_marginStart="20dp"
+            android:layout_weight="1"
             android:orientation="vertical"
-            android:layout_margin="20sp"
-            android:layout_weight="0.5"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginRight="20dp"
+            android:layout_marginLeft="20dp">
 
-            <include layout="@layout/banne_ad_layout"/>
+
 
 
             <FrameLayout
@@ -61,11 +88,10 @@
 
 
     <LinearLayout
+        android:padding="4dp"
         android:gravity="center"
-        android:layout_margin="20dp"
         android:orientation="vertical"
-        android:layout_weight="1"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="match_parent">
 
 
@@ -83,6 +109,7 @@
 
 
         <LinearLayout
+            android:layout_marginBottom="2dp"
             android:gravity="center"
             android:orientation="horizontal"
             android:layout_width="wrap_content"
@@ -139,10 +166,23 @@
             android:textColor="@color/gnt_white"
             android:textSize="16sp" />
 
+        <Button
+            android:visibility="gone"
+            android:id="@+id/bt_close"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:background="@drawable/box_border"
+            android:fontFamily="@font/montserrat"
+            android:onClick="@{(v) ->Onclick.onClick(v)}"
+            android:text="@string/back"
+            android:textColor="@color/gnt_white"
+            android:textSize="16sp" />
+
     </LinearLayout>
 
 
-
+    </LinearLayout>
 
 
 

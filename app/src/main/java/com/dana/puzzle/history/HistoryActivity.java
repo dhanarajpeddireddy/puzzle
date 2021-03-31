@@ -10,6 +10,7 @@ import android.view.View;
 
 import com.dana.puzzle.Ads;
 import com.dana.puzzle.R;
+import com.dana.puzzle.Utility;
 import com.dana.puzzle.database.GameBeen;
 import com.dana.puzzle.database.GetGameBeenAsync;
 import com.dana.puzzle.databinding.ActivityHistoryBinding;
@@ -18,7 +19,7 @@ import com.google.android.gms.ads.AdView;
 import java.util.Collections;
 import java.util.List;
 
-public class HistoryActivity extends AppCompatActivity implements GetGameBeenAsync.IGettAcheivement {
+public class HistoryActivity extends AppCompatActivity implements GetGameBeenAsync.IGettAcheivement, View.OnClickListener {
 
     ActivityHistoryBinding binding;
     HistoryAdapter historyAdapter;
@@ -31,6 +32,9 @@ public class HistoryActivity extends AppCompatActivity implements GetGameBeenAsy
        init();
 
        getHistory();
+
+
+       binding.ivBack.setOnClickListener(this);
 
     }
 
@@ -80,5 +84,15 @@ public class HistoryActivity extends AppCompatActivity implements GetGameBeenAsy
         AdView adView=findViewById(R.id.adView_banner);
         inappAds.googleBannerAd(adView);
         super.onResume();
+    }
+
+    @Override
+    public void onClick(View view) {
+        if (view.getId()==R.id.iv_back)
+        {
+            Utility.bounce(view);
+            finish();
+        }
+
     }
 }

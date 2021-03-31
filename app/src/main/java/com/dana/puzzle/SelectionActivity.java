@@ -30,7 +30,7 @@ public class SelectionActivity extends AppCompatActivity implements RequestListe
 
     Ads inappAds;
 
-    int puzlePeiceNumber=3;
+    int puzlePeiceNumber=1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -113,7 +113,8 @@ public class SelectionActivity extends AppCompatActivity implements RequestListe
                 puzlePeiceNumber++;
                 binding.tvPeiceSize.setText(String.valueOf(Constants.PUZLE_PEICES[puzlePeiceNumber]));
             }
-        }
+        }else if (view.getId()==R.id.bt_close)
+            finish();
     }
 
 

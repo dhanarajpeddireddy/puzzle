@@ -36,6 +36,7 @@ import com.dana.puzzle.PreferenceUtills;
 import com.dana.puzzle.R;
 import com.dana.puzzle.Utility;
 import com.dana.puzzle.database.GameBeen;
+import com.google.android.gms.ads.AdView;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -263,7 +264,7 @@ public class PuzzleActivity extends AppCompatActivity implements TouchListener.I
     public void pieceTouched() {
 
         if (imageView.getVisibility() == View.VISIBLE) {
-            iv_preview.setImageDrawable(getResources().getDrawable(R.drawable.ic_baseline_visibility_24));
+            iv_preview.setImageDrawable(getResources().getDrawable(R.drawable.ic_baseline_visibility_off_24));
             imageView.setVisibility(View.INVISIBLE);
         }
 
@@ -318,7 +319,11 @@ public class PuzzleActivity extends AppCompatActivity implements TouchListener.I
                         + " : " + piece.xCoord + " : " + piece.yCoord);
                 layout.addView(piece);
                 RelativeLayout.LayoutParams lParams = (RelativeLayout.LayoutParams) piece.getLayoutParams();
+                if (pieces.indexOf(piece)<=pieces.size()/2)
                 lParams.leftMargin = (layout.getWidth() - piece.pieceWidth);
+                else
+                    lParams.leftMargin = 5;
+
                 lParams.topMargin = new Random().nextInt(layout.getHeight() - piece.pieceHeight);
                 piece.setLayoutParams(lParams);
             }
@@ -334,12 +339,12 @@ public class PuzzleActivity extends AppCompatActivity implements TouchListener.I
             Utility.bounce(view);
 
             if (imageView.getVisibility() == View.VISIBLE) {
-                iv_preview.setImageDrawable(getResources().getDrawable(R.drawable.ic_baseline_visibility_24));
+                iv_preview.setImageDrawable(getResources().getDrawable(R.drawable.ic_baseline_visibility_off_24));
                 imageView.setVisibility(View.INVISIBLE);
             }
 
             else if (PreferenceUtills.getInstance(this).IsValidDateByKey(Constants.PUZZLE_PREVIEW_REWARD_WATCHED_DATE)) {
-                    iv_preview.setImageDrawable(getResources().getDrawable(R.drawable.ic_baseline_visibility_off_24));
+                    iv_preview.setImageDrawable(getResources().getDrawable(R.drawable.ic_baseline_visibility_24));
                     imageView.setVisibility(View.VISIBLE);
             }
             else popupForReward(getString(R.string.puzzle_preview),getString(R.string.preview_message),Constants.PUZZLE_PREVIEW_REWARD_WATCHED_DATE);
@@ -386,7 +391,7 @@ public class PuzzleActivity extends AppCompatActivity implements TouchListener.I
     @SuppressLint("UseCompatLoadingForDrawables")
     private void giveQlue() {
         if (imageView.getVisibility() == View.VISIBLE) {
-            iv_preview.setImageDrawable(getResources().getDrawable(R.drawable.ic_baseline_visibility_24));
+            iv_preview.setImageDrawable(getResources().getDrawable(R.drawable.ic_baseline_visibility_off_24));
             imageView.setVisibility(View.INVISIBLE);
         }
 
@@ -521,6 +526,10 @@ public class PuzzleActivity extends AppCompatActivity implements TouchListener.I
 
     @Override
     protected void onResume() {
+
+       // AdView adView=findViewById(R.id.adView_banner);
+       // inappAds.googleBannerAd(adView);
+
         setMusicIcon();
         new Handler().postDelayed(new Runnable() {
             @Override
