@@ -119,7 +119,7 @@ ActivityGameCompletedBinding binding;
         }else if (view.getId()==R.id.bt_share)
         {
             Utility.shareApp(this,"Just Now I Completed My "+gameBeen.numberOfPieces + " puzzle Game"
-            +"with in "+ binding.tvTime.getText().toString()+"\n");
+            +" with in "+ binding.tvTime.getText().toString()+"\n");
         }
     }
 
