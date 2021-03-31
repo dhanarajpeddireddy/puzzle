@@ -339,8 +339,8 @@ public class PuzzleActivity extends AppCompatActivity implements TouchListener.I
             }
 
             else if (PreferenceUtills.getInstance(this).IsValidDateByKey(Constants.PUZZLE_PREVIEW_REWARD_WATCHED_DATE)) {
-                    iv_preview.setImageDrawable(getResources().getDrawable(R.drawable.ic_baseline_visibility_24));
-                    imageView.setVisibility(View.INVISIBLE);
+                    iv_preview.setImageDrawable(getResources().getDrawable(R.drawable.ic_baseline_visibility_off_24));
+                    imageView.setVisibility(View.VISIBLE);
             }
             else popupForReward(getString(R.string.puzzle_preview),getString(R.string.preview_message),Constants.PUZZLE_PREVIEW_REWARD_WATCHED_DATE);
 
