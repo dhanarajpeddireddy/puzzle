@@ -141,8 +141,8 @@ public class PuzzleActivity extends AppCompatActivity implements TouchListener.I
                         "%d hours, %d minutes, %d seconds%n",
                          elapsedHours, elapsedMinutes, elapsedSeconds);
 
-               tv_timer.setText(String.format("%02d", elapsedHours)+" : "
-                       +String.format("%02d", elapsedMinutes)+" : "
+               tv_timer.setText(String.format("%02d", elapsedHours)+":"
+                       +String.format("%02d", elapsedMinutes)+":"
                        +String.format("%02d", elapsedSeconds));
 
     }
@@ -527,8 +527,8 @@ public class PuzzleActivity extends AppCompatActivity implements TouchListener.I
     @Override
     protected void onResume() {
 
-       // AdView adView=findViewById(R.id.adView_banner);
-       // inappAds.googleBannerAd(adView);
+        AdView adView=findViewById(R.id.adView_banner);
+        inappAds.googleBannerAd(adView);
 
         setMusicIcon();
         new Handler().postDelayed(new Runnable() {

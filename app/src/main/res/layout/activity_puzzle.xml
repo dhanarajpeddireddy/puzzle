@@ -38,9 +38,9 @@
             <TextView
                 android:background="@drawable/box_border"
                 android:id="@+id/tv_timer"
-                android:padding="4dp"
+                android:padding="1dp"
                 android:layout_gravity="center"
-                android:textSize="18sp"
+                android:textSize="14sp"
                 android:textColor="@color/gnt_white"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
@@ -137,14 +137,14 @@
             <ImageView
                 android:layout_marginLeft="171dp"
                 android:layout_marginRight="171dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="10dp"
+                android:layout_marginTop="9dp"
+                android:layout_marginBottom="9dp"
                 android:layout_marginEnd="171dp"
                 android:layout_marginStart="171dp"
                 android:id="@+id/imageView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:scaleType="centerCrop"
+                android:scaleType="fitXY"
                 tools:ignore="ContentDescription" />
 
 
