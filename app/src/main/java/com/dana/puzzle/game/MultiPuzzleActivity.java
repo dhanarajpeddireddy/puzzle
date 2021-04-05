@@ -36,6 +36,7 @@ import com.dana.puzzle.PreferenceUtills;
 import com.dana.puzzle.R;
 import com.dana.puzzle.Utility;
 import com.dana.puzzle.database.GameBeen;
+import com.google.android.gms.ads.AdView;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -43,40 +44,24 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.Random;
 
-public class PuzzleActivity extends AppCompatActivity implements TouchListener.IlistnerBack, RequestListener<Drawable>, View.OnClickListener, Ads.IRewardAdListner {
+public class MultiPuzzleActivity extends AppCompatActivity implements TouchListener.IlistnerBack, RequestListener<Drawable>, View.OnClickListener {
     ArrayList<PuzzlePiece> pieces;
 
-    String mCurrentPhotoUri;
     String assetName;
+
     int peiceSize;
 
     Bitmap scaledBitmap;
 
-    ImageView imageView, iv_shuffle, iv_preview,iv_qlue,iv_music;
+    ImageView imageView, iv_shuffle, iv_preview,iv_music;
 
-    TextView tv_timer;
 
     RelativeLayout layout;
 
     Ads inappAds;
 
-    long startTime;
 
-    Handler timer=new Handler();
-
-    Runnable timeCaluculter=new Runnable() {
-        @Override
-        public void run()
-        {
-            showTime();
-
-            timer.postDelayed(timeCaluculter,500);
-
-        }
-    };
-
-
-    boolean widthCheck = true,qlueStatus=false;
+    boolean widthCheck = true;
     int widthFinal, heightFinal;
 
     TouchListener touchListener;
@@ -85,12 +70,11 @@ public class PuzzleActivity extends AppCompatActivity implements TouchListener.I
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_puzzle);
+        setContentView(R.layout.activity_multy_puzzle);
 
         init();
 
         getIntentData();
-
 
         final ViewTreeObserver obs = imageView.getViewTreeObserver();
         obs.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
@@ -111,48 +95,22 @@ public class PuzzleActivity extends AppCompatActivity implements TouchListener.I
 
 
     }
-    long elapsedSeconds=0;
-    long elapsedMinutes=0;
-    long elapsedHours=0;
-    @SuppressLint({"SetTextI18n", "DefaultLocale"})
-    private void showTime() {
 
-                long curenttime=new Date().getTime();
-
-                long different = curenttime-startTime;
-
-                System.out.println("different : " + different);
-
-                long secondsInMilli = 1000;
-                long minutesInMilli = secondsInMilli * 60;
-                long hoursInMilli = minutesInMilli * 60;
-                // long daysInMilli = hoursInMilli * 24; if you want caluculate days
-
-                 elapsedHours = different / hoursInMilli;
-                different = different % hoursInMilli;
-
-                 elapsedMinutes = different / minutesInMilli;
-                different = different % minutesInMilli;
-
-                 elapsedSeconds = different / secondsInMilli;
-
-                System.out.printf(
-                        "%d hours, %d minutes, %d seconds%n",
-                         elapsedHours, elapsedMinutes, elapsedSeconds);
-
-               tv_timer.setText(String.format("%02d", elapsedHours)+" : "
-                       +String.format("%02d", elapsedMinutes)+" : "
-                       +String.format("%02d", elapsedSeconds));
-
-    }
 
     private void setImage() {
+
+        String[] files=Utility.getAssetFiles();
+
+        if (files!=null)
+        {
+            assetName=files[new Random().nextInt(files.length)];
+        }
+
+
         String path = null;
         if (assetName != null) {
             path = "file:///android_asset/" + Constants.ASSET_FOLDER_NAME + "/" + assetName;
 
-        } else if (mCurrentPhotoUri != null) {
-            path = mCurrentPhotoUri;
         }
         if (path != null) {
 
@@ -167,21 +125,16 @@ public class PuzzleActivity extends AppCompatActivity implements TouchListener.I
     }
 
     private void init() {
-        startTime=new Date().getTime();
         layout = findViewById(R.id.layout);
-        tv_timer=findViewById(R.id.tv_timer);
         imageView = findViewById(R.id.imageView);
         iv_shuffle = findViewById(R.id.iv_shuffle);
         iv_shuffle.setOnClickListener(this);
         iv_preview = findViewById(R.id.iv_preview);
         iv_preview.setOnClickListener(this);
-        iv_qlue = findViewById(R.id.iv_qlue);
-        iv_qlue.setOnClickListener(this);
         iv_music=findViewById(R.id.iv_music);
         iv_music.setOnClickListener(this);
         touchListener = new TouchListener(this);
         inappAds=new Ads();
-        timer.postDelayed(timeCaluculter,0);
 
     }
 
@@ -200,8 +153,6 @@ public class PuzzleActivity extends AppCompatActivity implements TouchListener.I
 
     private void getIntentData() {
         Intent intent = getIntent();
-        assetName = intent.getStringExtra(Constants.ASSET_NAME);
-        mCurrentPhotoUri = intent.getStringExtra(Constants.PHOTO_URI);
         peiceSize = intent.getIntExtra(Constants.PUZZLE_PEICE_SIZE, Constants.DEFAULT_PEICENUMBER);
     }
 
@@ -227,19 +178,14 @@ public class PuzzleActivity extends AppCompatActivity implements TouchListener.I
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    stopTimer();
 
                     GameBeen gameBeen =new GameBeen();
 
                     gameBeen.setNumberOfPieces(peiceSize);
-                    gameBeen.setHours(elapsedHours);
-                    gameBeen.setMinutes(elapsedMinutes);
-                    gameBeen.setSeconds(elapsedSeconds);
                     gameBeen.setDate(Utility.getDate(Calendar.getInstance(),"dd MMMM yyyy"));
-                    gameBeen.setPhotoUri(mCurrentPhotoUri);
                     gameBeen.setAssetName(assetName);
 
-                    startActivity(new Intent(PuzzleActivity.this, GameCompletedActivity.class)
+                    startActivity(new Intent(MultiPuzzleActivity.this, GameCompletedActivity.class)
                            .putExtra(Constants.acheive, gameBeen));
 
                     finish();
@@ -292,7 +238,7 @@ public class PuzzleActivity extends AppCompatActivity implements TouchListener.I
 
             scaledBitmap = Bitmap.createScaledBitmap(re, widthFinal, heightFinal, true);
 
-            pieces = Utility.splitImage(PuzzleActivity.this, imageView, scaledBitmap, peiceSize);
+            pieces = Utility.splitImage(MultiPuzzleActivity.this, imageView, scaledBitmap, peiceSize);
 
             widthCheck = false;
 
@@ -337,35 +283,22 @@ public class PuzzleActivity extends AppCompatActivity implements TouchListener.I
     @Override
     public void onClick(View view) {
         if (view.getId() == R.id.iv_preview) {
-            Utility.bounce(view,null);
+            Utility.bounce(view, null);
+
 
             if (imageView.getVisibility() == View.VISIBLE) {
                 iv_preview.setImageDrawable(getResources().getDrawable(R.drawable.ic_baseline_visibility_off_24));
                 imageView.setVisibility(View.INVISIBLE);
+            } else {
+                iv_preview.setImageDrawable(getResources().getDrawable(R.drawable.ic_baseline_visibility_24));
+                imageView.setVisibility(View.VISIBLE);
             }
-
-            else if (PreferenceUtills.getInstance(this).IsValidDateByKey(Constants.PUZZLE_PREVIEW_REWARD_WATCHED_DATE)) {
-                    iv_preview.setImageDrawable(getResources().getDrawable(R.drawable.ic_baseline_visibility_24));
-                    imageView.setVisibility(View.VISIBLE);
-            }
-            else popupForReward(getString(R.string.puzzle_preview),getString(R.string.preview_message),Constants.PUZZLE_PREVIEW_REWARD_WATCHED_DATE);
-
-
         }
+
 
        else if (view.getId() == R.id.iv_shuffle) {
             Utility.bounce(view,null);
             shuffle();
-        } else if (view.getId() == R.id.iv_qlue) {
-            Utility.bounce(view,null);
-
-         /*   if (PreferenceUtills.getInstance(this).IsValidDateByKey(Constants.QLUE_REWARD_WATCHED_DATE))
-            {
-                giveQlue();
-                }
-            else */popupForReward(getString(R.string.qlue),getString(R.string.qlue_desc),Constants.QLUE_REWARD_WATCHED_DATE);
-
-
         }
 
         else if (view.getId()==R.id.iv_music)
@@ -388,18 +321,6 @@ public class PuzzleActivity extends AppCompatActivity implements TouchListener.I
 
         }
     }
-
-    @SuppressLint("UseCompatLoadingForDrawables")
-    private void giveQlue() {
-        if (imageView.getVisibility() == View.VISIBLE) {
-            iv_preview.setImageDrawable(getResources().getDrawable(R.drawable.ic_baseline_visibility_off_24));
-            imageView.setVisibility(View.INVISIBLE);
-        }
-
-        if (pieces!=null && pieces.size()>0&& pieces.get(0).canMove)
-           pieceMatched(pieces.get(0));
-    }
-
 
     boolean doubleBackToExitPressedOnce = false;
 
@@ -424,64 +345,8 @@ public class PuzzleActivity extends AppCompatActivity implements TouchListener.I
 
 
 
-
-
-    private void popupForReward(String title, String message, final String id) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle(title);
-        builder.setMessage(message);
-        builder.setPositiveButton(getResources().getString(R.string.yes), new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                dialogInterface.dismiss();
-                loadRewardVideo(id);
-            }
-        });
-
-        builder.setNegativeButton(getResources().getString(R.string.no), new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                dialogInterface.dismiss();
-            }
-        });
-
-
-        AlertDialog alertDialog = builder.create();
-        if (!this.isFinishing())
-            alertDialog.show();
-
-        Button nbutton = alertDialog.getButton(DialogInterface.BUTTON_NEGATIVE);
-        nbutton.setTextColor(Color.BLACK);
-
-        Button pbutton = alertDialog.getButton(DialogInterface.BUTTON_POSITIVE);
-        pbutton.setTextColor(Color.BLACK);
-
-
-
-    }
-
-    private void loadRewardVideo(String id) {
-        if (Utility.isOnline())
-            inappAds.loadrewardAd(this,this,id);
-        else
-            Toast.makeText(getApplicationContext(),getString(R.string.no_net),Toast.LENGTH_SHORT).show();
-    }
-
-
-    @Override
-    public void onRewardLoaded(String id) {
-        inappAds.showRewardAd(this,id);
-    }
-
-    @Override
-    public void onRewardailed() {
-
-        Toast.makeText(getApplicationContext(),getString(R.string.somethingWrong),Toast.LENGTH_SHORT).show();
-    }
-
     @Override
     protected void onDestroy() {
-       stopTimer();
         stopService();
         super.onDestroy();
     }
@@ -515,98 +380,21 @@ public class PuzzleActivity extends AppCompatActivity implements TouchListener.I
     }
 
 
-    private void stopTimer() {
-        if (timer!=null)
-        {
-            timer.removeCallbacks(timeCaluculter);
-            timeCaluculter=null;
-            timer=null;
-        }
 
-    }
 
     @Override
     protected void onResume() {
 
-       // AdView adView=findViewById(R.id.adView_banner);
-       // inappAds.googleBannerAd(adView);
+        AdView adView=findViewById(R.id.adView_banner);
+        inappAds.googleBannerAd(adView);
 
         setMusicIcon();
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                if (qlueStatus)
-                {
-                    giveQlue();
-                    qlueStatus=false;
-                }
-            }
-        },1000);
-
         super.onResume();
     }
 
-    @Override
-    public void onRewardEan(String id) {
-        if (id.equalsIgnoreCase(Constants.PUZZLE_PREVIEW_REWARD_WATCHED_DATE))
-        {
-            PreferenceUtills.getInstance(this)
-                    .setValidDateInPreference(Constants.PUZZLE_PREVIEW_REWARD_WATCHED_DATE,Utility.getDate(Calendar.getInstance(),Constants.DATE_FORMAT_PREFERENCE));
-            Toast.makeText(getApplicationContext(),getString(R.string.preview_ready),Toast.LENGTH_SHORT).show();
-
-        }
-       else if (id.equalsIgnoreCase(Constants.QLUE_REWARD_WATCHED_DATE))
-        {
-            qlueStatus=true;
-/*            PreferenceUtills.getInstance(this)
-                    .setValidDateInPreference(Constants.QLUE_REWARD_WATCHED_DATE,Utility.getDate(Calendar.getInstance(),Constants.DATE_FORMAT_PREFERENCE));*/
-            Toast.makeText(getApplicationContext(),getString(R.string.qlue_ready),Toast.LENGTH_SHORT).show();
-
-        }
-
-    }
 }
 
 
-
-
-
-
-
-
-/*    public Bitmap combineImages(Bitmap c, Bitmap s) { // can add a 3rd parameter 'String loc' if you want to save the new image - left some code to do that at the bottom
-        Bitmap cs = null;
-
-        int width, height = 0;
-
-        if(c.getWidth() > s.getWidth()) {
-            width = c.getWidth() + s.getWidth();
-            height = c.getHeight();
-        } else {
-            width = s.getWidth() + s.getWidth();
-            height = c.getHeight();
-        }
-
-        cs = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
-
-        Canvas comboImage = new Canvas(cs);
-
-        comboImage.drawBitmap(c, 0f, 0f, null);
-        comboImage.drawBitmap(s, c.getWidth(), 0f, null);
-
-        // this is an extra bit I added, just incase you want to save the new image somewhere and then return the location
-    *//*String tmpImg = String.valueOf(System.currentTimeMillis()) + ".png";
-
-    OutputStream os = null;
-    try {
-      os = new FileOutputStream(loc + tmpImg);
-      cs.compress(CompressFormat.PNG, 100, os);
-    } catch(IOException e) {
-      Log.e("combineImages", "problem combining images", e);
-    }*//*
-
-        return cs;
-    } */
 
 
 

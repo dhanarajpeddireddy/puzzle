@@ -90,7 +90,7 @@ public class HistoryActivity extends AppCompatActivity implements GetGameBeenAsy
     public void onClick(View view) {
         if (view.getId()==R.id.iv_back)
         {
-            Utility.bounce(view);
+            Utility.bounce(view,null);
             finish();
         }
 

@@ -67,7 +67,7 @@ public class ImageAdapter extends BaseAdapter {
        imageView.setOnClickListener(new View.OnClickListener() {
            @Override
            public void onClick(View view) {
-               Utility.bounce(view);
+               Utility.bounce(view,null);
                callBack.onClickImageAdapterItem(files[position]);
            }
        });

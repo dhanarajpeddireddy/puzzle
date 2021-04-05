@@ -20,26 +20,46 @@
         android:theme="@style/AppTheme"
         tools:ignore="AllowBackup"
         tools:targetApi="lollipop">
-        <activity android:name=".history.HistoryActivity"
-            android:resizeableActivity="false"
+
+        <activity android:name=".game.MultiPuzzleActivity"
             android:configChanges="orientation|screenSize|screenLayout|keyboardHidden"
+            android:resizeableActivity="false"
+            android:screenOrientation="sensorLandscape"
+            tools:targetApi="n" />
+
+        <activity android:name=".SelectionPeicesActivity"
+            android:configChanges="orientation|screenSize|screenLayout|keyboardHidden"
+            android:resizeableActivity="false"
+            android:screenOrientation="sensorLandscape"
+            tools:targetApi="n" />
+        <activity android:name=".MatchPlayerActivity" />
+        <activity
+            android:name=".HomeActivity"
+            android:configChanges="orientation|screenSize|screenLayout|keyboardHidden"
+            android:resizeableActivity="false"
             android:screenOrientation="sensorLandscape"
             tools:targetApi="n" />
         <activity
+            android:name=".history.HistoryActivity"
+            android:configChanges="orientation|screenSize|screenLayout|keyboardHidden"
             android:resizeableActivity="false"
+            android:screenOrientation="sensorLandscape"
+            tools:targetApi="n" />
+        <activity
             android:name=".GameCompletedActivity"
             android:configChanges="orientation|screenSize|screenLayout|keyboardHidden"
+            android:resizeableActivity="false"
             android:screenOrientation="sensorLandscape"
             tools:targetApi="n" />
         <activity
-            android:resizeableActivity="false"
             android:name=".SelectionActivity"
             android:configChanges="orientation|screenSize|screenLayout|keyboardHidden"
+            android:resizeableActivity="false"
             android:screenOrientation="sensorLandscape"
             tools:targetApi="n" />
         <activity
-            android:resizeableActivity="false"
             android:name=".LauncherActivity"
+            android:resizeableActivity="false"
             android:screenOrientation="sensorLandscape"
             tools:targetApi="n">
             <intent-filter>
@@ -49,20 +69,20 @@
             </intent-filter>
         </activity>
         <activity
-            android:resizeableActivity="false"
             android:name=".MainActivity"
             android:configChanges="orientation|screenSize|screenLayout|keyboardHidden"
+            android:resizeableActivity="false"
             android:screenOrientation="sensorLandscape"
             tools:targetApi="n" />
         <activity
-            android:resizeableActivity="false"
             android:name=".game.PuzzleActivity"
             android:configChanges="orientation|screenSize|screenLayout|keyboardHidden"
+            android:resizeableActivity="false"
             android:screenOrientation="sensorLandscape"
             tools:targetApi="n" />
 
-
-        <service android:name=".MediaPlayerService"
+        <service
+            android:name=".MediaPlayerService"
             android:enabled="true"
             android:exported="false"
             android:permission="true" />

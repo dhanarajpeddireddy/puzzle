@@ -12,7 +12,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.GridView;
@@ -52,16 +51,15 @@ public class MainActivity extends AppCompatActivity implements ImageAdapter.Ical
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         init();
-        AssetManager am = getAssets();
-        try {
-            files  = am.list(Constants.ASSET_FOLDER_NAME);
-            if (files != null) {
-                Collections.shuffle(Arrays.asList(files));
-            }
-            imageAdapter.updatelist(files);
-        } catch (IOException e) {
-            e.printStackTrace();
+        getFiles();
+    }
+
+    private void getFiles() {
+        files  = Utility.getAssetFiles();
+        if (files != null) {
+            Collections.shuffle(Arrays.asList(files));
         }
+        imageAdapter.updatelist(files);
     }
 
 
@@ -184,22 +182,22 @@ public class MainActivity extends AppCompatActivity implements ImageAdapter.Ical
     public void onClick(View view) {
         if (view.getId()==R.id.iv_share)
         {
-            Utility.bounce(view);
+            Utility.bounce(view,null);
             Utility.shareApp(this,"");
         }
         else  if (view.getId()==R.id.iv_history)
         {
-            Utility.bounce(view);
+            Utility.bounce(view,null);
             startActivity(new Intent(this, HistoryActivity.class));
         }
 
       else  if (view.getId()==R.id.iv_feedback)
         {
-            Utility.bounce(view);
+            Utility.bounce(view,null);
             Utility.ContactsUs(this);
         } else if (view.getId()==R.id.iv_music)
         {
-            Utility.bounce(view);
+            Utility.bounce(view,null);
             if (PreferenceUtills.getInstance(this).getBoolean(Constants.music))
             {
                 PreferenceUtills.getInstance(this).setboolean(Constants.music,false);

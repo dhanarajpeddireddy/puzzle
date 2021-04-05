@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background"
+    android:baselineAligned="false">
+
+
+
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:baselineAligned="false">
+
+        <RelativeLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+
+
+
+
+
+            <include
+                layout="@layout/banne_ad_layout"/>
+
+
+            <LinearLayout
+                android:background="@drawable/only_border"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+
+                <include
+                    layout="@layout/player_score_layout"/>
+
+                <include layout="@layout/vertical_menu_divier"/>
+
+                <ImageView
+                    android:id="@+id/iv_music"
+                    android:src="@drawable/ic_volume_on"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    tools:ignore="ContentDescription" />
+                <include layout="@layout/vertical_menu_divier"/>
+
+
+
+                <ImageView
+                    android:id="@+id/iv_preview"
+                    android:padding="4dp"
+                    android:src="@drawable/ic_baseline_visibility_off_24"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    tools:ignore="ContentDescription" />
+
+
+                <include layout="@layout/vertical_menu_divier"/>
+
+
+
+                <ImageView
+                    android:id="@+id/iv_shuffle"
+                    android:padding="4dp"
+                    android:src="@drawable/ic_undo"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    tools:ignore="ContentDescription" />
+
+                <include layout="@layout/vertical_menu_divier"/>
+
+
+
+                <include
+                    layout="@layout/opponent_player_score_layout"/>
+
+
+
+            </LinearLayout>
+        </RelativeLayout>
+
+
+
+
+
+
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+
+
+
+
+
+
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                >
+
+
+                <ImageView
+                    android:layout_marginLeft="171dp"
+                    android:layout_marginRight="171dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginEnd="170dp"
+                    android:layout_marginStart="170dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:alpha="1.0"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/frame"
+                    tools:ignore="ContentDescription" />
+
+                <ImageView
+                    android:layout_marginLeft="171dp"
+                    android:layout_marginRight="171dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginEnd="171dp"
+                    android:layout_marginStart="171dp"
+                    android:id="@+id/imageView"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="fitXY"
+                    tools:ignore="ContentDescription" />
+
+
+            </FrameLayout>
+
+
+
+
+
+
+
+            <RelativeLayout
+                android:id="@+id/layout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+            </RelativeLayout>
+
+        </FrameLayout>
+
+    </LinearLayout>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+

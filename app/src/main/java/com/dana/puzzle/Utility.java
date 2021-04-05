@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.content.res.AssetManager;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -24,16 +25,37 @@ import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 
+import com.dana.puzzle.game.Constants;
 import com.dana.puzzle.game.PuzzlePiece;
 
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
 import java.util.Locale;
 
 public class Utility {
 
+
+    public static String[] getAssetFiles() {
+        AssetManager am = PuzzleApplication.getContext().getAssets();
+        try {
+             return am.list(Constants.ASSET_FOLDER_NAME);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
+    public interface IAnimationListner
+   {
+       void animationEnd(View view);
+   }
 
     public static ArrayList<PuzzlePiece> splitImage(Activity activity,View imageView, Bitmap scaledBitmap,int piecesNumber) {
 
@@ -167,7 +189,7 @@ public class Utility {
     }
 
 
-    public static void bounce(View view) {
+    public static void bounce(final View view, final IAnimationListner iAnimationListner) {
 
      /*   Animation anim = new AlphaAnimation(0.0f, 1.0f);
         anim.setDuration(duration);
@@ -176,15 +198,34 @@ public class Utility {
         anim.setRepeatCount(2);
         view.startAnimation(anim);*/
 
-
         final Animation myAnim = AnimationUtils.loadAnimation(PuzzleApplication.getContext(), R.anim.bounce);
         MyBounceInterpolater interpolator = new MyBounceInterpolater(0.1, 20);
         myAnim.setInterpolator(interpolator);
         view.startAnimation(myAnim);
 
+        myAnim.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                if (iAnimationListner!=null)
+                    iAnimationListner.animationEnd(view);
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+        });
+
         Log.e("bounce","in");
 
     }
+
+
 
 
     public static void vibrate(int seconds)
@@ -192,9 +233,12 @@ public class Utility {
         Vibrator v = (Vibrator) PuzzleApplication.getContext().getSystemService(Context.VIBRATOR_SERVICE);
 // Vibrate for 500 milliseconds
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            v.vibrate(VibrationEffect.createOneShot(seconds, VibrationEffect.DEFAULT_AMPLITUDE));
+            if (v != null) {
+                v.vibrate(VibrationEffect.createOneShot(seconds, VibrationEffect.DEFAULT_AMPLITUDE));
+            }
         } else {
             //deprecated in API 26
+            assert v != null;
             v.vibrate(seconds);
         }
     }
