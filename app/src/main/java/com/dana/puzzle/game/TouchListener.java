@@ -1,12 +1,11 @@
 package com.dana.puzzle.game;
 
 import android.annotation.SuppressLint;
-import android.util.DisplayMetrics;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.RelativeLayout;
 
-import com.dana.puzzle.Utility;
+import com.dana.puzzle.Constants;
 
 import static java.lang.Math.pow;
 import static java.lang.Math.sqrt;
@@ -14,7 +13,7 @@ import static java.lang.StrictMath.abs;
 
 public class TouchListener implements View.OnTouchListener {
 
-    interface  IlistnerBack
+   public interface  IlistnerBack
     {
         void pieceMatched(PuzzlePiece puzzlePiece);
         void pieceTouched();
@@ -76,6 +75,7 @@ public class TouchListener implements View.OnTouchListener {
                 int yDiff = abs(piece.yCoord - view.getTop());
                 if (xDiff <= illuseSize && yDiff <= illuseSize) {
 
+                    piece.setWho(Constants.YOU);
                     if (ilistnerBack!=null)
                         ilistnerBack.pieceMatched(piece);
                     

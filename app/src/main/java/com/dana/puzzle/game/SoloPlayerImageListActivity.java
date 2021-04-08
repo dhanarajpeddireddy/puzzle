@@ -1,4 +1,4 @@
-package com.dana.puzzle;
+package com.dana.puzzle.game;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
@@ -6,50 +6,39 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.content.res.AssetManager;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.GridView;
-import android.widget.ImageView;
 import android.widget.Toast;
-
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
-
-import com.dana.puzzle.game.Constants;
-import com.dana.puzzle.history.HistoryActivity;
-import com.google.android.gms.ads.AdView;
-
-import java.io.IOException;
+import androidx.databinding.DataBindingUtil;
+import com.dana.puzzle.Ads;
+import com.dana.puzzle.BaseActivity;
+import com.dana.puzzle.Constants;
+import com.dana.puzzle.R;
+import com.dana.puzzle.databinding.ActivityMainBinding;
+import com.dana.puzzle.tool.PreferenceUtills;
+import com.dana.puzzle.tool.Utility;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collections;
 
-public class MainActivity extends AppCompatActivity implements ImageAdapter.IcallBack, View.OnClickListener, Ads.IRewardAdListner {
+public class SoloPlayerImageListActivity extends BaseActivity implements ImageAdapter.IcallBack, Ads.IRewardAdListner {
     static final int REQUEST_PERMISSION_READ_EXTERNAL_STORAGE = 3;
     static final int REQUEST_IMAGE_GALLERY = 4;
 
-    Ads inappAds;
-
     String[] files;
 
-    GridView grid;
-
+    ActivityMainBinding binding;
     ImageAdapter imageAdapter;
-
-    ImageView iv_share,iv_feedback,iv_music,iv_history;
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        binding= DataBindingUtil.setContentView(this,R.layout.activity_main);
         init();
         getFiles();
     }
@@ -65,31 +54,10 @@ public class MainActivity extends AppCompatActivity implements ImageAdapter.Ical
 
     @SuppressLint("UseCompatLoadingForDrawables")
     private void init() {
-        grid = findViewById(R.id.grid);
         imageAdapter=new ImageAdapter(null,this,this);
-        grid.setAdapter(imageAdapter);
-
-        iv_share=findViewById(R.id.iv_share);
-        iv_feedback=findViewById(R.id.iv_feedback);
-        iv_share.setOnClickListener(this);
-        iv_feedback.setOnClickListener(this);
-        iv_music=findViewById(R.id.iv_music);
-        iv_music.setOnClickListener(this);
-        iv_history=findViewById(R.id.iv_history);
-        iv_history.setOnClickListener(this);
-        inappAds=new Ads();
+        binding.grid.setAdapter(imageAdapter);
     }
 
-    @SuppressLint("UseCompatLoadingForDrawables")
-    private void setMusicIcon() {
-        if (PreferenceUtills.getInstance(this).getBoolean(Constants.music))
-        {
-            iv_music.setImageDrawable(getResources().getDrawable(R.drawable.ic_volume_on));
-        }else
-        {
-            iv_music.setImageDrawable(getResources().getDrawable(R.drawable.ic_volume_off));
-        }
-    }
 
 
     @Override
@@ -98,7 +66,7 @@ public class MainActivity extends AppCompatActivity implements ImageAdapter.Ical
 
         if (requestCode == REQUEST_IMAGE_GALLERY && resultCode == RESULT_OK) {
             Uri uri = data.getData();
-            Intent intent = new Intent(this, SelectionActivity.class);
+            Intent intent = new Intent(this, SelectionPeicesSoloActivity.class);
             if (uri != null) {
                 intent.putExtra("mCurrentPhotoUri", uri.toString());
                 startActivity(intent);
@@ -172,79 +140,15 @@ public class MainActivity extends AppCompatActivity implements ImageAdapter.Ical
     @Override
     public void onClickImageAdapterItem(String name) {
         Log.e("name",name);
-        Intent intent = new Intent(this, SelectionActivity.class);
+        Intent intent = new Intent(this,SelectionPeicesSoloActivity.class);
         intent.putExtra(Constants.ASSET_NAME, name);
         startActivity(intent);
     }
 
 
     @Override
-    public void onClick(View view) {
-        if (view.getId()==R.id.iv_share)
-        {
-            Utility.bounce(view,null);
-            Utility.shareApp(this,"");
-        }
-        else  if (view.getId()==R.id.iv_history)
-        {
-            Utility.bounce(view,null);
-            startActivity(new Intent(this, HistoryActivity.class));
-        }
-
-      else  if (view.getId()==R.id.iv_feedback)
-        {
-            Utility.bounce(view,null);
-            Utility.ContactsUs(this);
-        } else if (view.getId()==R.id.iv_music)
-        {
-            Utility.bounce(view,null);
-            if (PreferenceUtills.getInstance(this).getBoolean(Constants.music))
-            {
-                PreferenceUtills.getInstance(this).setboolean(Constants.music,false);
-                stopService();
-
-            }else
-            {
-                PreferenceUtills.getInstance(this).setboolean(Constants.music,true);
-                startService();
-
-            }
-            setMusicIcon();
-
-
-        }
-    }
-
-
-
-
-    boolean doubleBackToExitPressedOnce = false;
-
-    @Override
-    public void onBackPressed() {
-        if (doubleBackToExitPressedOnce) {
-            super.onBackPressed();
-            return;
-        }
-
-        this.doubleBackToExitPressedOnce = true;
-        Toast.makeText(this, getString(R.string.clickAgainBack), Toast.LENGTH_SHORT).show();
-
-        new Handler().postDelayed(new Runnable() {
-
-            @Override
-            public void run() {
-                doubleBackToExitPressedOnce=false;
-            }
-        }, 2000);
-    }
-
-
-    @Override
     protected void onResume() {
-        setMusicIcon();
-        AdView adView=findViewById(R.id.adView_banner);
-       inappAds.googleBannerAd(adView);
+       showBannerAd();
         super.onResume();
     }
 
@@ -267,40 +171,5 @@ public class MainActivity extends AppCompatActivity implements ImageAdapter.Ical
 
     }
 
-
-    @Override
-    protected void onDestroy() {
-        stopService();
-        super.onDestroy();
-    }
-
-    @Override
-    protected void onStart() {
-        startService();
-        super.onStart();
-    }
-
-    @Override
-    protected void onPause() {
-        stopService();
-        super.onPause();
-    }
-
-
-    public void startService() {
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                if (PreferenceUtills.getInstance(getApplicationContext()).getBoolean(Constants.music))
-                  startService(new Intent(getBaseContext(), MediaPlayerService.class));
-            }
-        },1000);
-
-    }
-
-
-    public void stopService() {
-        stopService(new Intent(getBaseContext(), MediaPlayerService.class));
-    }
 
 }

@@ -1,11 +1,9 @@
-package com.dana.puzzle;
+package com.dana.puzzle.tool;
 
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.ActivityInfo;
 import android.content.res.AssetManager;
-import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
@@ -24,16 +22,17 @@ import android.view.WindowManager;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.view.animation.LinearInterpolator;
 
-import com.dana.puzzle.game.Constants;
+import com.dana.puzzle.PuzzleApplication;
+import com.dana.puzzle.R;
+import com.dana.puzzle.Constants;
 import com.dana.puzzle.game.PuzzlePiece;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
-import java.util.Collections;
 import java.util.Date;
 import java.util.Locale;
 
@@ -223,6 +222,17 @@ public class Utility {
 
         Log.e("bounce","in");
 
+    }
+
+
+    public  static void showBlinkAnimation(View view)
+    {
+        Animation animation = new AlphaAnimation(1, 0); //to change visibility from visible to invisible
+        animation.setDuration(1000); //1 second duration for each animation cycle
+        animation.setInterpolator(new LinearInterpolator());
+        animation.setRepeatCount(Animation.INFINITE); //repeating indefinitely
+        animation.setRepeatMode(Animation.REVERSE); //animation will start from end point once ended.
+        view.startAnimation(animation);
     }
 
 

@@ -35,4 +35,10 @@
     <string name="solo">SoloPlayer</string>
     <string name="start">Start Game</string>
     <string name="you">you</string>
+    <string name="vs">VS</string>
+    <string name="opponent">Opponent</string>
+    <string name="finding">Finding....</string>
+    <string name="_0">0</string>
+    <string name="no_net_title">Network</string>
+    <string name="play_again">Play Again</string>
 </resources>

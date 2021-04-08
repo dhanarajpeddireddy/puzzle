@@ -9,7 +9,7 @@
 
         <variable
             name="Onclick"
-            type="com.dana.puzzle.OnClickListner" />
+            type="com.dana.puzzle.tool.OnClickListner" />
 
     </data>
 

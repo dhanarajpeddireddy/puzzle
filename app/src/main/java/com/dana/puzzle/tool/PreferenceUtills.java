@@ -1,4 +1,4 @@
-package com.dana.puzzle;
+package com.dana.puzzle.tool;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -6,7 +6,7 @@ import android.content.SharedPreferences;
 import android.os.Build;
 import android.util.Log;
 
-import com.dana.puzzle.game.Constants;
+import com.dana.puzzle.Constants;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;

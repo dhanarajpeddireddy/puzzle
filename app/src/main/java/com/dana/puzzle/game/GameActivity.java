@@ -16,26 +16,24 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 import android.widget.Toast;
-
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-
+import androidx.databinding.DataBindingUtil;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.DataSource;
 import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
 import com.dana.puzzle.Ads;
-import com.dana.puzzle.GameCompletedActivity;
-import com.dana.puzzle.MediaPlayerService;
-import com.dana.puzzle.PreferenceUtills;
+import com.dana.puzzle.BaseActivity;
+import com.dana.puzzle.Constants;
 import com.dana.puzzle.R;
-import com.dana.puzzle.Utility;
 import com.dana.puzzle.database.GameBeen;
+import com.dana.puzzle.databinding.ActivityPuzzleBinding;
+import com.dana.puzzle.tool.OnClickListner;
+import com.dana.puzzle.tool.PreferenceUtills;
+import com.dana.puzzle.tool.Utility;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -43,7 +41,7 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.Random;
 
-public class PuzzleActivity extends AppCompatActivity implements TouchListener.IlistnerBack, RequestListener<Drawable>, View.OnClickListener, Ads.IRewardAdListner {
+public class GameActivity extends BaseActivity implements TouchListener.IlistnerBack, RequestListener<Drawable>, View.OnClickListener, Ads.IRewardAdListner, OnClickListner {
     ArrayList<PuzzlePiece> pieces;
 
     String mCurrentPhotoUri;
@@ -51,14 +49,6 @@ public class PuzzleActivity extends AppCompatActivity implements TouchListener.I
     int peiceSize;
 
     Bitmap scaledBitmap;
-
-    ImageView imageView, iv_shuffle, iv_preview,iv_qlue,iv_music;
-
-    TextView tv_timer;
-
-    RelativeLayout layout;
-
-    Ads inappAds;
 
     long startTime;
 
@@ -81,25 +71,25 @@ public class PuzzleActivity extends AppCompatActivity implements TouchListener.I
 
     TouchListener touchListener;
 
+    ActivityPuzzleBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_puzzle);
+        binding= DataBindingUtil.setContentView(this,R.layout.activity_puzzle);
+        binding.setOnclick(this);
 
         init();
 
         getIntentData();
 
-
-        final ViewTreeObserver obs = imageView.getViewTreeObserver();
-        obs.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+       binding.gameLayout.imageView .getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @SuppressLint("ClickableViewAccessibility")
             @Override
             public void onGlobalLayout() {
                 if (widthCheck) {
-                    widthFinal = imageView.getWidth();
-                    heightFinal = imageView.getHeight();
+                    widthFinal = binding.gameLayout.imageView .getWidth();
+                    heightFinal = binding.gameLayout.imageView.getHeight();
 
                     setImage();
 
@@ -140,8 +130,8 @@ public class PuzzleActivity extends AppCompatActivity implements TouchListener.I
                         "%d hours, %d minutes, %d seconds%n",
                          elapsedHours, elapsedMinutes, elapsedSeconds);
 
-               tv_timer.setText(String.format("%02d", elapsedHours)+" : "
-                       +String.format("%02d", elapsedMinutes)+" : "
+        binding.tvTimer.setText(String.format("%02d", elapsedHours)+":"
+                       +String.format("%02d", elapsedMinutes)+":"
                        +String.format("%02d", elapsedSeconds));
 
     }
@@ -161,40 +151,22 @@ public class PuzzleActivity extends AppCompatActivity implements TouchListener.I
                     .load(Uri.parse(path))
                     .placeholder(R.drawable.spalsh2)
                     .listener(this)
-                    .into(imageView);
+                    .into( binding.gameLayout.imageView);
         }
 
     }
 
     private void init() {
         startTime=new Date().getTime();
-        layout = findViewById(R.id.layout);
-        tv_timer=findViewById(R.id.tv_timer);
-        imageView = findViewById(R.id.imageView);
-        iv_shuffle = findViewById(R.id.iv_shuffle);
-        iv_shuffle.setOnClickListener(this);
-        iv_preview = findViewById(R.id.iv_preview);
-        iv_preview.setOnClickListener(this);
-        iv_qlue = findViewById(R.id.iv_qlue);
-        iv_qlue.setOnClickListener(this);
-        iv_music=findViewById(R.id.iv_music);
-        iv_music.setOnClickListener(this);
         touchListener = new TouchListener(this);
-        inappAds=new Ads();
         timer.postDelayed(timeCaluculter,0);
-
     }
 
 
     @SuppressLint("UseCompatLoadingForDrawables")
     private void setMusicIcon() {
-        if (PreferenceUtills.getInstance(this).getBoolean(Constants.music))
-        {
-            iv_music.setImageDrawable(getResources().getDrawable(R.drawable.ic_volume_on));
-        }else
-        {
-            iv_music.setImageDrawable(getResources().getDrawable(R.drawable.ic_volume_off));
-        }
+        binding.menuLayout.ivMusic.setImageDrawable(PreferenceUtills.getInstance(this).getBoolean(Constants.music)
+                ?getResources().getDrawable(R.drawable.ic_music):getResources().getDrawable(R.drawable.ic_mute) );
     }
 
 
@@ -239,7 +211,7 @@ public class PuzzleActivity extends AppCompatActivity implements TouchListener.I
                     gameBeen.setPhotoUri(mCurrentPhotoUri);
                     gameBeen.setAssetName(assetName);
 
-                    startActivity(new Intent(PuzzleActivity.this, GameCompletedActivity.class)
+                    startActivity(new Intent(GameActivity.this, GameCompletedActivity.class)
                            .putExtra(Constants.acheive, gameBeen));
 
                     finish();
@@ -262,9 +234,9 @@ public class PuzzleActivity extends AppCompatActivity implements TouchListener.I
     @Override
     public void pieceTouched() {
 
-        if (imageView.getVisibility() == View.VISIBLE) {
-            iv_preview.setImageDrawable(getResources().getDrawable(R.drawable.ic_baseline_visibility_off_24));
-            imageView.setVisibility(View.INVISIBLE);
+        if (binding.gameLayout.imageView.getVisibility() == View.VISIBLE) {
+            binding.menuLayout.ivPreview.setImageDrawable(getResources().getDrawable(R.drawable.ic_visibility_off));
+            binding.gameLayout.imageView.setVisibility(View.INVISIBLE);
         }
 
     }
@@ -292,7 +264,7 @@ public class PuzzleActivity extends AppCompatActivity implements TouchListener.I
 
             scaledBitmap = Bitmap.createScaledBitmap(re, widthFinal, heightFinal, true);
 
-            pieces = Utility.splitImage(PuzzleActivity.this, imageView, scaledBitmap, peiceSize);
+            pieces = Utility.splitImage(GameActivity.this, binding.gameLayout.imageView, scaledBitmap, peiceSize);
 
             widthCheck = false;
 
@@ -318,14 +290,14 @@ public class PuzzleActivity extends AppCompatActivity implements TouchListener.I
 
                 Log.e("peicex : ", piece.pieceHeight + " : " + piece.pieceWidth
                         + " : " + piece.xCoord + " : " + piece.yCoord);
-                layout.addView(piece);
+                binding.gameLayout.layout.addView(piece);
                 RelativeLayout.LayoutParams lParams = (RelativeLayout.LayoutParams) piece.getLayoutParams();
                 if (pieces.indexOf(piece)<=pieces.size()/2)
-                lParams.leftMargin = (layout.getWidth() - piece.pieceWidth);
+                lParams.leftMargin = (binding.gameLayout.layout.getWidth() - piece.pieceWidth);
                 else
                     lParams.leftMargin = 5;
 
-                lParams.topMargin = new Random().nextInt(layout.getHeight() - piece.pieceHeight);
+                lParams.topMargin = new Random().nextInt(binding.gameLayout.layout.getHeight() - piece.pieceHeight);
                 piece.setLayoutParams(lParams);
             }
         }
@@ -336,17 +308,29 @@ public class PuzzleActivity extends AppCompatActivity implements TouchListener.I
     @SuppressLint("UseCompatLoadingForDrawables")
     @Override
     public void onClick(View view) {
-        if (view.getId() == R.id.iv_preview) {
+        if (view.getId()==R.id.iv_menu)
+        {
+            Utility.bounce(view,null);
+            binding.menuLayout.drawerLayout.setVisibility(View.VISIBLE);
+            binding.menuLayout.drawerLayout.animate().setDuration(160).start();
+        } else if (view.getId()==R.id.iv_back)
+        {
+            Utility.bounce(view,null);
+            binding.menuLayout.drawerLayout.setVisibility(View.GONE);
+        }
+
+
+        else if (view.getId() == R.id.iv_preview) {
             Utility.bounce(view,null);
 
-            if (imageView.getVisibility() == View.VISIBLE) {
-                iv_preview.setImageDrawable(getResources().getDrawable(R.drawable.ic_baseline_visibility_off_24));
-                imageView.setVisibility(View.INVISIBLE);
+            if (binding.gameLayout.imageView.getVisibility() == View.VISIBLE) {
+                binding.menuLayout.ivPreview.setImageDrawable(getResources().getDrawable(R.drawable.ic_visibility_off));
+                binding.gameLayout.imageView.setVisibility(View.INVISIBLE);
             }
 
             else if (PreferenceUtills.getInstance(this).IsValidDateByKey(Constants.PUZZLE_PREVIEW_REWARD_WATCHED_DATE)) {
-                    iv_preview.setImageDrawable(getResources().getDrawable(R.drawable.ic_baseline_visibility_24));
-                    imageView.setVisibility(View.VISIBLE);
+                binding.menuLayout.ivPreview.setImageDrawable(getResources().getDrawable(R.drawable.ic_visible));
+                binding.gameLayout.imageView.setVisibility(View.VISIBLE);
             }
             else popupForReward(getString(R.string.puzzle_preview),getString(R.string.preview_message),Constants.PUZZLE_PREVIEW_REWARD_WATCHED_DATE);
 
@@ -375,15 +359,14 @@ public class PuzzleActivity extends AppCompatActivity implements TouchListener.I
             {
                 PreferenceUtills.getInstance(this).setboolean(Constants.music,false);
                 stopService();
-                setMusicIcon();
 
             }else
             {
                 PreferenceUtills.getInstance(this).setboolean(Constants.music,true);
                 startService();
-                setMusicIcon();
 
             }
+            setMusicIcon();
 
 
         }
@@ -391,13 +374,13 @@ public class PuzzleActivity extends AppCompatActivity implements TouchListener.I
 
     @SuppressLint("UseCompatLoadingForDrawables")
     private void giveQlue() {
-        if (imageView.getVisibility() == View.VISIBLE) {
-            iv_preview.setImageDrawable(getResources().getDrawable(R.drawable.ic_baseline_visibility_off_24));
-            imageView.setVisibility(View.INVISIBLE);
+        if ( binding.gameLayout.imageView.getVisibility() == View.VISIBLE) {
+            binding.menuLayout.ivPreview.setImageDrawable(getResources().getDrawable(R.drawable.ic_visibility_off));
+            binding.gameLayout.imageView.setVisibility(View.INVISIBLE);
         }
 
-        if (pieces!=null && pieces.size()>0&& pieces.get(0).canMove)
-           pieceMatched(pieces.get(0));
+        if (pieces!=null && pieces.size()>0)
+           pieceMatched(pieces.get(new Random().nextInt(pieces.size())));
     }
 
 
@@ -482,37 +465,12 @@ public class PuzzleActivity extends AppCompatActivity implements TouchListener.I
     @Override
     protected void onDestroy() {
        stopTimer();
-        stopService();
         super.onDestroy();
     }
 
-    @Override
-    protected void onStart() {
-        startService();
-        super.onStart();
-    }
-
-    @Override
-    protected void onPause() {
-        stopService();
-        super.onPause();
-    }
 
 
-    public void startService() {
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                if (PreferenceUtills.getInstance(getApplicationContext()).getBoolean(Constants.music))
-                    startService(new Intent(getBaseContext(), MediaPlayerService.class));
-            }
-        },1000);
 
-    }
-
-    public void stopService() {
-        stopService(new Intent(getBaseContext(), MediaPlayerService.class));
-    }
 
 
     private void stopTimer() {
@@ -528,8 +486,7 @@ public class PuzzleActivity extends AppCompatActivity implements TouchListener.I
     @Override
     protected void onResume() {
 
-       // AdView adView=findViewById(R.id.adView_banner);
-       // inappAds.googleBannerAd(adView);
+        showBannerAd();
 
         setMusicIcon();
         new Handler().postDelayed(new Runnable() {

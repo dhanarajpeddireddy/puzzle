@@ -1,4 +1,4 @@
-package com.dana.puzzle;
+package com.dana.puzzle.tool;
 
 import android.graphics.Paint;
 import android.graphics.Rect;

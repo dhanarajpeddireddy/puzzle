@@ -1,8 +1,7 @@
-package com.dana.puzzle;
+package com.dana.puzzle.game;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,7 +10,9 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
-import com.dana.puzzle.game.Constants;
+import com.dana.puzzle.Constants;
+import com.dana.puzzle.R;
+import com.dana.puzzle.tool.Utility;
 
 public class ImageAdapter extends BaseAdapter {
 
@@ -20,7 +21,7 @@ public class ImageAdapter extends BaseAdapter {
         notifyDataSetChanged();
     }
 
-    interface IcallBack
+   public interface IcallBack
     {
         void onClickImageAdapterItem(String name);
     }
@@ -59,7 +60,7 @@ public class ImageAdapter extends BaseAdapter {
 
         final ImageView imageView = convertView.findViewById(R.id.gridImageview);
         Glide.with(mContext)
-                .load(Uri.parse("file:///android_asset/"+Constants.ASSET_FOLDER_NAME+"/"+files[position]))
+                .load(Uri.parse("file:///android_asset/"+ Constants.ASSET_FOLDER_NAME+"/"+files[position]))
                 .placeholder(R.drawable.spalsh2)
                 .into(imageView);
 

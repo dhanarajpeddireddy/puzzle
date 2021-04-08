@@ -5,6 +5,7 @@
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission
         android:name="android.permission.WRITE_EXTERNAL_STORAGE"
         tools:ignore="ScopedStorage" />
@@ -20,19 +21,36 @@
         android:theme="@style/AppTheme"
         tools:ignore="AllowBackup"
         tools:targetApi="lollipop">
-
-        <activity android:name=".game.MultiPuzzleActivity"
+        <activity android:name=".multiplay.MultyGameCompletedActivity"
             android:configChanges="orientation|screenSize|screenLayout|keyboardHidden"
             android:resizeableActivity="false"
             android:screenOrientation="sensorLandscape"
             tools:targetApi="n" />
-
-        <activity android:name=".SelectionPeicesActivity"
+        <activity android:name=".BaseActivity" />
+        <activity
+            android:name=".game.SelectionPeicesSoloActivity"
             android:configChanges="orientation|screenSize|screenLayout|keyboardHidden"
             android:resizeableActivity="false"
             android:screenOrientation="sensorLandscape"
             tools:targetApi="n" />
-        <activity android:name=".MatchPlayerActivity" />
+        <activity
+            android:name=".multiplay.MultiGameActivity"
+            android:configChanges="orientation|screenSize|screenLayout|keyboardHidden"
+            android:resizeableActivity="false"
+            android:screenOrientation="sensorLandscape"
+            tools:targetApi="n" />
+        <activity
+            android:name=".multiplay.SelectionPeicesActivity"
+            android:configChanges="orientation|screenSize|screenLayout|keyboardHidden"
+            android:resizeableActivity="false"
+            android:screenOrientation="sensorLandscape"
+            tools:targetApi="n" />
+        <activity
+            android:name=".multiplay.MatchPlayerActivity"
+            android:configChanges="orientation|screenSize|screenLayout|keyboardHidden"
+            android:resizeableActivity="false"
+            android:screenOrientation="sensorLandscape"
+            tools:targetApi="n" />
         <activity
             android:name=".HomeActivity"
             android:configChanges="orientation|screenSize|screenLayout|keyboardHidden"
@@ -46,13 +64,7 @@
             android:screenOrientation="sensorLandscape"
             tools:targetApi="n" />
         <activity
-            android:name=".GameCompletedActivity"
-            android:configChanges="orientation|screenSize|screenLayout|keyboardHidden"
-            android:resizeableActivity="false"
-            android:screenOrientation="sensorLandscape"
-            tools:targetApi="n" />
-        <activity
-            android:name=".SelectionActivity"
+            android:name=".game.GameCompletedActivity"
             android:configChanges="orientation|screenSize|screenLayout|keyboardHidden"
             android:resizeableActivity="false"
             android:screenOrientation="sensorLandscape"
@@ -69,13 +81,13 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".MainActivity"
+            android:name=".game.SoloPlayerImageListActivity"
             android:configChanges="orientation|screenSize|screenLayout|keyboardHidden"
             android:resizeableActivity="false"
             android:screenOrientation="sensorLandscape"
             tools:targetApi="n" />
         <activity
-            android:name=".game.PuzzleActivity"
+            android:name=".game.GameActivity"
             android:configChanges="orientation|screenSize|screenLayout|keyboardHidden"
             android:resizeableActivity="false"
             android:screenOrientation="sensorLandscape"
@@ -86,6 +98,19 @@
             android:enabled="true"
             android:exported="false"
             android:permission="true" />
+
+
+        <receiver
+            android:name=".tool.NetworkStateReceiver"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action
+                    android:name="android.net.conn.CONNECTIVITY_CHANGE"
+                    tools:ignore="BatteryLife" />
+                <action android:name="android.net.wifi.WIFI_STATE_CHANGED" />
+            </intent-filter>
+        </receiver>
 
         <provider
             android:name="androidx.core.content.FileProvider"

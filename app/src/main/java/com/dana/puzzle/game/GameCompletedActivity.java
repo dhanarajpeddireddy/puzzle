@@ -1,48 +1,38 @@
-package com.dana.puzzle;
+package com.dana.puzzle.game;
 
 import android.annotation.SuppressLint;
-import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Handler;
 import android.util.Log;
 import android.view.View;
-
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
-
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.DataSource;
 import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
+import com.dana.puzzle.Ads;
+import com.dana.puzzle.BaseActivity;
+import com.dana.puzzle.Constants;
+import com.dana.puzzle.R;
 import com.dana.puzzle.database.GameBeen;
 import com.dana.puzzle.database.InsertGameBeenAsync;
 import com.dana.puzzle.databinding.ActivityGameCompletedBinding;
-import com.dana.puzzle.game.Constants;
-import com.google.android.gms.ads.AdView;
+import com.dana.puzzle.tool.OnClickListner;
+import com.dana.puzzle.tool.Utility;
 
-public class GameCompletedActivity extends AppCompatActivity implements OnClickListner, RequestListener<Drawable>
+public class GameCompletedActivity extends BaseActivity implements OnClickListner, RequestListener<Drawable>
 , InsertGameBeenAsync.IInsertAcheivement{
 
-ActivityGameCompletedBinding binding;
-
-
-
-
-    Ads inappAds;
-
+   ActivityGameCompletedBinding binding;
     GameBeen gameBeen;
-
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding= DataBindingUtil.setContentView(this,R.layout.activity_game_completed);
+        binding= DataBindingUtil.setContentView(this, R.layout.activity_game_completed);
         binding.setOnclick(this);
         init();
         getIntentData();
@@ -86,7 +76,7 @@ ActivityGameCompletedBinding binding;
         {
             String path = null;
             if (gameBeen.getAssetName() != null) {
-                path="file:///android_asset/"+Constants.ASSET_FOLDER_NAME+"/"+ gameBeen.getAssetName();
+                path="file:///android_asset/"+ Constants.ASSET_FOLDER_NAME+"/"+ gameBeen.getAssetName();
 
             }  else if (gameBeen.getPhotoUri() != null) {
                 path= gameBeen.getPhotoUri();
@@ -135,8 +125,7 @@ ActivityGameCompletedBinding binding;
 
     @Override
     protected void onResume() {
-        AdView adView=findViewById(R.id.adView_banner);
-        inappAds.googleBannerAd(adView);
+        showBannerAd();
         super.onResume();
     }
 
@@ -152,41 +141,5 @@ ActivityGameCompletedBinding binding;
 
 
 
-
-
-    @Override
-    protected void onDestroy() {
-        stopService();
-        super.onDestroy();
-    }
-
-    @Override
-    protected void onStart() {
-        startService();
-        super.onStart();
-    }
-
-    @Override
-    protected void onPause() {
-        stopService();
-        super.onPause();
-    }
-
-
-    public void startService() {
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                if (PreferenceUtills.getInstance(getApplicationContext()).getBoolean(Constants.music))
-                    startService(new Intent(getBaseContext(), MediaPlayerService.class));
-            }
-        },1000);
-
-    }
-
-
-    public void stopService() {
-        stopService(new Intent(getBaseContext(), MediaPlayerService.class));
-    }
 
 }

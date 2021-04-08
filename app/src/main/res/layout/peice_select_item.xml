@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+    </data>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cv_piece"
+        android:layout_margin="20dp"
+        app:cardCornerRadius="8dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@color/gnt_white">
+
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:ignore="UseCompoundDrawables">
+
+
+            <ImageView
+                android:id="@+id/iv_puzzle"
+                android:layout_margin="8dp"
+                android:rotation="30"
+                android:src="@drawable/ic_plugin"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                tools:ignore="ContentDescription" />
+
+
+            <TextView
+                android:id="@+id/tv_peice"
+                android:gravity="center"
+                android:textSize="28sp"
+                android:textColor="@color/gnt_white"
+                android:textStyle="bold"
+                android:background="@drawable/button_bg"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+
+        </LinearLayout>
+
+
+    </androidx.cardview.widget.CardView>
+</layout>

@@ -8,7 +8,7 @@
 
         <variable
             name="Onclick"
-            type="com.dana.puzzle.OnClickListner" />
+            type="com.dana.puzzle.tool.OnClickListner" />
 
     </data>
     <LinearLayout
@@ -18,135 +18,38 @@
         tools:context=".HomeActivity"
         android:orientation="vertical">
 
-        <include layout="@layout/banne_ad_layout"/>
 
         <LinearLayout
-            android:gravity="center"
-            android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="50dp">
+            <include layout="@layout/banne_ad_layout"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
 
-            <androidx.cardview.widget.CardView
-                android:onClick="@{(v) ->Onclick.onClick(v)}"
-                android:id="@+id/cv_multi"
-                android:layout_margin="8dp"
-                app:cardCornerRadius="8dp"
-                android:elevation="8dp"
-                android:layout_width="wrap_content"
+            <TextView
+                android:textAllCaps="true"
+                android:layout_marginStart="20dp"
+                android:textColor="@color/gnt_white"
+                android:text="@string/select_peices"
+                android:textSize="18sp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                tools:ignore="UnusedAttribute">
+                android:layout_marginLeft="20dp" />
 
-
-                <LinearLayout
-                    android:orientation="vertical"
-                    android:background="@color/gnt_white"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
-
-
-                    <TextView
-                        android:textAllCaps="true"
-                        android:textStyle="bold"
-                        android:textSize="20sp"
-                        android:textColor="@color/gnt_black"
-                        android:gravity="center"
-                        android:text="@string/select_peices"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"/>
-
-
-                    <LinearLayout
-                        android:layout_margin="8dp"
-                        android:orientation="horizontal"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content">
-
-                        <CheckBox
-                            android:text="16p"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"/>
-
-
-                        <CheckBox
-                            android:text="25p"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"/>
-
-
-                        <CheckBox
-                            android:text="36p"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"/>
-
-                    </LinearLayout>
-
-
-
-                    <LinearLayout
-                        android:layout_margin="8dp"
-                        android:orientation="horizontal"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content">
-
-                        <CheckBox
-                            android:text="49p"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"/>
-
-
-                        <CheckBox
-                            android:text="64p"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"/>
-
-
-                        <CheckBox
-                            android:text="81p"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"/>
-
-                    </LinearLayout>
-
-
-                    <LinearLayout
-                        android:layout_margin="8dp"
-                        android:orientation="horizontal"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content">
-
-                        <CheckBox
-                            android:text="100p"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"/>
-
-
-
-                    </LinearLayout>
-
-
-                    <TextView
-                        android:textAllCaps="true"
-                        android:padding="8dp"
-                        android:textStyle="bold"
-                        android:textSize="20sp"
-                        android:textColor="@color/gnt_white"
-                        android:background="@color/colorAccent"
-                        android:gravity="center"
-                        android:text="@string/start"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"/>
-
-
-                </LinearLayout>
-
-
-            </androidx.cardview.widget.CardView>
-
-
-
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_peices"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
 
 
         </LinearLayout>
+
+
     </LinearLayout>
 </layout>

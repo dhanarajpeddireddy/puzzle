@@ -4,7 +4,6 @@ import android.annotation.SuppressLint;
 import android.net.Uri;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
@@ -16,7 +15,7 @@ import com.dana.puzzle.PuzzleApplication;
 import com.dana.puzzle.R;
 import com.dana.puzzle.database.GameBeen;
 import com.dana.puzzle.databinding.HistoryItemBinding;
-import com.dana.puzzle.game.Constants;
+import com.dana.puzzle.Constants;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -61,6 +60,8 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.HistoryA
         holder.historyItemBinding.tvDate.setText(gameBeen.date);
         holder.historyItemBinding.tvPieces.setText(gameBeen.numberOfPieces
                 +" "+PuzzleApplication.getContext().getString(R.string.peices));
+
+        holder.historyItemBinding.tvTime.setText("");
 
         if (gameBeen.getHours()!=0)
             holder.historyItemBinding.tvTime.append(gameBeen.getHours()+" Hours ");

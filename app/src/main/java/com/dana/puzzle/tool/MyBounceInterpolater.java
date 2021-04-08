@@ -1,4 +1,4 @@
-package com.dana.puzzle;
+package com.dana.puzzle.tool;
 
 public class MyBounceInterpolater implements android.view.animation.Interpolator {
     private double mAmplitude = 1;
