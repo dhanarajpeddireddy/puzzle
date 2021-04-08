@@ -2,11 +2,9 @@ package com.dana.puzzle.multiplay;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Bitmap;
-import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
@@ -17,7 +15,6 @@ import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
-import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -31,18 +28,14 @@ import com.bumptech.glide.request.target.Target;
 import com.dana.puzzle.BaseActivity;
 import com.dana.puzzle.Constants;
 import com.dana.puzzle.R;
-import com.dana.puzzle.database.GameBeen;
 import com.dana.puzzle.databinding.ActivityMultyPuzzleBinding;
-import com.dana.puzzle.game.GameCompletedActivity;
 import com.dana.puzzle.game.PuzzlePiece;
 import com.dana.puzzle.game.TouchListener;
 import com.dana.puzzle.tool.NetworkStateReceiver;
 import com.dana.puzzle.tool.OnClickListner;
 import com.dana.puzzle.tool.PreferenceUtills;
 import com.dana.puzzle.tool.Utility;
-
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Collections;
 import java.util.Random;
 
