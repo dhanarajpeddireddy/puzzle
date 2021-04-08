@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:bind="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <import type="android.view.View"/>
+
+        <variable
+            name="onclick"
+            type="com.dana.puzzle.tool.OnClickListner" />
+
+    </data>
+<LinearLayout
+    android:background="@color/black_overlay"
+    android:onClick="@{(v) ->onclick.onClick(v)}"
+    android:visibility="gone"
+    android:orientation="vertical"
+    android:id="@+id/drawer_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:openDrawer="start" >
+
+
+    <ScrollView
+        android:scrollbars="none"
+        android:layout_gravity="end"
+        android:background="@color/gnt_white"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        tools:ignore="UselessParent">
+
+
+
+
+    <LinearLayout
+        android:layout_gravity="center"
+        android:orientation="vertical"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+
+        <ImageView
+            android:onClick="@{(v) ->onclick.onClick(v)}"
+            android:id="@+id/iv_back"
+            android:rotation="180"
+            android:src="@drawable/ic_previous"
+            style="@style/menu_iv_style"
+            tools:ignore="ContentDescription" />
+
+
+        <ImageView
+            android:onClick="@{(v) ->onclick.onClick(v)}"
+            android:id="@+id/iv_music"
+            android:src="@drawable/ic_music"
+            style="@style/menu_iv_style"
+            tools:ignore="ContentDescription" />
+
+
+
+        <ImageView
+            android:onClick="@{(v) ->onclick.onClick(v)}"
+            android:id="@+id/iv_shuffle"
+            android:src="@drawable/ic_shuffle"
+           style="@style/menu_iv_style"
+            tools:ignore="ContentDescription" />
+
+
+
+        <ImageView
+            android:onClick="@{(v) ->onclick.onClick(v)}"
+            android:id="@+id/iv_preview"
+            android:src="@drawable/ic_visible"
+           style="@style/menu_iv_style"
+            tools:ignore="ContentDescription" />
+
+
+
+        <ImageView
+            android:onClick="@{(v) ->onclick.onClick(v)}"
+            android:id="@+id/iv_qlue"
+            android:src="@drawable/ic_qlue"
+            style="@style/menu_iv_style"
+            tools:ignore="ContentDescription" />
+
+
+
+    </LinearLayout>
+
+
+
+    </ScrollView>
+
+
+
+</LinearLayout>
+</layout>

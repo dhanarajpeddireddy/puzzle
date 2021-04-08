@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">puzzle</string>
-    <string name="select_peices">Number Of Peices</string>
+    <string name="select_peices">Select Peices</string>
     <string name="play">Play</string>
     <string name="share">Share</string>
     <string name="puzzleDone">PUZZLE DONE !</string>
@@ -31,4 +31,14 @@
     <string name="peices">Peices</string>
     <string name="no_history_msg">"Hey , Complete Game AND COME BACK FOR HISTORY ! "</string>
     <string name="back">Back</string>
+    <string name="multiPlayer">MultiPlayer</string>
+    <string name="solo">SoloPlayer</string>
+    <string name="start">Start Game</string>
+    <string name="you">you</string>
+    <string name="vs">VS</string>
+    <string name="opponent">Opponent</string>
+    <string name="finding">Finding....</string>
+    <string name="_0">0</string>
+    <string name="no_net_title">Network</string>
+    <string name="play_again">Play Again</string>
 </resources>

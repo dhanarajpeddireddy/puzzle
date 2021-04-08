@@ -1,29 +1,26 @@
 package com.dana.puzzle.history;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.databinding.DataBindingUtil;
-import androidx.recyclerview.widget.LinearLayoutManager;
-
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 
+import androidx.databinding.DataBindingUtil;
+import androidx.recyclerview.widget.LinearLayoutManager;
+
 import com.dana.puzzle.Ads;
+import com.dana.puzzle.BaseActivity;
 import com.dana.puzzle.R;
-import com.dana.puzzle.Utility;
 import com.dana.puzzle.database.GameBeen;
 import com.dana.puzzle.database.GetGameBeenAsync;
 import com.dana.puzzle.databinding.ActivityHistoryBinding;
-import com.google.android.gms.ads.AdView;
+import com.dana.puzzle.tool.Utility;
 
 import java.util.Collections;
 import java.util.List;
 
-public class HistoryActivity extends AppCompatActivity implements GetGameBeenAsync.IGettAcheivement, View.OnClickListener {
+public class HistoryActivity extends BaseActivity implements GetGameBeenAsync.IGettAcheivement, View.OnClickListener {
 
     ActivityHistoryBinding binding;
     HistoryAdapter historyAdapter;
-    Ads inappAds;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,7 +41,6 @@ public class HistoryActivity extends AppCompatActivity implements GetGameBeenAsy
     }
 
     private void init() {
-        inappAds=new Ads();
         historyAdapter=new HistoryAdapter(null);
         binding.rvGames.setLayoutManager(new LinearLayoutManager(this));
         binding.rvGames.setAdapter(historyAdapter);
@@ -81,8 +77,7 @@ public class HistoryActivity extends AppCompatActivity implements GetGameBeenAsy
 
     @Override
     protected void onResume() {
-        AdView adView=findViewById(R.id.adView_banner);
-        inappAds.googleBannerAd(adView);
+       showBannerAd();
         super.onResume();
     }
 
@@ -90,7 +85,7 @@ public class HistoryActivity extends AppCompatActivity implements GetGameBeenAsy
     public void onClick(View view) {
         if (view.getId()==R.id.iv_back)
         {
-            Utility.bounce(view);
+            Utility.bounce(view,null);
             finish();
         }
 

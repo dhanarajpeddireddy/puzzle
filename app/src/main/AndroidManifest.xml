@@ -5,6 +5,7 @@
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission
         android:name="android.permission.WRITE_EXTERNAL_STORAGE"
         tools:ignore="ScopedStorage" />
@@ -20,26 +21,57 @@
         android:theme="@style/AppTheme"
         tools:ignore="AllowBackup"
         tools:targetApi="lollipop">
-        <activity android:name=".history.HistoryActivity"
-            android:resizeableActivity="false"
+        <activity android:name=".multiplay.MultyGameCompletedActivity"
             android:configChanges="orientation|screenSize|screenLayout|keyboardHidden"
+            android:resizeableActivity="false"
+            android:screenOrientation="sensorLandscape"
+            tools:targetApi="n" />
+        <activity android:name=".BaseActivity" />
+        <activity
+            android:name=".game.SelectionPeicesSoloActivity"
+            android:configChanges="orientation|screenSize|screenLayout|keyboardHidden"
+            android:resizeableActivity="false"
             android:screenOrientation="sensorLandscape"
             tools:targetApi="n" />
         <activity
-            android:resizeableActivity="false"
-            android:name=".GameCompletedActivity"
+            android:name=".multiplay.MultiGameActivity"
             android:configChanges="orientation|screenSize|screenLayout|keyboardHidden"
+            android:resizeableActivity="false"
             android:screenOrientation="sensorLandscape"
             tools:targetApi="n" />
         <activity
-            android:resizeableActivity="false"
-            android:name=".SelectionActivity"
+            android:name=".multiplay.SelectionPeicesActivity"
             android:configChanges="orientation|screenSize|screenLayout|keyboardHidden"
+            android:resizeableActivity="false"
             android:screenOrientation="sensorLandscape"
             tools:targetApi="n" />
         <activity
+            android:name=".multiplay.MatchPlayerActivity"
+            android:configChanges="orientation|screenSize|screenLayout|keyboardHidden"
             android:resizeableActivity="false"
+            android:screenOrientation="sensorLandscape"
+            tools:targetApi="n" />
+        <activity
+            android:name=".HomeActivity"
+            android:configChanges="orientation|screenSize|screenLayout|keyboardHidden"
+            android:resizeableActivity="false"
+            android:screenOrientation="sensorLandscape"
+            tools:targetApi="n" />
+        <activity
+            android:name=".history.HistoryActivity"
+            android:configChanges="orientation|screenSize|screenLayout|keyboardHidden"
+            android:resizeableActivity="false"
+            android:screenOrientation="sensorLandscape"
+            tools:targetApi="n" />
+        <activity
+            android:name=".game.GameCompletedActivity"
+            android:configChanges="orientation|screenSize|screenLayout|keyboardHidden"
+            android:resizeableActivity="false"
+            android:screenOrientation="sensorLandscape"
+            tools:targetApi="n" />
+        <activity
             android:name=".LauncherActivity"
+            android:resizeableActivity="false"
             android:screenOrientation="sensorLandscape"
             tools:targetApi="n">
             <intent-filter>
@@ -49,23 +81,36 @@
             </intent-filter>
         </activity>
         <activity
-            android:resizeableActivity="false"
-            android:name=".MainActivity"
+            android:name=".game.SoloPlayerImageListActivity"
             android:configChanges="orientation|screenSize|screenLayout|keyboardHidden"
+            android:resizeableActivity="false"
             android:screenOrientation="sensorLandscape"
             tools:targetApi="n" />
         <activity
-            android:resizeableActivity="false"
-            android:name=".game.PuzzleActivity"
+            android:name=".game.GameActivity"
             android:configChanges="orientation|screenSize|screenLayout|keyboardHidden"
+            android:resizeableActivity="false"
             android:screenOrientation="sensorLandscape"
             tools:targetApi="n" />
 
-
-        <service android:name=".MediaPlayerService"
+        <service
+            android:name=".MediaPlayerService"
             android:enabled="true"
             android:exported="false"
             android:permission="true" />
+
+
+        <receiver
+            android:name=".tool.NetworkStateReceiver"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action
+                    android:name="android.net.conn.CONNECTIVITY_CHANGE"
+                    tools:ignore="BatteryLife" />
+                <action android:name="android.net.wifi.WIFI_STATE_CHANGED" />
+            </intent-filter>
+        </receiver>
 
         <provider
             android:name="androidx.core.content.FileProvider"

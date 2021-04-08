@@ -12,5 +12,49 @@
         <item name="android:windowContentOverlay">@null</item>
     </style>
 
+    <style name="Widget.AppTheme.ActionBar.Fullscreen" parent="Widget.AppCompat.ActionBar">
+        <item name="android:background">@color/black_overlay</item>
+    </style>
+
+    <style name="Widget.AppTheme.ButtonBar.Fullscreen" parent="">
+        <item name="android:background">@color/black_overlay</item>
+        <item name="android:buttonBarStyle">?android:attr/buttonBarStyle</item>
+    </style>
+
+
+
+    <style name="game_iv_style">
+        <item name="android:scaleType">fitXY</item>
+        <item name="android:layout_marginTop">8dp</item>
+        <item name="android:layout_marginBottom">8dp</item>
+        <item name="android:layout_marginLeft">@dimen/game_iv_marginLeft</item>
+        <item name="android:layout_marginRight">@dimen/game_iv_marginRight</item>
+        <item name="android:layout_marginStart">@dimen/game_iv_marginLeft</item>
+        <item name="android:layout_marginEnd">@dimen/game_iv_marginRight</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+    </style>
+
+
+    <style name="game_iv_inner_style">
+        <item name="android:scaleType">fitXY</item>
+        <item name="android:layout_marginTop">9dp</item>
+        <item name="android:layout_marginBottom">9dp</item>
+        <item name="android:layout_marginLeft">@dimen/game_iv_inner_marginLeft</item>
+        <item name="android:layout_marginRight">@dimen/game_iv_inner_marginRight</item>
+        <item name="android:layout_marginStart">@dimen/game_iv_inner_marginLeft</item>
+        <item name="android:layout_marginEnd">@dimen/game_iv_inner_marginRight</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+    </style>
+
+
+
+
+    <style name="menu_iv_style">
+       <item name="android:layout_margin">8dp</item>
+        <item name="android:layout_width">40dp</item>
+        <item name="android:layout_height">40dp</item>
+    </style>
 
 </resources>

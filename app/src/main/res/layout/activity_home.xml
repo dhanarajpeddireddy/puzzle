@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+<data>
+    <import type="android.view.View"/>
+
+    <variable
+        name="Onclick"
+        type="com.dana.puzzle.tool.OnClickListner" />
+
+</data>
+    <LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background"
+    tools:context=".HomeActivity"
+        android:orientation="vertical">
+
+
+        <RelativeLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="50dp">
+
+
+            <include
+                layout="@layout/banne_ad_layout"/>
+
+
+            <LinearLayout
+                android:layout_centerVertical="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+
+                <ImageView
+                    android:onClick="@{(v) ->Onclick.onClick(v)}"
+                    android:id="@+id/iv_history"
+                    android:src="@drawable/ic_history"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    tools:ignore="ContentDescription" />
+
+                <include layout="@layout/vertical_menu_divier"/>
+
+                <ImageView
+                    android:onClick="@{(v) ->Onclick.onClick(v)}"
+                    android:id="@+id/iv_music"
+                    android:src="@drawable/ic_music"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    tools:ignore="ContentDescription" />
+
+
+                <include layout="@layout/vertical_menu_divier"/>
+
+
+                <ImageView
+                    android:onClick="@{(v) ->Onclick.onClick(v)}"
+                    android:id="@+id/iv_share"
+                    android:src="@drawable/ic_share"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    tools:ignore="ContentDescription" />
+
+
+                <include layout="@layout/vertical_menu_divier"/>
+
+                <ImageView
+                    android:onClick="@{(v) ->Onclick.onClick(v)}"
+                    android:id="@+id/iv_feedback"
+                    android:src="@drawable/ic_feedback"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    tools:ignore="ContentDescription" />
+
+
+            </LinearLayout>
+
+
+
+        </RelativeLayout>
+
+
+
+
+        <LinearLayout
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+
+    <androidx.cardview.widget.CardView
+        android:onClick="@{(v) ->Onclick.onClick(v)}"
+        android:id="@+id/cv_multi"
+        android:layout_margin="16dp"
+        app:cardCornerRadius="8dp"
+        android:elevation="8dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:ignore="UnusedAttribute">
+
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:background="@color/gnt_white"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/iv_online"
+                android:layout_margin="20dp"
+                android:src="@drawable/ic_users"
+                android:layout_width="150dp"
+                android:layout_height="100dp"
+                tools:ignore="ContentDescription" />
+
+
+            <TextView
+                android:textAllCaps="true"
+                android:textStyle="bold"
+                android:textSize="20sp"
+                android:textColor="@color/gnt_white"
+                android:background="@drawable/button_bg"
+                android:gravity="center"
+                android:text="@string/multiPlayer"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"/>
+
+
+        </LinearLayout>
+
+
+    </androidx.cardview.widget.CardView>
+
+
+
+
+    <androidx.cardview.widget.CardView
+        android:onClick="@{(v) ->Onclick.onClick(v)}"
+        android:id="@+id/cv_solo"
+        android:layout_margin="16dp"
+        app:cardCornerRadius="8dp"
+        android:elevation="8dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:ignore="UnusedAttribute">
+
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:background="@color/gnt_white"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/iv_solo"
+                android:layout_margin="20dp"
+                android:src="@drawable/ic_single"
+                android:layout_width="150dp"
+                android:layout_height="100dp"
+                tools:ignore="ContentDescription" />
+
+
+            <TextView
+                android:textAllCaps="true"
+                android:textStyle="bold"
+                android:textSize="20sp"
+                android:textColor="@color/gnt_white"
+                android:background="@drawable/button_bg"
+                android:gravity="center"
+                android:text="@string/solo"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"/>
+
+
+        </LinearLayout>
+
+
+</androidx.cardview.widget.CardView>
+        </LinearLayout>
+</LinearLayout>
+</layout>
