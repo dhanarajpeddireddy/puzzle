@@ -83,14 +83,15 @@
 
 
                     <TextView
+                        android:textStyle="bold"
                         android:id="@+id/tv_pieces_number"
-                        android:layout_width="36dp"
-                        android:layout_height="39dp"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
                         android:layout_margin="8dp"
-                        android:background="@drawable/circle"
+                        android:background="@drawable/ic_plugin"
                         android:gravity="center"
-                        android:textColor="@color/gnt_white"
-                        android:textSize="14sp" />
+                        android:textColor="@color/light_blue_A200"
+                        android:textSize="18sp" />
 
                     <ImageView
                         android:layout_gravity="center"
@@ -121,6 +122,11 @@
 
             </LinearLayout>
 
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
 
             <FrameLayout
                 android:layout_margin="16dp"
@@ -145,13 +151,25 @@
                     android:layout_gravity="center"
                     android:textSize="26sp"
                     android:gravity="center"
-                    android:textColor="@color/gnt_black"
+                    android:textColor="@color/background"
                     android:layout_margin="8dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
 
 
             </FrameLayout>
+
+                <TextView
+                    android:background="@drawable/box_border"
+                    android:id="@+id/tv_timer"
+                    android:padding="1dp"
+                    android:layout_gravity="center"
+                    android:textSize="14sp"
+                    android:textColor="@color/gnt_white"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+            </LinearLayout>
 
 
                 <LinearLayout
@@ -182,13 +200,14 @@
 
 
                     <TextView
+                        android:textStyle="bold"
                         android:layout_margin="8dp"
                         android:gravity="center"
                         android:layout_gravity="end"
                         android:id="@+id/tv_pieces_number_opponent"
-                        android:textSize="14sp"
-                        android:textColor="@color/gnt_white"
-                        android:background="@drawable/circle"
+                        android:textSize="18sp"
+                        android:textColor="@color/colorAccent"
+                        android:background="@drawable/ic_plugin"
                         android:layout_width="40dp"
                         android:layout_height="40dp"/>
 

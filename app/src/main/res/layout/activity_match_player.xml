@@ -82,7 +82,7 @@
                     android:textSize="26sp"
                     android:gravity="center"
                     android:text="@string/vs"
-                    android:textColor="@color/gnt_black"
+                    android:textColor="@color/background"
                     android:layout_margin="8dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />

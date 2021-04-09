@@ -34,10 +34,10 @@ public class PeicesAdapter extends  RecyclerView.Adapter<PeicesAdapter.PeiceAdap
     private final int[] files;
     private final IcallBack callBack;
 
-    public PeicesAdapter(Context c, IcallBack callBack) {
+    public PeicesAdapter(int[] files,Context c, IcallBack callBack) {
         mContext = c;
         this.callBack = callBack;
-        this.files = Constants.PUZLE_PEICES;
+        this.files = files;
 
     }
 

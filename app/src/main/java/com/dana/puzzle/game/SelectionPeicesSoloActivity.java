@@ -34,13 +34,17 @@ public class SelectionPeicesSoloActivity extends BaseActivity implements PeicesA
     }
 
     private void init() {
-        peicesAdapter=new PeicesAdapter(this,this);
+        peicesAdapter=new PeicesAdapter(Constants.PUZLE_PEICES,this,this);
         LinearLayoutManager  horizontalLayout = new LinearLayoutManager(
                 this,
                 LinearLayoutManager.HORIZONTAL,
                 false);
-        binding.rvPeices.setLayoutManager(horizontalLayout);
-        binding.rvPeices.setAdapter(peicesAdapter);
+        if (binding!=null)
+        {
+            binding.rvPeices.setLayoutManager(horizontalLayout);
+            binding.rvPeices.setAdapter(peicesAdapter);
+        }
+
     }
 
 

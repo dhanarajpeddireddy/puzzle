@@ -75,7 +75,6 @@ public class TouchListener implements View.OnTouchListener {
                 int yDiff = abs(piece.yCoord - view.getTop());
                 if (xDiff <= illuseSize && yDiff <= illuseSize) {
 
-                    piece.setWho(Constants.YOU);
                     if (ilistnerBack!=null)
                         ilistnerBack.pieceMatched(piece);
                     

@@ -25,7 +25,7 @@ public class SelectionPeicesActivity extends BaseActivity implements PeicesAdapt
     }
 
     private void init() {
-        peicesAdapter=new PeicesAdapter(this,this);
+        peicesAdapter=new PeicesAdapter(Constants.PUZLE_PEICES_MULTY,this,this);
         LinearLayoutManager  horizontalLayout = new LinearLayoutManager(
                 this,
                 LinearLayoutManager.HORIZONTAL,

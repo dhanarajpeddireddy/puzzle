@@ -3,12 +3,7 @@ package com.dana.puzzle.multiplay;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.view.animation.AlphaAnimation;
-import android.view.animation.Animation;
-import android.view.animation.LinearInterpolator;
-
 import androidx.databinding.DataBindingUtil;
-
 import com.dana.puzzle.BaseActivity;
 import com.dana.puzzle.Constants;
 import com.dana.puzzle.R;
@@ -21,7 +16,7 @@ public class MultyGameCompletedActivity extends BaseActivity implements OnClickL
     ActivityMultyGameCompletedBinding binding;
 
     int yourScore,opponentScoe,peiceSize;
-    String opponentName;
+    String opponentName,gameTime;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,6 +27,7 @@ public class MultyGameCompletedActivity extends BaseActivity implements OnClickL
       getIntentData();
 
       binding.tvOpponent.setText(opponentName);
+      binding.tvTimer.setText(gameTime);
       binding.tvPiecesNumberOpponent.setText(String.valueOf(opponentScoe));
       binding.tvPiecesNumber.setText(String.valueOf(yourScore));
       if (peiceSize!=-1)
@@ -62,6 +58,7 @@ public class MultyGameCompletedActivity extends BaseActivity implements OnClickL
 
     private void getIntentData() {
         opponentName=getIntent().getStringExtra(Constants.OPPONENT_PLAYER_NAME);
+        gameTime=getIntent().getStringExtra(Constants.GAME_TIME);
         yourScore=getIntent().getIntExtra(Constants.YOUR_SCORE,-1);
         opponentScoe=getIntent().getIntExtra(Constants.OPPONENT_SCORE,-1);
         peiceSize=getIntent().getIntExtra(Constants.PUZZLE_PEICE_SIZE,-1);

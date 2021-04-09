@@ -11,12 +11,10 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
@@ -37,6 +35,7 @@ import com.dana.puzzle.tool.PreferenceUtills;
 import com.dana.puzzle.tool.Utility;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.Random;
 
 public class MultiGameActivity extends BaseActivity implements TouchListener.IlistnerBack, RequestListener<Drawable>, View.OnClickListener, OnClickListner, NetworkStateReceiver.NetworkStateReceiverListener {
@@ -56,7 +55,69 @@ public class MultiGameActivity extends BaseActivity implements TouchListener.Ili
     int yourScore=0;
     int opponetScore=0;
 
-    TextView tv_your_score_incremet,tv_opponent_score_increment;
+
+    long startTime;
+
+    Handler timer=new Handler();
+
+    Runnable timeCaluculter=new Runnable() {
+        @Override
+        public void run()
+        {
+            showTime();
+
+            timer.postDelayed(timeCaluculter,500);
+
+        }
+    };
+
+    private void stopTimer() {
+        if (timer!=null)
+        {
+            timer.removeCallbacks(timeCaluculter);
+            timeCaluculter=null;
+            timer=null;
+        }
+
+    }
+
+
+    long elapsedSeconds=0;
+    long elapsedMinutes=0;
+    long elapsedHours=0;
+    @SuppressLint({"SetTextI18n", "DefaultLocale"})
+    private void showTime() {
+
+        long curenttime=new Date().getTime();
+
+        long different = curenttime-startTime;
+
+        System.out.println("different : " + different);
+
+        long secondsInMilli = 1000;
+        long minutesInMilli = secondsInMilli * 60;
+        long hoursInMilli = minutesInMilli * 60;
+        // long daysInMilli = hoursInMilli * 24; if you want caluculate days
+
+        elapsedHours = different / hoursInMilli;
+        different = different % hoursInMilli;
+
+        elapsedMinutes = different / minutesInMilli;
+        different = different % minutesInMilli;
+
+        elapsedSeconds = different / secondsInMilli;
+
+        System.out.printf(
+                "%d hours, %d minutes, %d seconds%n",
+                elapsedHours, elapsedMinutes, elapsedSeconds);
+
+        binding.tvTimer.setText(String.format("%02d", elapsedHours)+":"
+                +String.format("%02d", elapsedMinutes)+":"
+                +String.format("%02d", elapsedSeconds));
+
+    }
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -109,28 +170,22 @@ public class MultiGameActivity extends BaseActivity implements TouchListener.Ili
 
     }
 
+    @SuppressLint("UseCompatLoadingForDrawables")
     private void init() {
         touchListener = new TouchListener(this);
         binding.lyOpponent.tvOpponentName.setText(opponentName);
-        setPeicesRemaining(peiceSize);
-        tv_your_score_incremet=new TextView(this);
-        tv_your_score_incremet.setTextColor(getResources().getColor(R.color.light_blue_600));
-        tv_your_score_incremet.setTextSize(30);
-        tv_your_score_incremet.setText("+");
 
-        tv_opponent_score_increment=new TextView(this);
-        tv_opponent_score_increment.setTextColor(getResources().getColor(R.color.colorAccent));
-        tv_opponent_score_increment.setTextSize(30);
-        tv_opponent_score_increment.setText("+");
+        startTime=new Date().getTime();
+        touchListener = new TouchListener(this);
+        timer.postDelayed(timeCaluculter,0);
+
     }
 
     @SuppressLint("UseCompatLoadingForDrawables")
     private void setPieceForOpponent() {
         if (pieces!=null && pieces.size()>0)
         {
-            PuzzlePiece puzzlePiece=pieces.get(new Random().nextInt(pieces.size()));
-            puzzlePiece.setWho(Constants.OPPONENT);
-            pieceMatched(puzzlePiece);
+            changeScoreBoard(Constants.OPPONENT);
         }
     }
 
@@ -149,12 +204,7 @@ public class MultiGameActivity extends BaseActivity implements TouchListener.Ili
 
 
     private boolean isGameOver() {
-        for (PuzzlePiece piece : pieces) {
-            if (piece.canMove) {
-                return false;
-            }
-        }
-        return true;
+        return yourScore == peiceSize || opponetScore == peiceSize;
     }
 
 
@@ -163,42 +213,45 @@ public class MultiGameActivity extends BaseActivity implements TouchListener.Ili
         setPeiceStatusToBack(puzzlePiece);
         Utility.vibrate(100);
         Utility.bounce(puzzlePiece,null);
-        changeScoreBoard(puzzlePiece);
-        if (isGameOver()) {
-
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    startActivity(new Intent(MultiGameActivity.this, MultyGameCompletedActivity.class)
-                    .putExtra(Constants.OPPONENT_PLAYER_NAME,opponentName)
-                    .putExtra(Constants.PUZZLE_PEICE_SIZE,peiceSize)
-                    .putExtra(Constants.YOUR_SCORE,yourScore)
-                    .putExtra(Constants.OPPONENT_SCORE,opponetScore));
-
-                    finish();
-                }
-            }, 1000);
-
-        }
+        changeScoreBoard(Constants.YOU);
     }
 
-    private void changeScoreBoard(PuzzlePiece puzzlePiece) {
-        switch (puzzlePiece.getWho())
+    private void changeScoreBoard(int caseValue) {
+
+        switch (caseValue)
         {
             case Constants.YOU:
+
                 yourScore++;
                 binding.lyYou.tvYourScore.setText(String.valueOf(yourScore));
                 Utility.bounce(binding.lyYou.tvYourScore,null);
                 break;
 
             case Constants.OPPONENT:
+
                 opponetScore++;
                 binding.lyOpponent.tvScore.setText(String.valueOf(opponetScore));
-                Utility.bounce(binding.lyOpponent.tvScore,null);
+                Utility.bounce( binding.lyOpponent.tvScore,null);
+                break;
 
-            break;
-            default:
-                throw new IllegalStateException("Unexpected value: " + puzzlePiece.getWho());
+        }
+
+        if (isGameOver()) {
+            stopTimer();
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    startActivity(new Intent(MultiGameActivity.this, MultyGameCompletedActivity.class)
+                            .putExtra(Constants.OPPONENT_PLAYER_NAME,opponentName)
+                            .putExtra(Constants.PUZZLE_PEICE_SIZE,peiceSize)
+                            .putExtra(Constants.GAME_TIME,binding.tvTimer.getText().toString())
+                            .putExtra(Constants.YOUR_SCORE,yourScore)
+                            .putExtra(Constants.OPPONENT_SCORE,opponetScore));
+
+                    finish();
+                }
+            }, 1000);
+
         }
 
     }
@@ -208,74 +261,12 @@ public class MultiGameActivity extends BaseActivity implements TouchListener.Ili
         lParams.leftMargin = puzzlePiece.xCoord;
         lParams.topMargin = puzzlePiece.yCoord;
         puzzlePiece.setLayoutParams(lParams);
-
-        if (puzzlePiece.getWho()==Constants.YOU)
-        {
-
-            tv_your_score_incremet.setLayoutParams(lParams);
-            tv_your_score_incremet.bringToFront();
-
-            tv_your_score_incremet.setHeight(puzzlePiece.getHeight());
-            tv_your_score_incremet.setWidth(puzzlePiece.getWidth());
-
-
-
-            if (tv_your_score_incremet.getParent() != null) {
-                ((ViewGroup) tv_your_score_incremet.getParent()).removeView(tv_your_score_incremet);
-            }
-
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-
-
-                    if (tv_your_score_incremet.getParent() != null) {
-                        ((ViewGroup) tv_your_score_incremet.getParent()).removeView(tv_your_score_incremet);
-                    }
-
-                }
-            },1500);
-
-            binding.gameLayout.layout.addView(tv_your_score_incremet);
-
-
-
-        }else
-        {
-            tv_opponent_score_increment.setLayoutParams(lParams);
-            tv_opponent_score_increment.bringToFront();
-
-            tv_opponent_score_increment.setHeight(puzzlePiece.getHeight());
-            tv_opponent_score_increment.setWidth(puzzlePiece.getWidth());
-
-
-            if (tv_opponent_score_increment.getParent() != null) {
-                ((ViewGroup) tv_opponent_score_increment.getParent()).removeView(tv_opponent_score_increment);
-            }
-
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-
-
-                    if (tv_opponent_score_increment.getParent() != null) {
-                        ((ViewGroup) tv_opponent_score_increment.getParent()).removeView(tv_opponent_score_increment);
-                    }
-
-                }
-            },1500);
-
-            binding.gameLayout.layout.addView(tv_opponent_score_increment);
-        }
-
         puzzlePiece.canMove = false;
         pieces.remove(puzzlePiece);
-        setPeicesRemaining(pieces.size());
     }
 
-    private void setPeicesRemaining(int size) {
-        binding.tvPeices.setText(String.valueOf(size));
-    }
+
+
 
     @SuppressLint("UseCompatLoadingForDrawables")
     @Override
@@ -468,6 +459,7 @@ public class MultiGameActivity extends BaseActivity implements TouchListener.Ili
 
     @Override
     protected void onDestroy() {
+        stopTimer();
        stopPlayForOpponent();
         super.onDestroy();
     }
