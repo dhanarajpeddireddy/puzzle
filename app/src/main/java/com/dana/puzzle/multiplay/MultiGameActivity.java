@@ -172,8 +172,9 @@ public class MultiGameActivity extends BaseActivity implements TouchListener.Ili
 
     @SuppressLint("UseCompatLoadingForDrawables")
     private void init() {
+        binding.menuLayout.ivQlue.setVisibility(View.GONE);
         touchListener = new TouchListener(this);
-        binding.lyOpponent.tvOpponentName.setText(opponentName);
+        binding.tvPeiceSize.setText(String.valueOf(peiceSize));
 
         startTime=new Date().getTime();
         touchListener = new TouchListener(this);
@@ -223,15 +224,15 @@ public class MultiGameActivity extends BaseActivity implements TouchListener.Ili
             case Constants.YOU:
 
                 yourScore++;
-                binding.lyYou.tvYourScore.setText(String.valueOf(yourScore));
-                Utility.bounce(binding.lyYou.tvYourScore,null);
+               binding.lyYou.tvScroreYou.setText(String.valueOf(yourScore));
+                Utility.bounce(binding.lyYou.tvScroreYou,null);
                 break;
 
             case Constants.OPPONENT:
 
                 opponetScore++;
-                binding.lyOpponent.tvScore.setText(String.valueOf(opponetScore));
-                Utility.bounce( binding.lyOpponent.tvScore,null);
+                binding.lyOpponent.tvScroreOpponent.setText(String.valueOf(opponetScore));
+                Utility.bounce( binding.lyOpponent.tvScroreOpponent,null);
                 break;
 
         }
@@ -283,7 +284,7 @@ public class MultiGameActivity extends BaseActivity implements TouchListener.Ili
     @Override
     public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
         Log.e("setimageglide", "fail");
-        if (e != null) {
+        if (e != null && e.getLocalizedMessage()!=null) {
             Log.e("getPuzzles", e.getLocalizedMessage());
         }
         return false;
@@ -352,17 +353,20 @@ public class MultiGameActivity extends BaseActivity implements TouchListener.Ili
         {
             if (pieces!=null && pieces.size()>0)
             {
-                opponentPlayHandler=new Handler();
+                if (opponentPlayHandler==null || oppnetPlayRunnable==null)
+                {
+                    opponentPlayHandler=new Handler();
 
-                oppnetPlayRunnable=new Runnable() {
-                    @Override
-                    public void run() {
-                        setPieceForOpponent();
-                        playForOpponent();
-                    }
-                };
+                    oppnetPlayRunnable=new Runnable() {
+                        @Override
+                        public void run() {
+                            setPieceForOpponent();
+                            playForOpponent();
+                        }
+                    };
 
-                playForOpponent();
+                    playForOpponent();
+                }
             }
         }
 
@@ -450,7 +454,8 @@ public class MultiGameActivity extends BaseActivity implements TouchListener.Ili
 
     @Override
     protected void onResume() {
-        showBannerAd();
+
+        showNativeAd(binding.nativeAd.viewAd);
         setMusicIcon();
         startNetworkBroadcastReceiver();
         startPlayForOpponet();
