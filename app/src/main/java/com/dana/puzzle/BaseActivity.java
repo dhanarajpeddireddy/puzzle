@@ -8,6 +8,8 @@ import android.os.Handler;
 
 import com.dana.puzzle.tool.PreferenceUtills;
 import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.nativead.NativeAd;
+import com.google.android.gms.ads.nativead.NativeAdView;
 
 public class BaseActivity extends AppCompatActivity {
 public Ads inappAds=new Ads();
@@ -20,6 +22,12 @@ public Ads inappAds=new Ads();
     {
         AdView adView=findViewById(R.id.adView_banner);
         inappAds.googleBannerAd(adView);
+    }
+
+
+    public void showNativeAd(NativeAdView nativeAdView)
+    {
+        inappAds.nativeAd(nativeAdView,this);
     }
 
     @Override

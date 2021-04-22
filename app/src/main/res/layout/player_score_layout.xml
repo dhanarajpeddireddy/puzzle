@@ -6,57 +6,47 @@
 
     </data>
 
-    <LinearLayout
-        android:gravity="bottom"
-        android:orientation="horizontal"
-        android:background="@color/black_overlay"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
-
-
-
-        <LinearLayout
-            android:orientation="vertical"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-
-            <TextView
-                android:textStyle="bold"
-                android:textAllCaps="true"
-                android:text="@string/you"
-                android:maxLines="1"
-                android:layout_gravity="center"
-                android:gravity="center"
-                android:textSize="10sp"
-                android:textColor="@color/gnt_white"
-                android:layout_width="40dp"
-                android:layout_height="wrap_content"
-                tools:ignore="SmallSp" />
-
-            <TextView
-                android:textStyle="bold"
-                android:text="@string/_0"
-                android:id="@+id/tv_yourScore"
-                android:maxLines="1"
-                android:gravity="center"
-                android:background="@color/light_blue_600"
-                android:textSize="20sp"
-                android:textColor="@color/gnt_white"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-
-
-        </LinearLayout>
-
-
-
-        <ImageView
+        <TextView
+            android:text="@string/_0"
             android:background="@color/light_blue_600"
-            android:src="@drawable/ic_baseline_person_24"
-            android:layout_width="40dp"
-            android:layout_height="50dp"
-            tools:ignore="ContentDescription" />
+            android:textStyle="bold"
+            android:id="@+id/tv_scrore_you"
+            android:textSize="30sp"
+            android:maxLines="1"
+            android:singleLine="true"
+            android:textColor="@color/gnt_white"
+            android:gravity="center"
+            android:layout_width="70dp"
+            android:layout_height="40dp"/>
 
-
-    </LinearLayout>
 </layout>
+
+
+
+<!--
+<TextView
+android:textStyle="bold"
+android:text="@string/_0"
+android:id="@+id/tv_yourScore"
+android:maxLines="1"
+android:gravity="center"
+android:background="@color/light_blue_600"
+android:textSize="20sp"
+android:textColor="@color/gnt_white"
+android:layout_width="match_parent"
+android:layout_height="wrap_content" />-->
+
+
+<!--
+<TextView
+android:textStyle="bold"
+android:textAllCaps="true"
+android:text="@string/you"
+android:maxLines="1"
+android:layout_gravity="center"
+android:gravity="center"
+android:textSize="10sp"
+android:textColor="@color/gnt_white"
+android:layout_width="40dp"
+android:layout_height="wrap_content"
+tools:ignore="SmallSp" />-->
