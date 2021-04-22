@@ -41,8 +41,6 @@ public class Ads {
     public void googleBannerAd(AdView adView) {
         Log.e("Ads", "banner ad");
 
-
-
         if (Utility.isOnline()) {
             if (adView != null) {
                 Log.e("Ads", "banner ad in");
@@ -121,9 +119,6 @@ public class Ads {
     {
 
         Log.e("nativeAd", "in");
-
-
-
 
         AdLoader adLoader = new AdLoader.Builder(activity, activity.getString(R.string.google_native_ad_id))
                 .forNativeAd(new NativeAd.OnNativeAdLoadedListener() {
