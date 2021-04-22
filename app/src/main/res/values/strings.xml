@@ -2,10 +2,10 @@
     <string name="app_name">puzzle</string>
     <string name="select_peices">Select Peices</string>
 
-    <string name="google_app_ad_id">ca-app-pub-7322297871933535~3182096685</string>
-    <string name="google_benner_id">ca-app-pub-7322297871933535/1869015015</string>
-    <string name="google_native_ad_id">ca-app-pub-7322297871933535/8092448487</string>
-    <string name="google_reward_ad_id">ca-app-pub-7322297871933535/2414798164</string>
+    <string name="google_app_ad_id">ca-app-pub-5549280331650962~4026980893</string>
+    <string name="google_benner_id">ca-app-pub-5549280331650962/1521426423</string>
+    <string name="google_native_ad_id">ca-app-pub-5549280331650962/3381303006</string>
+    <string name="google_reward_ad_id">ca-app-pub-5549280331650962/2522327536</string>
 
     <string name="play">Play</string>
     <string name="share">Share</string>
