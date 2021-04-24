@@ -28,7 +28,7 @@ public class ImageAdapter extends BaseAdapter {
 
     private final Context mContext;
     private String[] files;
-    private IcallBack callBack;
+    private final IcallBack callBack;
 
     public ImageAdapter(String[] files,Context c,IcallBack callBack) {
         mContext = c;
