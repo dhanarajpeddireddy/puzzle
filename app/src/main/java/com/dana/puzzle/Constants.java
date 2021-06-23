@@ -7,7 +7,7 @@ public class Constants {
     public static final String ASSET_FOLDER_NAME="localImages";
     public static final String PUZZLE_PEICE_SIZE="puzzlesize";
     public static final int[] PUZLE_PEICES={9,16,25,49,81,100};
-    public static final int[] PUZLE_PEICES_MULTY={9,16,25,49};
+    public static final int[] PUZLE_PEICES_MULTY={16,25,49,81};
     public static final int[] OPPONET_PLAT_TIME={4000,7000,8000,11000,13000};
     public static final String DATE_FORMAT_PREFERENCE = "yyyy-MM-dd";
     public static final int  DEFAULT_PEICENUMBER=16;

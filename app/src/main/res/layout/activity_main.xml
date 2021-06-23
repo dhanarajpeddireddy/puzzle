@@ -32,6 +32,44 @@
                 android:layout_height="50dp">
                 <include layout="@layout/banne_ad_layout"/>
 
+
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:id="@+id/ly_play_gallery"
+                    android:onClick="onImageFromGalleryClick"
+                    android:layout_margin="4dp"
+                    android:padding="8dp"
+                    android:background="@drawable/box_border"
+                    android:gravity="center"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true" >
+
+
+                    <ImageView
+                        android:layout_marginEnd="8dp"
+                        android:src="@drawable/ic_gallery"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_marginRight="8dp"
+                        tools:ignore="ContentDescription" />
+
+                    <TextView
+                        android:textStyle="bold"
+                        android:gravity="center"
+                        android:textSize="16sp"
+                        android:textColor="@color/gnt_white"
+                        android:text="@string/play_from_gallery"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+
+                </LinearLayout>
+
+
+
+
             </RelativeLayout>
 
 
@@ -48,21 +86,6 @@
 
 
         </LinearLayout>
-
-
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginRight="16dp"
-            android:clickable="true"
-            android:onClick="onImageFromGalleryClick"
-            android:src="@drawable/ic_gallery"
-            tools:ignore="ContentDescription"
-            android:layout_gravity="bottom|end"
-            android:focusable="true" />
-
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

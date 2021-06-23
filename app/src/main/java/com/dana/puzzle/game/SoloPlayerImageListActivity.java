@@ -77,6 +77,8 @@ public class SoloPlayerImageListActivity extends BaseActivity implements ImageAd
 
     public void onImageFromGalleryClick(View view) {
 
+        Utility.bounce(view,null);
+
         if (PreferenceUtills.getInstance(this).IsValidDateByKey(Constants.LOCAL_PUZZLE_REWARD_WATCHED_DATE))
         {
             if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {

@@ -122,9 +122,6 @@ public class Ads {
 
         Log.e("nativeAd", "in");
 
-
-
-
         AdLoader adLoader = new AdLoader.Builder(activity, activity.getString(R.string.google_native_ad_id))
                 .forNativeAd(new NativeAd.OnNativeAdLoadedListener() {
                     @Override

@@ -111,7 +111,7 @@ public class MultiGameActivity extends BaseActivity implements TouchListener.Ili
                 "%d hours, %d minutes, %d seconds%n",
                 elapsedHours, elapsedMinutes, elapsedSeconds);
 
-        binding.tvTimer.setText(String.format("%02d", elapsedHours)+":"
+        binding.lyGameTimer.tvTimer.setText(String.format("%02d", elapsedHours)+":"
                 +String.format("%02d", elapsedMinutes)+":"
                 +String.format("%02d", elapsedSeconds));
 
@@ -172,9 +172,9 @@ public class MultiGameActivity extends BaseActivity implements TouchListener.Ili
 
     @SuppressLint("UseCompatLoadingForDrawables")
     private void init() {
-        binding.menuLayout.ivQlue.setVisibility(View.GONE);
+
         touchListener = new TouchListener(this);
-        binding.tvPeiceSize.setText(String.valueOf(peiceSize));
+        binding.lyGameTimer.tvPeiceSize.setText(String.valueOf(peiceSize));
 
         startTime=new Date().getTime();
         touchListener = new TouchListener(this);
@@ -245,7 +245,7 @@ public class MultiGameActivity extends BaseActivity implements TouchListener.Ili
                     startActivity(new Intent(MultiGameActivity.this, MultyGameCompletedActivity.class)
                             .putExtra(Constants.OPPONENT_PLAYER_NAME,opponentName)
                             .putExtra(Constants.PUZZLE_PEICE_SIZE,peiceSize)
-                            .putExtra(Constants.GAME_TIME,binding.tvTimer.getText().toString())
+                            .putExtra(Constants.GAME_TIME,binding.lyGameTimer.tvTimer.getText().toString())
                             .putExtra(Constants.YOUR_SCORE,yourScore)
                             .putExtra(Constants.OPPONENT_SCORE,opponetScore));
 
@@ -274,7 +274,7 @@ public class MultiGameActivity extends BaseActivity implements TouchListener.Ili
     public void pieceTouched() {
 
         if (binding.gameLayout.imageView.getVisibility() == View.VISIBLE) {
-            binding.menuLayout.ivPreview.setImageDrawable(getResources().getDrawable(R.drawable.ic_visibility_off));
+            binding.ivPreview.setImageDrawable(getResources().getDrawable(R.drawable.ic_visibility_off));
             binding.gameLayout.imageView.setVisibility(View.INVISIBLE);
         }
 
@@ -397,10 +397,10 @@ public class MultiGameActivity extends BaseActivity implements TouchListener.Ili
 
 
             if (binding.gameLayout.imageView.getVisibility() == View.VISIBLE) {
-                binding.menuLayout.ivPreview.setImageDrawable(getResources().getDrawable(R.drawable.ic_visibility_off));
+                binding.ivPreview.setImageDrawable(getResources().getDrawable(R.drawable.ic_visibility_off));
                 binding.gameLayout.imageView.setVisibility(View.INVISIBLE);
             } else {
-                binding.menuLayout.ivPreview.setImageDrawable(getResources().getDrawable(R.drawable.ic_visible));
+                binding.ivPreview.setImageDrawable(getResources().getDrawable(R.drawable.ic_visible));
                 binding.gameLayout.imageView.setVisibility(View.VISIBLE);
             }
         }

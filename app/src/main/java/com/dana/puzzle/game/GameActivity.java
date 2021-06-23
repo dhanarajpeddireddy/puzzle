@@ -130,7 +130,7 @@ public class GameActivity extends BaseActivity implements TouchListener.Ilistner
                         "%d hours, %d minutes, %d seconds%n",
                          elapsedHours, elapsedMinutes, elapsedSeconds);
 
-        binding.tvTimer.setText(String.format("%02d", elapsedHours)+":"
+        binding.lyGameTime.tvTimer.setText(String.format("%02d", elapsedHours)+":"
                        +String.format("%02d", elapsedMinutes)+":"
                        +String.format("%02d", elapsedSeconds));
 
@@ -157,6 +157,7 @@ public class GameActivity extends BaseActivity implements TouchListener.Ilistner
     }
 
     private void init() {
+
         startTime=new Date().getTime();
         touchListener = new TouchListener(this);
         timer.postDelayed(timeCaluculter,0);
@@ -175,6 +176,7 @@ public class GameActivity extends BaseActivity implements TouchListener.Ilistner
         assetName = intent.getStringExtra(Constants.ASSET_NAME);
         mCurrentPhotoUri = intent.getStringExtra(Constants.PHOTO_URI);
         peiceSize = intent.getIntExtra(Constants.PUZZLE_PEICE_SIZE, Constants.DEFAULT_PEICENUMBER);
+        binding.lyGameTime.tvPeiceSize.setText(String.valueOf(peiceSize));
     }
 
 
@@ -235,7 +237,7 @@ public class GameActivity extends BaseActivity implements TouchListener.Ilistner
     public void pieceTouched() {
 
         if (binding.gameLayout.imageView.getVisibility() == View.VISIBLE) {
-            binding.menuLayout.ivPreview.setImageDrawable(getResources().getDrawable(R.drawable.ic_visibility_off));
+            binding.ivPreview.setImageDrawable(getResources().getDrawable(R.drawable.ic_visibility_off));
             binding.gameLayout.imageView.setVisibility(View.INVISIBLE);
         }
 
@@ -324,12 +326,12 @@ public class GameActivity extends BaseActivity implements TouchListener.Ilistner
             Utility.bounce(view,null);
 
             if (binding.gameLayout.imageView.getVisibility() == View.VISIBLE) {
-                binding.menuLayout.ivPreview.setImageDrawable(getResources().getDrawable(R.drawable.ic_visibility_off));
+                binding.ivPreview.setImageDrawable(getResources().getDrawable(R.drawable.ic_visibility_off));
                 binding.gameLayout.imageView.setVisibility(View.INVISIBLE);
             }
 
             else if (PreferenceUtills.getInstance(this).IsValidDateByKey(Constants.PUZZLE_PREVIEW_REWARD_WATCHED_DATE)) {
-                binding.menuLayout.ivPreview.setImageDrawable(getResources().getDrawable(R.drawable.ic_visible));
+                binding.ivPreview.setImageDrawable(getResources().getDrawable(R.drawable.ic_visible));
                 binding.gameLayout.imageView.setVisibility(View.VISIBLE);
             }
             else popupForReward(getString(R.string.puzzle_preview),getString(R.string.preview_message),Constants.PUZZLE_PREVIEW_REWARD_WATCHED_DATE);
@@ -375,7 +377,7 @@ public class GameActivity extends BaseActivity implements TouchListener.Ilistner
     @SuppressLint("UseCompatLoadingForDrawables")
     private void giveQlue() {
         if ( binding.gameLayout.imageView.getVisibility() == View.VISIBLE) {
-            binding.menuLayout.ivPreview.setImageDrawable(getResources().getDrawable(R.drawable.ic_visibility_off));
+            binding.ivPreview.setImageDrawable(getResources().getDrawable(R.drawable.ic_visibility_off));
             binding.gameLayout.imageView.setVisibility(View.INVISIBLE);
         }
 

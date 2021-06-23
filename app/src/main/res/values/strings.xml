@@ -45,4 +45,5 @@
     <string name="no_net_title">Network</string>
     <string name="play_again">Play Again</string>
     <string name="ad">AD</string>
+    <string name="play_from_gallery">play from gallery</string>
 </resources>

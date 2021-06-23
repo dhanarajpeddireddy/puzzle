@@ -59,33 +59,6 @@
 
 
 
-        <ImageView
-            android:onClick="@{(v) ->onclick.onClick(v)}"
-            android:id="@+id/iv_shuffle"
-            android:src="@drawable/ic_shuffle"
-           style="@style/menu_iv_style"
-            tools:ignore="ContentDescription" />
-
-
-
-        <ImageView
-            android:onClick="@{(v) ->onclick.onClick(v)}"
-            android:id="@+id/iv_preview"
-            android:src="@drawable/ic_visible"
-           style="@style/menu_iv_style"
-            tools:ignore="ContentDescription" />
-
-
-
-        <ImageView
-            android:onClick="@{(v) ->onclick.onClick(v)}"
-            android:id="@+id/iv_qlue"
-            android:src="@drawable/ic_qlue"
-            style="@style/menu_iv_style"
-            tools:ignore="ContentDescription" />
-
-
-
     </LinearLayout>
 
 

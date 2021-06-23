@@ -29,7 +29,7 @@ public class PuzzleApplication extends Application  {
         instance=this;
 
 
-      /*  if (BuildConfig.DEBUG)
+    /*  if (BuildConfig.DEBUG)
         {
             List<String> testDeviceIds = Collections.singletonList("610A68859DA35B7A2A173EB7BE8BACEC");
             RequestConfiguration configuration =
