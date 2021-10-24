@@ -21,14 +21,13 @@
 
 
         <ImageView
-            android:background="@drawable/frame"
+           android:src="@drawable/frame"
            style="@style/game_iv_style"
             tools:ignore="ContentDescription" />
 
 
 
         <ImageView
-            android:alpha="0.6"
             android:id="@+id/imageView"
             style="@style/game_iv_inner_style"
             tools:ignore="ContentDescription" />

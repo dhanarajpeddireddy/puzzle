@@ -52,13 +52,13 @@ public class PeicesAdapter extends  RecyclerView.Adapter<PeicesAdapter.PeiceAdap
     @Override
     public void onBindViewHolder(@NonNull final PeiceAdapterHolder holder, final int position) {
 
-        holder.peiceSelectItemBinding.tvPeice.setText(String.valueOf(files[position]));
+        holder.peiceSelectItemBinding.cvPiece.setText(String.valueOf(files[position]));
 
         holder.peiceSelectItemBinding.cvPiece.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                Utility.bounce(holder.peiceSelectItemBinding.ivPuzzle,null);
+                Utility.bounce(holder.peiceSelectItemBinding.cvPiece,null);
                 if (callBack!=null)
                     callBack.onClickPeicesAdapterItem(files[position]);
             }

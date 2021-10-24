@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">puzzle</string>
-    <string name="select_peices">Select Peices</string>
+    <string name="select_peices">DIFICULTY</string>
 
     <string name="google_app_ad_id">ca-app-pub-3940256099942544~3347511713</string>
     <string name="google_reward_ad_id">ca-app-pub-3940256099942544/5224354917</string>
@@ -9,7 +9,7 @@
 
     <string name="play">Play</string>
     <string name="share">Share</string>
-    <string name="puzzleDone">PUZZLE DONE !</string>
+    <string name="puzzleDone">PUZZLE COMPLETED !</string>
     <string name="congrats">Congrats</string>
     <string name="close">Close</string>
     <string name="share_head_info">Enjoy Puzzle Game , Create Your Own Puzzles And Solve</string>
@@ -34,8 +34,9 @@
     <string name="peices">Peices</string>
     <string name="no_history_msg">"Hey , Complete Game AND COME BACK FOR HISTORY ! "</string>
     <string name="back">Back</string>
-    <string name="multiPlayer">MultiPlayer</string>
-    <string name="solo">SoloPlayer</string>
+    <string name="multiPlayer">Two Player</string>
+    <string name="challenge">Challenge</string>
+    <string name="solo">Solo Player</string>
     <string name="start">Start Game</string>
     <string name="you">you</string>
     <string name="vs">VS</string>
@@ -45,5 +46,5 @@
     <string name="no_net_title">Network</string>
     <string name="play_again">Play Again</string>
     <string name="ad">AD</string>
-    <string name="play_from_gallery">play from gallery</string>
+    <string name="play_from_gallery">gallery</string>
 </resources>

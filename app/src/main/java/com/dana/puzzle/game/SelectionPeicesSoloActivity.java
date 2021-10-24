@@ -1,11 +1,14 @@
 package com.dana.puzzle.game;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import com.bumptech.glide.Glide;
 import com.dana.puzzle.BaseActivity;
 import com.dana.puzzle.Constants;
 import com.dana.puzzle.PeicesAdapter;
@@ -25,7 +28,7 @@ public class SelectionPeicesSoloActivity extends BaseActivity implements PeicesA
       binding= DataBindingUtil.setContentView(this,R.layout.activity_selection_peices);
       init();
       getIntentData();
-
+      setImage();
     }
 
     private void getIntentData() {
@@ -43,6 +46,26 @@ public class SelectionPeicesSoloActivity extends BaseActivity implements PeicesA
         {
             binding.rvPeices.setLayoutManager(horizontalLayout);
             binding.rvPeices.setAdapter(peicesAdapter);
+        }
+
+    }
+
+
+    private void setImage() {
+        String path = null;
+        if (assetName != null) {
+            path = "file:///android_asset/" + Constants.ASSET_FOLDER_NAME + "/" + assetName;
+
+        } else if (mCurrentPhotoUri != null) {
+            path = mCurrentPhotoUri;
+        }
+        if (path != null) {
+
+            Log.e("setImage", "in : " + path);
+            Glide.with(this)
+                    .load(Uri.parse(path))
+                    .placeholder(R.drawable.spalsh2)
+                    .into( binding.gridImageview);
         }
 
     }

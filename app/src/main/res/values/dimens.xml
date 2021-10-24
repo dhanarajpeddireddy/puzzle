@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="game_iv_marginLeft">170dp</dimen>
-    <dimen name="game_iv_marginRight">170dp</dimen>
+    <dimen name="game_iv_marginLeft">180dp</dimen>
+    <dimen name="game_iv_marginRight">180dp</dimen>
 
-    <dimen name="game_iv_inner_marginLeft">171dp</dimen>
-    <dimen name="game_iv_inner_marginRight">171dp</dimen>
+    <dimen name="game_iv_inner_marginLeft">181dp</dimen>
+    <dimen name="game_iv_inner_marginRight">181dp</dimen>
+    <dimen name="depth">8dp</dimen>
 </resources>

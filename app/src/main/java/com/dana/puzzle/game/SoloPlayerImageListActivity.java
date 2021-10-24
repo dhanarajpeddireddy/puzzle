@@ -16,6 +16,8 @@ import android.widget.Toast;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.databinding.DataBindingUtil;
+import androidx.recyclerview.widget.GridLayoutManager;
+
 import com.dana.puzzle.Ads;
 import com.dana.puzzle.BaseActivity;
 import com.dana.puzzle.Constants;
@@ -23,6 +25,8 @@ import com.dana.puzzle.R;
 import com.dana.puzzle.databinding.ActivityMainBinding;
 import com.dana.puzzle.tool.PreferenceUtills;
 import com.dana.puzzle.tool.Utility;
+import com.theartofdev.edmodo.cropper.CropImage;
+
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collections;
@@ -34,7 +38,7 @@ public class SoloPlayerImageListActivity extends BaseActivity implements ImageAd
     String[] files;
 
     ActivityMainBinding binding;
-    ImageAdapter imageAdapter;
+    ImagesAdapter imageAdapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,8 +58,15 @@ public class SoloPlayerImageListActivity extends BaseActivity implements ImageAd
 
     @SuppressLint("UseCompatLoadingForDrawables")
     private void init() {
-        imageAdapter=new ImageAdapter(null,this,this);
+        imageAdapter=new ImagesAdapter(null,this,this);
+
+        final GridLayoutManager layoutManager = new GridLayoutManager(this,3);
+
+        binding.grid.setLayoutManager(layoutManager);
+        binding.grid.setHasFixedSize(true);
+
         binding.grid.setAdapter(imageAdapter);
+
     }
 
 
@@ -64,16 +75,24 @@ public class SoloPlayerImageListActivity extends BaseActivity implements ImageAd
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (requestCode == REQUEST_IMAGE_GALLERY && resultCode == RESULT_OK) {
-            Uri uri = data.getData();
-            Intent intent = new Intent(this, SelectionPeicesSoloActivity.class);
-            if (uri != null) {
-                intent.putExtra("mCurrentPhotoUri", uri.toString());
-                startActivity(intent);
-            }
+        if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
+            CropImage.ActivityResult result = CropImage.getActivityResult(data);
+            if (resultCode == RESULT_OK) {
+                Uri resultUri = result.getUri();
+                Intent intent = new Intent(this, SelectionPeicesSoloActivity.class);
 
+                if (resultUri != null) {
+                    intent.putExtra("mCurrentPhotoUri", resultUri.toString());
+                    startActivity(intent);
+                }
+
+            } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
+                Exception error = result.getError();
+            }
         }
+
     }
+
 
     public void onImageFromGalleryClick(View view) {
 
@@ -84,9 +103,12 @@ public class SoloPlayerImageListActivity extends BaseActivity implements ImageAd
             if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
                 ActivityCompat.requestPermissions(this, new String[] {Manifest.permission.READ_EXTERNAL_STORAGE}, REQUEST_PERMISSION_READ_EXTERNAL_STORAGE);
             } else {
-                Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+               /* Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
                 intent.setType("image/*");
-                startActivityForResult(intent, REQUEST_IMAGE_GALLERY);
+                startActivityForResult(intent, REQUEST_IMAGE_GALLERY);*/
+
+                CropImage.activity()
+                        .start(this);
             }
         }else
         {
@@ -163,6 +185,8 @@ public class SoloPlayerImageListActivity extends BaseActivity implements ImageAd
     public void onRewardailed() {
 
         Toast.makeText(getApplicationContext(),getString(R.string.somethingWrong),Toast.LENGTH_SHORT).show();
+
+
     }
 
     @Override

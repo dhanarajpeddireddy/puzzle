@@ -20,104 +20,74 @@
 
 
 
-    <LinearLayout
-        android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-
-
-
-
-        <RelativeLayout
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="50dp">
-
-
-        <include
-            layout="@layout/banne_ad_layout"/>
-
-
-        <LinearLayout
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-
-
-
-  <include
-      android:id="@+id/ly_game_time"
-      layout="@layout/game_timer_layout"/>
-
-
-
-            <LinearLayout
-                android:orientation="horizontal"
-                android:layout_gravity="end"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
-
-
-
-                <ImageView
-                    android:onClick="@{(v) ->onclick.onClick(v)}"
-                    android:id="@+id/iv_qlue"
-                    android:src="@drawable/ic_qlue"
-                    android:padding="4dp"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    tools:ignore="ContentDescription" />
-
-
-
-                <ImageView
-                    android:onClick="@{(v) ->onclick.onClick(v)}"
-                    android:id="@+id/iv_shuffle"
-                    android:src="@drawable/ic_shuffle"
-                    android:padding="4dp"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    tools:ignore="ContentDescription" />
-
-
-
-                <ImageView
-                    android:onClick="@{(v) ->onclick.onClick(v)}"
-                    android:id="@+id/iv_preview"
-                    android:src="@drawable/ic_visible"
-                    android:padding="4dp"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    tools:ignore="ContentDescription" />
-
-
-                <ImageView
-
-                    android:onClick="@{(v) ->onclick.onClick(v)}"
-                    android:id="@+id/iv_menu"
-                    android:padding="4dp"
-                    android:src="@drawable/ic_menu"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    tools:ignore="ContentDescription" />
-
-
-            </LinearLayout>
-
-
-        </LinearLayout>
-        </RelativeLayout>
-
-
         <include
             android:id="@+id/game_layout"
             layout="@layout/game_place_layout"/>
 
 
-    </LinearLayout>
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
 
+        <ImageView
+            android:onClick="@{(v) ->onclick.onClick(v)}"
+            android:id="@+id/iv_qlue"
+            android:src="@drawable/ic_qlue"
+            android:padding="4dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            tools:ignore="ContentDescription" />
+
+
+        <include layout="@layout/vertical_divider_small"/>
+
+        <ImageView
+            android:onClick="@{(v) ->onclick.onClick(v)}"
+            android:id="@+id/iv_shuffle"
+            android:src="@drawable/ic_shuffle"
+            android:padding="4dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            tools:ignore="ContentDescription" />
+
+        <include layout="@layout/vertical_divider_small"/>
+
+
+        <ImageView
+            android:onClick="@{(v) ->onclick.onClick(v)}"
+            android:id="@+id/iv_preview"
+            android:src="@drawable/ic_visible"
+            android:padding="4dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            tools:ignore="ContentDescription" />
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_gravity="end"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+
+            <include
+                android:id="@+id/ly_game_time"
+                layout="@layout/game_timer_layout"/>
+
+            <ImageView
+                android:onClick="@{(v) ->onclick.onClick(v)}"
+                android:id="@+id/iv_menu"
+                android:padding="4dp"
+                android:src="@drawable/ic_menu"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                tools:ignore="ContentDescription" />
+
+
+        </LinearLayout>
 
 
 

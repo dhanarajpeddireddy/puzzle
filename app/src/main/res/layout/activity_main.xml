@@ -33,39 +33,22 @@
                 <include layout="@layout/banne_ad_layout"/>
 
 
-
-                <LinearLayout
-                    android:orientation="horizontal"
+                <Button
                     android:id="@+id/ly_play_gallery"
+                    android:textColor="@color/gnt_black"
+                    android:background="@drawable/bgbtn"
+
                     android:onClick="onImageFromGalleryClick"
+                    android:text="@string/play_from_gallery"
+
+                    app:backgroundTint="@null"
                     android:layout_margin="4dp"
-                    android:padding="8dp"
-                    android:background="@drawable/box_border"
                     android:gravity="center"
                     android:layout_width="wrap_content"
-                    android:layout_height="40dp"
+                    android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
-                    android:layout_alignParentRight="true" >
+                    tools:ignore="UsingOnClickInXml" />
 
-
-                    <ImageView
-                        android:layout_marginEnd="8dp"
-                        android:src="@drawable/ic_gallery"
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
-                        android:layout_marginRight="8dp"
-                        tools:ignore="ContentDescription" />
-
-                    <TextView
-                        android:textStyle="bold"
-                        android:gravity="center"
-                        android:textSize="16sp"
-                        android:textColor="@color/gnt_white"
-                        android:text="@string/play_from_gallery"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"/>
-
-                </LinearLayout>
 
 
 
@@ -73,7 +56,7 @@
             </RelativeLayout>
 
 
-            <GridView
+         <androidx.recyclerview.widget.RecyclerView
                 android:padding="8dp"
                 android:layout_weight="1"
                 android:id="@+id/grid"
@@ -83,6 +66,9 @@
                 android:numColumns="3"
                 android:verticalSpacing="8dp"
                 tools:ignore="NestedWeights" />
+
+
+
 
 
         </LinearLayout>

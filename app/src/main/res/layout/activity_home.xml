@@ -12,70 +12,65 @@
 
 </data>
     <LinearLayout
+        android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/background"
-    tools:context=".HomeActivity"
-        android:orientation="vertical">
+    tools:context=".HomeActivity">
 
-
-        <RelativeLayout
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="50dp">
-
-
-            <include
-                layout="@layout/banne_ad_layout"/>
 
 
             <LinearLayout
-                android:layout_centerVertical="true"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentEnd="true"
+                android:gravity="center"
+                android:orientation="vertical"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
+                android:layout_height="match_parent">
+
 
 
                 <ImageView
+                    style="@style/icon_style"
+                    android:padding="10dp"
+                    android:background="@drawable/button_small_bg"
+                    android:onClick="@{(v) ->Onclick.onClick(v)}"
+                    android:id="@+id/iv_gallery"
+                    android:src="@drawable/ic_baseline_photo_library_24"
+                    tools:ignore="ContentDescription" />
+
+                <ImageView
+                    style="@style/icon_style"
                     android:onClick="@{(v) ->Onclick.onClick(v)}"
                     android:id="@+id/iv_history"
-                    android:src="@drawable/ic_history"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
+                    android:src="@drawable/acheivement"
                     tools:ignore="ContentDescription" />
 
-                <include layout="@layout/vertical_menu_divier"/>
 
                 <ImageView
+                    style="@style/icon_style"
+                    android:padding="10dp"
+                    android:background="@drawable/button_small_bg"
                     android:onClick="@{(v) ->Onclick.onClick(v)}"
                     android:id="@+id/iv_music"
-                    android:src="@drawable/ic_music"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
+                    android:src="@drawable/ic_baseline_music_note_24"
                     tools:ignore="ContentDescription" />
 
 
-                <include layout="@layout/vertical_menu_divier"/>
 
 
                 <ImageView
+                    style="@style/icon_style"
                     android:onClick="@{(v) ->Onclick.onClick(v)}"
                     android:id="@+id/iv_share"
-                    android:src="@drawable/ic_share"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
+                    android:src="@drawable/share"
                     tools:ignore="ContentDescription" />
 
 
-                <include layout="@layout/vertical_menu_divier"/>
 
                 <ImageView
+                    style="@style/icon_style"
                     android:onClick="@{(v) ->Onclick.onClick(v)}"
                     android:id="@+id/iv_feedback"
-                    android:src="@drawable/ic_feedback"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
+                    android:src="@drawable/rate"
                     tools:ignore="ContentDescription" />
 
 
@@ -83,106 +78,43 @@
 
 
 
-        </RelativeLayout>
+        <Button
+android:visibility="gone"
+            android:id="@+id/cv_multi"
+            style="@style/button_home"
+            android:background="@drawable/bg_button_normal"
+
+            android:onClick="@{(v) ->Onclick.onClick(v)}"
+            android:text="@string/challenge"
+
+            app:backgroundTint="@null"
+
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            />
 
 
 
-
-        <LinearLayout
-            android:gravity="center"
-            android:orientation="horizontal"
+        <androidx.recyclerview.widget.RecyclerView
+            android:visibility="visible"
+            android:padding="8dp"
+            android:id="@+id/grid"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent" />
 
 
-    <androidx.cardview.widget.CardView
-        android:onClick="@{(v) ->Onclick.onClick(v)}"
-        android:id="@+id/cv_multi"
-        android:layout_margin="16dp"
-        app:cardCornerRadius="8dp"
-        android:elevation="8dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        tools:ignore="UnusedAttribute">
 
 
-        <LinearLayout
-            android:orientation="vertical"
-            android:background="@color/gnt_white"
+
+
+        <include
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            layout="@layout/banne_ad_layout"
+            app:layout_constraintStart_toStartOf="parent"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-
-            <ImageView
-                android:id="@+id/iv_online"
-                android:layout_margin="20dp"
-                android:src="@drawable/ic_users"
-                android:layout_width="150dp"
-                android:layout_height="100dp"
-                tools:ignore="ContentDescription" />
+            android:layout_height="wrap_content"/>
 
 
-            <TextView
-                android:textAllCaps="true"
-                android:textStyle="bold"
-                android:textSize="20sp"
-                android:textColor="@color/gnt_white"
-                android:background="@drawable/button_bg"
-                android:gravity="center"
-                android:text="@string/multiPlayer"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"/>
-
-
-        </LinearLayout>
-
-
-    </androidx.cardview.widget.CardView>
-
-
-
-
-    <androidx.cardview.widget.CardView
-        android:onClick="@{(v) ->Onclick.onClick(v)}"
-        android:id="@+id/cv_solo"
-        android:layout_margin="16dp"
-        app:cardCornerRadius="8dp"
-        android:elevation="8dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        tools:ignore="UnusedAttribute">
-
-
-        <LinearLayout
-            android:orientation="vertical"
-            android:background="@color/gnt_white"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-
-            <ImageView
-                android:id="@+id/iv_solo"
-                android:layout_margin="20dp"
-                android:src="@drawable/ic_single"
-                android:layout_width="150dp"
-                android:layout_height="100dp"
-                tools:ignore="ContentDescription" />
-
-
-            <TextView
-                android:textAllCaps="true"
-                android:textStyle="bold"
-                android:textSize="20sp"
-                android:textColor="@color/gnt_white"
-                android:background="@drawable/button_bg"
-                android:gravity="center"
-                android:text="@string/solo"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"/>
-
-
-        </LinearLayout>
-
-
-</androidx.cardview.widget.CardView>
-        </LinearLayout>
-</LinearLayout>
+    </LinearLayout>
 </layout>

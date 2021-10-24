@@ -13,166 +13,155 @@
 </data>
 
 
-<LinearLayout
-    android:padding="16dp"
-    android:orientation="vertical"
-    android:background="@drawable/background"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
 
-
-    <LinearLayout
-        android:layout_marginStart="20dp"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:background="@drawable/background"
         android:layout_width="match_parent"
-        android:layout_height="70dp"
-        android:layout_marginLeft="20dp">
+        android:layout_height="match_parent">
+
+
         <include
+            android:id="@+id/ly_add"
             layout="@layout/banne_ad_layout"/>
 
-    </LinearLayout>
 
 
 
+        <ImageView
+            android:id="@+id/iv_congrats"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/bt_share"
+            android:src="@drawable/congats"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            tools:ignore="ContentDescription" />
 
 
+        <FrameLayout
+            android:id="@+id/framrlayout_image"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/iv_congrats"
+            android:layout_marginTop="4dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="250dp"
+                android:layout_height="200dp"
+                android:alpha="1.0"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/frame"
+                tools:ignore="ContentDescription" />
+
+            <ImageView
+                android:id="@+id/imageView"
+                android:layout_width="250dp"
+                android:layout_height="200dp"
+                android:padding="4dp"
+                android:scaleType="fitXY"
+                tools:ignore="ContentDescription" />
+
+
+        </FrameLayout>
+
 
 
         <LinearLayout
-            android:layout_marginEnd="20dp"
-            android:layout_marginStart="20dp"
-            android:layout_weight="1"
-            android:orientation="vertical"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_marginRight="20dp"
-            android:layout_marginLeft="20dp">
+            android:layout_marginTop="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/framrlayout_image"
+            android:orientation="horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
 
 
 
+            <TextView
+                android:id="@+id/tv_numOfPieces"
+                android:gravity="center"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/montserrat"
+                android:padding="2dp"
+                android:textColor="@color/gnt_white"
+                android:textSize="16sp"
+                android:textStyle="bold" />
 
-            <FrameLayout
-                android:layout_marginTop="4dp"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
+            <TextView
+                android:shadowRadius="20"
+                android:shadowDy="20"
+                android:shadowDx="20"
+                android:shadowColor="@color/gnt_black"
+                android:id="@+id/tv_msg"
+                android:gravity="center"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/montserrat"
+                android:padding="2dp"
+                android:text="@string/puzzleDone"
+                android:textColor="@color/gnt_white"
+                android:textSize="16sp"
+                android:textStyle="bold" />
 
 
-                <ImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:alpha="1.0"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:srcCompat="@drawable/frame"
-                    tools:ignore="ContentDescription" />
-
-                <ImageView
-                    android:id="@+id/imageView"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_margin="2dp"
-                    android:scaleType="fitXY"
-                    tools:ignore="ContentDescription" />
-
-
-            </FrameLayout>
-
+            <TextView
+                android:id="@+id/tv_time"
+                android:gravity="center"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/montserrat"
+                android:padding="4dp"
+                android:textColor="@color/gnt_white"
+                android:textSize="16sp"
+                android:textStyle="bold" />
 
         </LinearLayout>
 
 
 
 
-        <LinearLayout
-            android:padding="4dp"
-            android:gravity="center"
-            android:orientation="vertical"
+
+        <Button
+            app:backgroundTint="@null"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:id="@+id/bt_close"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content"
+            android:layout_margin="4dp"
+            android:background="@drawable/box_border"
+            android:fontFamily="@font/montserrat"
+            android:onClick="@{(v) ->Onclick.onClick(v)}"
+            android:text="@string/close"
+            android:textColor="@color/gnt_white"
+            android:textSize="16sp" />
+
+
+        <Button
+            app:backgroundTint="@color/gnt_white"
+            app:layout_constraintEnd_toStartOf="@+id/bt_close"
+            app:layout_constraintTop_toTopOf="parent"
+            android:id="@+id/bt_share"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="4dp"
+            android:background="@drawable/box_border"
+            android:fontFamily="@font/montserrat"
+            android:onClick="@{(v) ->Onclick.onClick(v)}"
+            android:text="@string/share"
+            android:textColor="@color/gnt_black"
+            android:textSize="16sp"
+            tools:ignore="UnusedAttribute" />
 
 
 
-
-                <TextView
-                    android:gravity="center"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/montserrat"
-                    android:padding="2dp"
-                    android:text="@string/congrats"
-                    android:textColor="@color/gnt_white"
-                    android:textSize="16sp"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/tv_numOfPieces"
-                    android:gravity="center"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/montserrat"
-                    android:padding="2dp"
-                    android:textColor="@color/gnt_white"
-                    android:textSize="16sp"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/tv_msg"
-                    android:gravity="center"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/montserrat"
-                    android:padding="2dp"
-                    android:text="@string/puzzleDone"
-                    android:textColor="@color/gnt_white"
-                    android:textSize="16sp"
-                    android:textStyle="bold" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 
-                <TextView
-                    android:id="@+id/tv_time"
-                    android:gravity="center"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/montserrat"
-                    android:padding="4dp"
-                    android:textColor="@color/gnt_white"
-                    android:textSize="16sp"
-                    android:textStyle="bold" />
 
-                <Button
-                    android:id="@+id/bt_close"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="4dp"
-                    android:background="@drawable/box_border"
-                    android:fontFamily="@font/montserrat"
-                    android:onClick="@{(v) ->Onclick.onClick(v)}"
-                    android:text="@string/close"
-                    android:textColor="@color/gnt_white"
-                    android:textSize="16sp" />
-
-
-                <Button
-                    android:id="@+id/bt_share"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="4dp"
-                    android:background="@drawable/box_border"
-                    android:fontFamily="@font/montserrat"
-                    android:onClick="@{(v) ->Onclick.onClick(v)}"
-                    android:text="@string/share"
-                    android:textColor="@color/gnt_white"
-                    android:textSize="16sp" />
-
-            </LinearLayout>
-
-
-    </LinearLayout>
-
-
-</LinearLayout>
 
 </layout>

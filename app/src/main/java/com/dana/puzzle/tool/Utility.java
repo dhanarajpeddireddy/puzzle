@@ -6,6 +6,8 @@ import android.content.Intent;
 import android.content.res.AssetManager;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.EmbossMaskFilter;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.PorterDuff;
@@ -118,7 +120,9 @@ public class Utility {
                 } else {
                     // top bump
                     path.lineTo(offsetX + (pieceBitmap.getWidth() - offsetX) / 3, offsetY);
+
                     path.cubicTo(offsetX + (pieceBitmap.getWidth() - offsetX) / 6, offsetY - bumpSize, offsetX + (pieceBitmap.getWidth() - offsetX) / 6 * 5, offsetY - bumpSize, offsetX + (pieceBitmap.getWidth() - offsetX) / 3 * 2, offsetY);
+
                     path.lineTo(pieceBitmap.getWidth(), offsetY);
                 }
 
@@ -152,28 +156,36 @@ public class Utility {
                     path.close();
                 }
 
-                // mask the piece
-                Paint paint = new Paint();
-                paint.setColor(0XFF000000);
-                paint.setStyle(Paint.Style.FILL);
 
+                
+                // mask the piece
+                Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
+                paint.setShadowLayer(10.0f, 0.0f, 2.0f, Color.BLACK);
+                paint.setStyle(Paint.Style.FILL);
                 canvas.drawPath(path, paint);
+
+                // emboss effect
+                EmbossMaskFilter filter = new EmbossMaskFilter(
+                        new float[]{ 1f, 1f, 1f }, // direction of the light source
+                        0.1f, // ambient light between 0 to 1
+                        5f, // specular highlights
+                        7.0f // blur before applying lighting
+                );
+                paint.setMaskFilter(filter);
+
+
                 paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_IN));
                 canvas.drawBitmap(pieceBitmap, 0, 0, paint);
 
-                // draw a white border
-                Paint border = new Paint();
-                border.setColor(0X80FFFFFF);
+
+                /* draw a black border*/
+                Paint border = new Paint(Paint.ANTI_ALIAS_FLAG);
+                border.setColor(Color.BLACK);
                 border.setStyle(Paint.Style.STROKE);
-                border.setStrokeWidth(8.0f);
+                border.setStrokeWidth(2.5f);
                 canvas.drawPath(path, border);
 
-                // draw a black border
-                border = new Paint();
-                border.setColor(0X80000000);
-                border.setStyle(Paint.Style.STROKE);
-                border.setStrokeWidth(3.0f);
-                canvas.drawPath(path, border);
+
 
                 // set the resulting bitmap to the piece
                 piece.setImageBitmap(puzzlePiece);
@@ -186,6 +198,12 @@ public class Utility {
 
         return pieces;
     }
+
+
+
+
+
+
 
 
     public static void bounce(final View view, final IAnimationListner iAnimationListner) {
